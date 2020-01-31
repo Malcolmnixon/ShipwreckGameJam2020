@@ -3,7 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shipwreck", "Shipwreck\Shipwreck.csproj", "{86C836FA-4FAA-4884-AA19-A03A46D99FFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shipwreck.Test", "Shipwreck.Test\Shipwreck.Test.csproj", "{959D8BC6-D1BD-49D4-8DAD-299B7C94B86F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShipwreckServer", "ShipwreckServer\ShipwreckServer.csproj", "{99320DA3-5E9C-4453-BBBF-806D2261BE64}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{86C836FA-4FAA-4884-AA19-A03A46D99FFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86C836FA-4FAA-4884-AA19-A03A46D99FFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86C836FA-4FAA-4884-AA19-A03A46D99FFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86C836FA-4FAA-4884-AA19-A03A46D99FFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{959D8BC6-D1BD-49D4-8DAD-299B7C94B86F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{959D8BC6-D1BD-49D4-8DAD-299B7C94B86F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{959D8BC6-D1BD-49D4-8DAD-299B7C94B86F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{959D8BC6-D1BD-49D4-8DAD-299B7C94B86F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99320DA3-5E9C-4453-BBBF-806D2261BE64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99320DA3-5E9C-4453-BBBF-806D2261BE64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99320DA3-5E9C-4453-BBBF-806D2261BE64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99320DA3-5E9C-4453-BBBF-806D2261BE64}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection

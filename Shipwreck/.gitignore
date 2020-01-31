@@ -58,3 +58,6 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# Additional libraries
+Assets/Libraries/*.dll
+Assets/Libraries/*.dll.meta
