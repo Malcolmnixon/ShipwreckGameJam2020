@@ -15,6 +15,9 @@ public class MenuManager : MonoBehaviour
 	
     public AudioMixer masterMixer;
 
+	public Slider musicSlider;
+	public Slider sfxSlider;
+
     public GameObject[] hideOnMobile;
 
 	private Resolution[] resolutions;
@@ -69,6 +72,10 @@ public class MenuManager : MonoBehaviour
 
         // Fullscreen
 		fullscreenToggle.isOn = Screen.fullScreen;
+
+		// Volume
+		musicSlider.value = PlayerPrefs.GetFloat("MusicVol", 0.75f);
+		sfxSlider.value = PlayerPrefs.GetFloat("SfxVol", 0.75f);
 	}
 
 	public void SetResolution(int index) {
@@ -94,17 +101,19 @@ public class MenuManager : MonoBehaviour
 
 	public void SetVolumeMaster(float soundLevel)
 	{
-		masterMixer.SetFloat ("masterVol", soundLevel);
+		masterMixer.SetFloat("MasterVol", Mathf.Log10(soundLevel) * 20);
 	}
 
 	public void SetVolumeMusic(float soundLevel)
 	{
-		masterMixer.SetFloat ("musicVol", soundLevel);
+		masterMixer.SetFloat("MusicVol", Mathf.Log10(soundLevel) * 20);
+        PlayerPrefs.SetFloat("MusicVol", soundLevel);
 	}
 
 	public void SetVolumeSfx(float soundLevel)
 	{
-		masterMixer.SetFloat ("sfxVol", soundLevel);
+		masterMixer.SetFloat("SfxVol", Mathf.Log10(soundLevel) * 20);
+        PlayerPrefs.SetFloat("SfxVol", soundLevel);
 	}
 
 	public void Quit() {
