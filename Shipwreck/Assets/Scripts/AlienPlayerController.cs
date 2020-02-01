@@ -1,21 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Shipwreck.Math;
+﻿using UnityEngine;
 
 public class AlienPlayerController : MonoBehaviour
 {
-    private Alien alien;
-    private float WalkSpeed = 40f;
-    private float TurnSpeed = 180f;
+    /// <summary>
+    /// Alien radius from ship
+    /// </summary>
+    public const float Radius = Shipwreck.WorldData.Asteroid.FireRadius;
 
-    private float rotate;
-    private Vec2 lastPos;
+    private Vector2 _position;
 
     // Start is called before the first frame update
     void Start()
     {
-        alien = new Alien();
         transform.LookAt(Vector3.zero);
     }
 
@@ -56,27 +52,24 @@ public class AlienPlayerController : MonoBehaviour
 
 
         // Get position
-        var pos = alien.Position;
+        var pos = _position;
 
         // Update position
-        pos.X += horizontal * 0.6f * Time.deltaTime;
-        pos.Y += vertical * 0.6f * Time.deltaTime;
+        pos.x += horizontal * 0.6f * Time.deltaTime;
+        pos.y += vertical * 0.6f * Time.deltaTime;
 
         // Clamp position
-        while (pos.X < -Mathf.PI) pos.X += Mathf.PI * 2;
-        while (pos.X > Mathf.PI) pos.X -= Mathf.PI * 2;
-        pos.Y = Mathf.Clamp(pos.Y, -1f, 1f);
+        while (pos.x < -Mathf.PI) pos.x += Mathf.PI * 2;
+        while (pos.x > Mathf.PI) pos.x -= Mathf.PI * 2;
+        pos.y = Mathf.Clamp(pos.y, -1f, 1f);
 
         // Write position
-        alien.Position = pos;
+        _position = pos;
 
-        // Update transform
-        transform.position = alien.Position3D.ToVector3();
-
-        // Reset View if moved
-        if ( (pos - lastPos).LengthSquared < 0.1 ) {
-            transform.LookAt(Vector3.zero);
-        }
-        lastPos = pos;
+        // Calculate 3D position from 2D
+        var sinX = (float)System.Math.Sin(_position.x);
+        var cosX = (float)System.Math.Cos(_position.x);
+        transform.position = new Vector3(sinX * Radius, _position.y * Radius, -cosX * Radius);
+        transform.LookAt(Vector3.zero);
     }
 }

@@ -86,13 +86,6 @@ public class WorldController : MonoBehaviour
             return;
         }
 
-        // Grab location from controller and put into world
-        if (_world.LocalAstronaut != null && _astronautPlayerControl != null)
-        {
-            var controller = _astronautPlayerControl.GetComponent<AstronautPlayerController>();
-            _world.LocalAstronaut.Position = controller.Position;
-        }
-
         // Request a state-update before drawing
         _world.Update();
 
@@ -112,7 +105,7 @@ public class WorldController : MonoBehaviour
         var playerType = _world.LocalPlayer.Type;
 
         // Delete alien player controller if no-longer needed
-        if (_alienPlayerController != null && (playerType != PlayerType.Alien || playerType != PlayerType.Observer))
+        if (_alienPlayerController != null && (playerType != PlayerType.Alien && playerType != PlayerType.Observer))
         {
             Camera.main.transform.SetParent(WorldRoot);
             Destroy(_alienPlayerController);
@@ -164,6 +157,10 @@ public class WorldController : MonoBehaviour
         // Handle astronaut actions
         if (_astronautPlayerControl != null)
         {
+            // Read 2D position from controller
+            var controller = _astronautPlayerControl.GetComponent<AstronautPlayerController>();
+            _world.LocalAstronaut.Position = controller.Position;
+
             // Update 3D position from 2D position
             _astronautPlayerControl.transform.position = Astronaut.To3DPosition(_world.LocalAstronaut.Position).ToVector3();
             _astronautPlayerControl.transform.LookAt(Vector3.zero);
@@ -235,7 +232,7 @@ public class WorldController : MonoBehaviour
             var meshRenderer = localAsteroid.GetComponent<MeshRenderer>();
             var material = meshRenderer.material;
             var color = material.color;
-            color.a = dist > 100f ? 0 : dist < 70f ? 1f : (100f - dist) / 30f;
+            color.a = dist > 100f ? 0 : dist < 90f ? 1f : (100f - dist) / 10f;
             material.color = color;
         }
 
