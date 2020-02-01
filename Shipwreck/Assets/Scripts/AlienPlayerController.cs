@@ -12,7 +12,6 @@ public class AlienPlayerController : MonoBehaviour
     private float rotate;
     private Vec2 lastPos;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -20,33 +19,41 @@ public class AlienPlayerController : MonoBehaviour
         transform.LookAt(Vector3.zero);
     }
 
-/*    void Update() {
- 
-        if (Input.GetMouseButton (0)) {
-
-            var halfWidth = (Screen.width / 2);
-            var halfHeight = (Screen.height / 2);
-
-            var directionX = Input.mousePosition.x < halfWidth ? -1 : 1;
-            var directionY = Input.mousePosition.y < halfHeight ? -1 : 1;
-
-            rotate = (Input.mousePosition.x - halfWidth) / halfWidth;
-            z = (Input.mousePosition.y - halfHeight) / halfHeight;
-        } else {
-            rotate = Input.GetAxis("Horizontal");
-            z = Input.GetAxis("Vertical");
-        }
-        
-        rotate = rotate * TurnSpeed * Time.deltaTime;
-        z = z * WalkSpeed * Time.deltaTime; 
-    }
-    */
-
     // Update is called once per frame
     void Update()
     {
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
+
+        // Handle screen touches.
+        if (Input.touchCount == 1)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            // Move the cube if the screen has the finger moving.
+            if (touch.phase == TouchPhase.Moved)
+            {
+                Vector2 touchPos = touch.position;
+                if (touchPos.x < (Screen.width * 0.3)) 
+                {
+                    horizontal = -1;
+                }
+                else if (touchPos.x > (Screen.width * 0.7)) 
+                {
+                    horizontal = 1;
+                }
+                if (touchPos.y < (Screen.height * 0.3)) 
+                {
+                    horizontal = -1;
+                }
+                else if (touchPos.y > (Screen.height * 0.7)) 
+                {
+                    horizontal = 1;
+                }
+
+            }
+        }
+
 
         // Get position
         var pos = alien.Position;
