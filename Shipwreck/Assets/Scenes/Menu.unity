@@ -12439,7 +12439,7 @@ MonoBehaviour:
   mainAnimator: {fileID: 725647070}
   resolutionDropdown: {fileID: 116040351}
   qualityDropdown: {fileID: 522218736}
-  gameTypeDropdown: {fileID: 0}
+  gameTypeDropdown: {fileID: 1313778971}
   fullscreenToggle: {fileID: 226318897}
   masterMixer: {fileID: 24100000, guid: d14f24b1bf645eb56b04d778f6283c25, type: 2}
   musicSlider: {fileID: 1603412509}
