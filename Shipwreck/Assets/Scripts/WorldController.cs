@@ -1,9 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Shipwreck;
 using System;
 using System.Linq;
+using Shipwreck.World;
 using Shipwreck.WorldData;
 
 public class WorldController : MonoBehaviour
@@ -43,6 +43,14 @@ public class WorldController : MonoBehaviour
     {
         // Grab the world from the builder
         _world = GameObject.FindObjectOfType<WorldBuilder>().World;
+
+        // Hack for debugging
+        if (_world == null)
+        {
+            _world = new LocalWorld();
+            _world.Start();
+            _world.CreateLocalPlayer("Test Player");
+        }
     }
 
     // Update is called once per frame
@@ -53,6 +61,9 @@ public class WorldController : MonoBehaviour
 
         // Update the asteroids
         UpdateAsteroids(_world.State.Asteroids);
+
+        // Update the astronauts
+        UpdateAstronauts(_world.State.Astronauts);
     }
 
     private void UpdateAsteroids(List<Asteroid> gameAsteroids)
@@ -70,6 +81,14 @@ public class WorldController : MonoBehaviour
 
             // Update asteroid
             localAsteroid.transform.position = gameAsteroid.Position.ToVector3();
+
+            // Fade asteroid
+            var dist = gameAsteroid.Position.Length;
+            var meshRenderer = localAsteroid.GetComponent<MeshRenderer>();
+            var material = meshRenderer.material;
+            var color = material.color;
+            color.a = dist > 100f ? 0 : dist < 70f ? 1f : (100f - dist) / 30f;
+            material.color = color;
         }
 
         // Remove deleted asteroids
@@ -77,6 +96,45 @@ public class WorldController : MonoBehaviour
         {
             Destroy(oldAsteroid.Value);
             _localAsteroids.Remove(oldAsteroid.Key);
+        }
+    }
+
+    private void UpdateAstronauts(List<Astronaut> gameAstronauts)
+    {
+        // Update the astronauts
+        foreach (var gameAstronaut in gameAstronauts)
+        {
+            // Get the local astronaut
+            if (!_localAstronauts.TryGetValue(gameAstronaut.Guid, out var localAstronaut))
+            {
+                if (_world.LocalAstronaut?.Guid == gameAstronaut.Guid)
+                {
+                    // Build a local player astronaut prefab
+                    localAstronaut = Instantiate(PlayerAstronautPrefab);
+                    var controller = localAstronaut.GetComponent<AstronautPlayerController>();
+                    controller.Astronaut = _world.LocalAstronaut;
+
+                    Camera.main.transform.SetParent(controller.transform);
+                }
+                else
+                {
+                    // Create remotely controlled astronaut
+                    localAstronaut = Instantiate(AstronautPrefab);
+                }
+
+                // Add to dictionary
+                _localAstronauts[gameAstronaut.Guid] = localAstronaut;
+            }
+
+            // Update astronaut
+            localAstronaut.transform.position = gameAstronaut.Position3D.ToVector3();
+        }
+
+        // Remove deleted astronauts
+        foreach (var oldAstronaut in _localAstronauts.Where(la => gameAstronauts.All(ga => ga.Guid != la.Key)).ToList())
+        {
+            Destroy(oldAstronaut.Value);
+            _localAstronauts.Remove(oldAstronaut.Key);
         }
     }
 }

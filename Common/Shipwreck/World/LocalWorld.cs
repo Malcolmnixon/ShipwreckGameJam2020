@@ -130,13 +130,13 @@ namespace Shipwreck.World
                 // Handle AI asteroids
                 if (State.Asteroids.Count < GameConstants.MinAsteroidCount)
                     // Randomize ~1s for asteroid firing
-                    if (_random.NextDouble() < deltaTime / 10f)
+                    if (_random.NextDouble() < deltaTime / GameConstants.AsteroidFireRate)
                     {
                         var r = _random.NextDouble() * System.Math.PI * 2;
                         var x = (float) System.Math.Sin(r) * GameConstants.AsteroidFireDistance;
                         var z = (float) System.Math.Cos(r) * GameConstants.AsteroidFireDistance;
                         var y = (float) (_random.NextDouble() - 0.5) * GameConstants.AsteroidFireDistance;
-                        var pos = new Vec3(x, y, z).Normalized * 100;
+                        var pos = new Vec3(x, y, z).Normalized * GameConstants.AsteroidFireDistance;
                         var vel = (-pos).Normalized * (8f + (float) _random.NextDouble() * 4f);
                         State.Asteroids.Add(
                             new Asteroid
