@@ -31,6 +31,7 @@ public class WorldBuilder : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
         
         discovery = new LanDiscovery();
+        discovery.Start();
     }
 
     public Dictionary<string, System.Net.IPAddress> GetGames() => discovery.GameServers;
