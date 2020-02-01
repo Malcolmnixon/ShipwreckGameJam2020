@@ -29,6 +29,15 @@ public class WorldController : MonoBehaviour
     [SerializeField]
     public GameObject AsteroidPrefab;
 
+    [Header("Options")]
+
+    [Range(-30f, 0f)]
+    public float distanceFromAstronautPlayer = -15.0f;
+    
+
+    [Range(-30f, 0f)]
+    public float distanceFromAlienPlayer = -1.0f;
+
     private GameObject _player;
 
     private readonly Dictionary<Guid, GameObject> _localAstronauts = new Dictionary<Guid, GameObject>();
@@ -56,6 +65,10 @@ public class WorldController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_world == null) {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0); // return to main
+        }
+
         // Request a state-update before drawing
         _world.Update();
 
@@ -115,6 +128,7 @@ public class WorldController : MonoBehaviour
                     controller.Astronaut = _world.LocalAstronaut;
 
                     Camera.main.transform.SetParent(controller.transform);
+                    Camera.main.transform.position = new Vector3(0,0,distanceFromAstronautPlayer);
                 }
                 else
                 {

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 434002154592553805}
   - component: {fileID: 434002154592553800}
+  - component: {fileID: 8801436276681251937}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Untagged
@@ -48,6 +49,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 434002154592553804}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &8801436276681251937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434002154592553804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcdc795ae1a482b9690b203818338174, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wings:
+  - {fileID: 8396629975741486953}
+  - {fileID: 297635675045922904}
+  - {fileID: 4842155885488541273}
+  controlModule: {fileID: 225364230282364006}
 --- !u!1 &2888974003131212162
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,7 +173,7 @@ GameObject:
   - component: {fileID: 7157286101248101159}
   - component: {fileID: 1002336872947199972}
   m_Layer: 0
-  m_Name: Bottow
+  m_Name: Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -248,7 +266,9 @@ GameObject:
   - component: {fileID: 276471388143745960}
   - component: {fileID: 5177592235727656011}
   - component: {fileID: 6949110722372539519}
-  - component: {fileID: 2506834342823315369}
+  - component: {fileID: 225364230282364006}
+  - component: {fileID: 2059834631101926700}
+  - component: {fileID: 1799705035700912449}
   m_Layer: 0
   m_Name: Control Module
   m_TagString: Untagged
@@ -326,12 +346,25 @@ SphereCollider:
   m_GameObject: {fileID: 9076064404450853515}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &2506834342823315369
-BoxCollider:
+--- !u!114 &225364230282364006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9076064404450853515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0b5fd1b8f62e2021a87cc9c93e049b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outline: {fileID: 1799705035700912449}
+--- !u!135 &2059834631101926700
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -341,8 +374,22 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.15, y: 2.15, z: 2.15}
-  m_Center: {x: -0.047768712, y: 0.7582588, z: 0.3315251}
+  m_Radius: 3
+  m_Center: {x: 0, y: 2, z: 0}
+--- !u!114 &1799705035700912449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9076064404450853515}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0
 --- !u!1001 &1125323093175950422
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -408,10 +455,22 @@ PrefabInstance:
     - target: {fileID: 4389887817510218875, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
         type: 3}
       propertyPath: m_Name
-      value: ShipWing (1)
+      value: ShipWing (3)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3, type: 3}
+--- !u!114 &4842155885488541273 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5525697370481185295, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1125323093175950422}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0b5fd1b8f62e2021a87cc9c93e049b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &3034415954919530712 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2702610988498844814, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
@@ -630,13 +689,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3704257723774907603, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4389887817510218875, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
         type: 3}
       propertyPath: m_Name
-      value: Wing
+      value: ShipWing (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3, type: 3}
+--- !u!114 &8396629975741486953 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5525697370481185295, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+    type: 3}
+  m_PrefabInstance: {fileID: 4047023037191587174}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0b5fd1b8f62e2021a87cc9c93e049b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2137081569501444584 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2702610988498844814, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
@@ -783,7 +859,7 @@ PrefabInstance:
     - target: {fileID: 4389887817510218875, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
         type: 3}
       propertyPath: m_Name
-      value: ShipWing
+      value: ShipWing (2)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3, type: 3}
@@ -793,3 +869,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5228206835534649943}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &297635675045922904 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5525697370481185295, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+    type: 3}
+  m_PrefabInstance: {fileID: 5228206835534649943}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0b5fd1b8f62e2021a87cc9c93e049b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

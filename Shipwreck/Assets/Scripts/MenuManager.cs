@@ -105,10 +105,15 @@ public class MenuManager : MonoBehaviour
 	}
 
 	public void Update() {
-		if (worldBuilder.HasWorld() && worldBuilder.World.State.Mode == Shipwreck.WorldData.GameMode.Waiting)
+		if (worldBuilder.HasWorld())
 		{
-			countdownSlider.value = worldBuilder.World.State.RemainingTime;
-			countdownText.text = $"Loading in {worldBuilder.World.State.RemainingTime}s";
+			if (worldBuilder.World.State.Mode == Shipwreck.WorldData.GameMode.Waiting) {
+				countdownSlider.value = worldBuilder.World.State.RemainingTime;
+				countdownText.text = $"Loading in {worldBuilder.World.State.RemainingTime}s";
+			} else if (worldBuilder.World.State.Mode == Shipwreck.WorldData.GameMode.Playing) 
+			{
+				LoadByIndex(1);
+			}
 		}
 
 		DiscoverGamesList();
