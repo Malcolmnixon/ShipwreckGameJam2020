@@ -29,6 +29,8 @@ public class WorldBuilder : MonoBehaviour
         _active = true;
 
         DontDestroyOnLoad(this.gameObject);
+
+        Shipwreck.Logger.OnLog += (sender, args) => Debug.Log(args.Message);
         
         discovery = new LanDiscovery();
         discovery.Start();

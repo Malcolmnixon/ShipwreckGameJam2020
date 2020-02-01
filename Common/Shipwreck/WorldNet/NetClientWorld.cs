@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -25,6 +26,7 @@ namespace Shipwreck.WorldNet
 
         public NetClientWorld(IPAddress server)
         {
+            Logger.Log($"NetClientWorld.NetClientWorld({server}) - using UDP {NetConstants.UdpPort}");
             var provider = new NetComms.Udp.UdpProvider(NetConstants.UdpPort);
             _communicationsConnection = provider.CreateClient(server);
             _communicationsConnection.Notification += OnServerNotification;
@@ -39,81 +41,13 @@ namespace Shipwreck.WorldNet
 
         public override void Start()
         {
+            Logger.Log("NetClientWorld.Start - initiating communications");
+
+            // Start the remote world-mirror
             base.Start();
+
+            // Connect to the server
             _communicationsConnection.Start();
-        }
-
-        private void OnServerConnectionDropped(object sender, NetComms.ConnectionEventArgs e)
-        {
-            // TODO: Handle connection dropped
-        }
-
-        private void OnServerNotification(object sender, NetComms.NotificationEventArgs e)
-        {
-            try
-            {
-                // Skip if no type
-                if (e.Notification.Length == 0)
-                    return;
-
-                // Get the packet type
-                var type = e.Notification[0];
-
-                // Get the payload JSON
-                var payloadJson = Encoding.ASCII.GetString(e.Notification, 1, e.Notification.Length - 1);
-
-                lock (WorldLock)
-                {
-                    switch (type)
-                    {
-                        case NetConstants.PlayersPacket:
-                        {
-                            var players = GamePlayers.FromJson(payloadJson);
-
-                            // If we have a local player then synchronize with new data
-                            if (LocalPlayer != null)
-                            {
-                                // Find if the server has any new information
-                                var serverPlayer = players.Players.FirstOrDefault(p => p.Guid == LocalPlayer.Guid);
-                                if (serverPlayer != null)
-                                {
-                                    LocalPlayer.Type = serverPlayer.Type;
-                                }
-                            }
-
-                            // Write the new players
-                            Players = players;
-                            break;
-                        }
-
-                        case NetConstants.StatePacket:
-                        {
-                            var state = GameState.FromJson(payloadJson);
-
-                            // If we have a local astronaut then preserve our driven information
-                            if (LocalAstronaut != null)
-                            {
-                                var serverAstronaut =
-                                    state.Astronauts.FirstOrDefault(a => a.Guid == LocalAstronaut.Guid);
-                                if (serverAstronaut != null)
-                                {
-                                    serverAstronaut.Position = LocalAstronaut.Position;
-                                    serverAstronaut.Velocity = LocalAstronaut.Velocity;
-                                    LocalAstronaut = serverAstronaut;
-                                }
-                            }
-
-                            // Write the new game state
-                            State = state;
-                            break;
-                        }
-                    }
-                }
-            }
-            catch
-            {
-                // Ignore all errors as we don't want the game to fail when given junk
-            }
         }
 
         public override Player CreateLocalPlayer(string name)
@@ -126,6 +60,7 @@ namespace Shipwreck.WorldNet
             playerBytes.AddRange(Encoding.ASCII.GetBytes(player.ToJson()));
 
             // Send player packet to server
+            Logger.Log($"NetClientWorld.CreateLocalPlayer - sent player to server");
             _communicationsConnection.SendNotification(playerBytes.ToArray());
 
             // Return player
@@ -142,6 +77,7 @@ namespace Shipwreck.WorldNet
             asteroidBytes.AddRange(Encoding.ASCII.GetBytes(asteroid.ToJson()));
 
             // Send asteroid packet to server
+            Logger.Log($"NetClientWorld.CreateLocalPlayer - sent asteroid to server");
             _communicationsConnection.SendNotification(asteroidBytes.ToArray());
 
             // Return asteroid
@@ -166,8 +102,86 @@ namespace Shipwreck.WorldNet
             astronautBytes.AddRange(Encoding.ASCII.GetBytes(LocalAstronaut.ToJson()));
 
             // Send asteroid packet to server
+            Logger.Log($"NetClientWorld.CreateLocalPlayer - sent local astronaut to server");
             _communicationsConnection.SendNotification(astronautBytes.ToArray());
             _astronautAge = 0f;
+        }
+
+        private void OnServerConnectionDropped(object sender, NetComms.ConnectionEventArgs e)
+        {
+            Logger.Log("NetClientWorld.OnServerConnectionDropped");
+        }
+
+        private void OnServerNotification(object sender, NetComms.NotificationEventArgs e)
+        {
+            Logger.Log("NetClientWorld.OnServerNotification");
+
+            try
+            {
+                // Skip if no type
+                if (e.Notification.Length == 0)
+                    return;
+
+                // Get the packet type
+                var type = e.Notification[0];
+
+                // Get the payload JSON
+                var payloadJson = Encoding.ASCII.GetString(e.Notification, 1, e.Notification.Length - 1);
+
+                lock (WorldLock)
+                {
+                    switch (type)
+                    {
+                        case NetConstants.PlayersPacket:
+                            {
+                                var players = GamePlayers.FromJson(payloadJson);
+                                Logger.Log($"NetClientWorld.OnServerNotification - got players");
+
+                                // If we have a local player then synchronize with new data
+                                if (LocalPlayer != null)
+                                {
+                                    // Find if the server has any new information
+                                    var serverPlayer = players.Players.FirstOrDefault(p => p.Guid == LocalPlayer.Guid);
+                                    if (serverPlayer != null)
+                                    {
+                                        LocalPlayer.Type = serverPlayer.Type;
+                                    }
+                                }
+
+                                // Write the new players
+                                Players = players;
+                                break;
+                            }
+
+                        case NetConstants.StatePacket:
+                            {
+                                var state = GameState.FromJson(payloadJson);
+                                Logger.Log($"NetClientWorld.OnServerNotification - got state");
+
+                                // If we have a local astronaut then preserve our driven information
+                                if (LocalAstronaut != null)
+                                {
+                                    var serverAstronaut =
+                                        state.Astronauts.FirstOrDefault(a => a.Guid == LocalAstronaut.Guid);
+                                    if (serverAstronaut != null)
+                                    {
+                                        serverAstronaut.Position = LocalAstronaut.Position;
+                                        serverAstronaut.Velocity = LocalAstronaut.Velocity;
+                                        LocalAstronaut = serverAstronaut;
+                                    }
+                                }
+
+                                // Write the new game state
+                                State = state;
+                                break;
+                            }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Log($"NetClientWorld.OnServerNotification - failed with {ex}");
+            }
         }
     }
 }

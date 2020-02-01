@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Sockets;
 
 namespace Shipwreck.WorldLan
 {
@@ -50,6 +51,7 @@ namespace Shipwreck.WorldLan
 
         public void Start()
         {
+            Logger.Log("LanDiscovery.Start - Starting discovery");
             _discoveryClient.Start();
             _discoveryProvider.Start();
         }
@@ -62,9 +64,24 @@ namespace Shipwreck.WorldLan
 
         private void DiscoveryClientOnDiscovery(object sender, NetDiscovery.DiscoveryEventArgs e)
         {
+            //Logger.Log($"Discovered {e.Identity} at {e.Address}");
             lock (_servers)
             {
-                _servers[e.Identity] = e.Address;
+                if (!_servers.TryGetValue(e.Identity, out var curAddress))
+                {
+                    // Take as new
+                    _servers[e.Identity] = e.Address;
+                }
+                else if (curAddress.AddressFamily == AddressFamily.InterNetworkV6 && e.Address.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    // Take IPv4 over IPv6
+                    _servers[e.Identity] = e.Address;
+                }
+                else if (e.Address.Equals(IPAddress.Loopback))
+                {
+                    // Take loop-back
+                    _servers[e.Identity] = e.Address;
+                }
             }
         }
     }
