@@ -28,9 +28,5 @@ public class AstronautPlayerController : MonoBehaviour
         while (Position.X < -Mathf.PI) Position.X += Mathf.PI * 2;
         while (Position.X > Mathf.PI) Position.X -= Mathf.PI * 2;
         Position.Y = Mathf.Clamp(Position.Y, -1f, 1f);
-
-        // Update transform
-        transform.position = Astronaut.To3DPosition(Position).ToVector3();
-        transform.LookAt(Vector3.zero);
     }
 }

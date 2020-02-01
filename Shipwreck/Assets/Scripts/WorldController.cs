@@ -169,6 +169,7 @@ public class WorldController : MonoBehaviour
 
             // Update astronaut
             localAstronaut.transform.position = Astronaut.To3DPosition(gameAstronaut.Position).ToVector3();
+            localAstronaut.transform.LookAt(Vector3.zero);
         }
 
         // Remove deleted astronauts
