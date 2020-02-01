@@ -118,7 +118,7 @@ public class MenuManager : MonoBehaviour
 	{
         var games = worldBuilder.GetGames();
 		
-		foreach (var option in gameTypeDropdown.options)
+		foreach (var option in gameTypeDropdown.options.Skip(2).ToList())
 		{
 			if (!games.ContainsKey(option.text)) 
 			{
