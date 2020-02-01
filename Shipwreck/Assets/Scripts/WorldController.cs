@@ -52,6 +52,11 @@ public class WorldController : MonoBehaviour
 
     private IWorld _world;
 
+    /// <summary>
+    /// Type the player was last
+    /// </summary>
+    private PlayerType _lastPlayerType = PlayerType.None;
+
 
     // Start is called before the first frame update
     void Start()
@@ -75,7 +80,8 @@ public class WorldController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_world == null) {
+        if (_world == null)
+        {
             UnityEngine.SceneManagement.SceneManager.LoadScene(0); // return to main
             return;
         }
@@ -91,39 +97,91 @@ public class WorldController : MonoBehaviour
         _world.Update();
 
         // Update the asteroids
-        UpdateAsteroids(_world.State.Asteroids);
+        UpdateAsteroids();
 
-        // Update the astronauts
-        UpdateAstronauts(_world.State.Astronauts);
+        // Update the other astronauts
+        UpdateOtherAstronauts();
 
-        UpdateAlien(_world.LocalPlayer.Type);
-
-        UpdateLocalAstronautActions();
+        // Update the local player
+        UpdatePlayer();
     }
 
-    private void UpdateLocalAstronautActions()
+    private void UpdatePlayer()
     {
-        if (_world.LocalAstronaut == null || _world.LocalPlayer.Type != PlayerType.Astronaut) {
-            return;
+        // Get the current player type
+        var playerType = _world.LocalPlayer.Type;
+
+        // Delete alien player controller if no-longer needed
+        if (_alienPlayerController != null && (playerType != PlayerType.Alien || playerType != PlayerType.Observer))
+        {
+            Destroy(_alienPlayerController);
+            _alienPlayerController = null;
         }
 
-        int wingNear = ship.getNearWing();
-        if (_world.State.Ship.Pilot == _world.LocalPlayer.Guid) 
+        // Delete astronaut player controller if no-longer needed
+        if (_astronautPlayerControl != null && playerType != PlayerType.Astronaut)
         {
-            if (Input.GetButtonDown("Fire2") || Input.GetButtonDown("Cancel") ) 
+            Destroy(_astronautPlayerControl);
+            _astronautPlayerControl = null;
+        }
+
+        // Create alien player if needed
+        if (_alienPlayerController == null && (playerType == PlayerType.Alien || playerType == PlayerType.Observer))
+        {
+            _alienPlayerController = Instantiate(PlayerAlienPrefab);
+            _alienPlayerController.transform.SetParent(WorldRoot);
+
+            Camera.main.transform.SetParent(_alienPlayerController.transform);
+            Camera.main.transform.position = new Vector3(0, 0, distanceFromAlienPlayer);
+            Camera.main.transform.LookAt(Vector3.zero);
+        }
+
+        // Create astronaut player controller if needed
+        if (_astronautPlayerControl == null && playerType == PlayerType.Astronaut)
+        {
+            _astronautPlayerControl = Instantiate(PlayerAstronautPrefab);
+            _astronautPlayerControl.transform.SetParent(WorldRoot);
+
+            Camera.main.transform.SetParent(_astronautPlayerControl.transform);
+            Camera.main.transform.position = new Vector3(0, 0, distanceFromAstronautPlayer);
+            Camera.main.transform.LookAt(Vector3.zero);
+        }
+
+        // Handle alien actions
+        if (_alienPlayerController != null && playerType == PlayerType.Alien)
+        {
+            if (Input.GetButtonUp("Fire1"))
             {
-                 LeavePilot();
-            }
-            else if (Input.GetButton("Fire1")) 
-            {
-                 ActivateSheilds();
+                _world.FireAsteroid(
+                    _alienPlayerController.transform.position.ToVec3(),
+                    _alienPlayerController.transform.TransformVector(Vector3.forward * 10).ToVec3()
+                );
             }
         }
-        else if (Input.GetButton("Fire1") && wingNear > 0) {
-            HealWing(wingNear);
-        }
-        else if (Input.GetButtonDown("Fire1") && ship.isNearControlModule()) {
-            EnterPilot();
+
+        // Handle astronaut actions
+        if (_astronautPlayerControl != null)
+        {
+            int wingNear = ship.getNearWing();
+            if (_world.State.Ship.Pilot == _world.LocalPlayer.Guid)
+            {
+                if (Input.GetButtonDown("Fire2") || Input.GetButtonDown("Cancel"))
+                {
+                    LeavePilot();
+                }
+                else if (Input.GetButton("Fire1"))
+                {
+                    ActivateSheilds();
+                }
+            }
+            else if (Input.GetButton("Fire1") && wingNear > 0)
+            {
+                HealWing(wingNear);
+            }
+            else if (Input.GetButtonDown("Fire1") && ship.isNearControlModule())
+            {
+                EnterPilot();
+            }
         }
     }
 
@@ -147,32 +205,11 @@ public class WorldController : MonoBehaviour
         Debug.LogWarning("Healing Not Implemented.");
     }
 
-    private void UpdateAlien(PlayerType type)
+    private void UpdateAsteroids()
     {
-        if ( type == PlayerType.Alien) {
-            if (_alienPlayerController == null) 
-            {
-                _alienPlayerController = Instantiate(PlayerAlienPrefab);
-                _alienPlayerController.transform.SetParent(WorldRoot);
+        // Get the asteroids
+        var gameAsteroids = _world.State.Asteroids;
 
-                Camera.main.transform.SetParent(_alienPlayerController.transform);
-                Camera.main.transform.position = new Vector3(0, 0, distanceFromAlienPlayer);
-                Camera.main.transform.LookAt(Vector3.zero);
-            }
-            else if (Input.GetButtonUp("Fire1")) 
-            {
-                _world.FireAsteroid(
-                    _alienPlayerController.transform.position.ToVec3(), 
-                    _alienPlayerController.transform.TransformVector(Vector3.forward * 10).ToVec3()
-                    );
-            }
-        } else if (_alienPlayerController != null && type != PlayerType.Alien) {
-            Destroy(_alienPlayerController);
-        }
-    }
-
-    private void UpdateAsteroids(List<Asteroid> gameAsteroids)
-    {
         // Update asteroids
         foreach (var gameAsteroid in gameAsteroids)
         {
@@ -204,31 +241,19 @@ public class WorldController : MonoBehaviour
         }
     }
 
-    private void UpdateAstronauts(List<Astronaut> gameAstronauts)
+    private void UpdateOtherAstronauts()
     {
+        // Get the other astronauts
+        var otherAstronauts = _world.OtherAstronauts;
+
         // Update the astronauts
-        foreach (var gameAstronaut in gameAstronauts)
+        foreach (var gameAstronaut in otherAstronauts)
         {
             // Get the local astronaut
             if (!_localAstronauts.TryGetValue(gameAstronaut.Guid, out var localAstronaut))
             {
-                if (_world.LocalAstronaut?.Guid == gameAstronaut.Guid)
-                {
-                    if (_astronautPlayerControl == null) {
-                        // Build a local player astronaut prefab
-                        _astronautPlayerControl = Instantiate(PlayerAstronautPrefab);
-                        localAstronaut = _astronautPlayerControl;
-
-                        Camera.main.transform.SetParent(_astronautPlayerControl.transform);
-                        Camera.main.transform.position = new Vector3(0, 0, distanceFromAstronautPlayer);
-                        Camera.main.transform.LookAt(Vector3.zero);
-                    }
-                }
-                else
-                {
-                    // Create remotely controlled astronaut
-                    localAstronaut = Instantiate(AstronautPrefab);
-                }
+                // Create remotely controlled astronaut
+                localAstronaut = Instantiate(AstronautPrefab);
 
                 // Add to dictionary
                 _localAstronauts[gameAstronaut.Guid] = localAstronaut;
@@ -240,7 +265,7 @@ public class WorldController : MonoBehaviour
         }
 
         // Remove deleted astronauts
-        foreach (var oldAstronaut in _localAstronauts.Where(la => gameAstronauts.All(ga => ga.Guid != la.Key)).ToList())
+        foreach (var oldAstronaut in _localAstronauts.Where(la => otherAstronauts.All(ga => ga.Guid != la.Key)).ToList())
         {
             Destroy(oldAstronaut.Value);
             _localAstronauts.Remove(oldAstronaut.Key);
