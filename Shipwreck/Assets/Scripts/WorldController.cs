@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Shipwreck;
 using System;
+using System.CodeDom;
 using System.Linq;
 using Shipwreck.WorldData;
 
@@ -70,6 +71,14 @@ public class WorldController : MonoBehaviour
 
             // Update asteroid
             localAsteroid.transform.position = gameAsteroid.Position.ToVector3();
+
+            // Fade asteroid
+            var dist = gameAsteroid.Position.Length;
+            var meshRenderer = localAsteroid.GetComponent<MeshRenderer>();
+            var material = meshRenderer.material;
+            var color = material.color;
+            color.a = dist > 100f ? 0 : dist < 70f ? 1f : (100f - dist) / 30f;
+            material.color = color;
         }
 
         // Remove deleted asteroids

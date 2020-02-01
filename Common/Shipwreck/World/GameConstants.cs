@@ -28,12 +28,17 @@
         /// <summary>
         /// Minimum asteroid count (less than this and the AI will fire one)
         /// </summary>
-        public const int MinAsteroidCount = 3;
+        public const int MinAsteroidCount = 20;
 
         /// <summary>
         /// Distance at which to fire asteroids
         /// </summary>
         public const float AsteroidFireDistance = 100f;
+
+        /// <summary>
+        /// Rate of auto-fire
+        /// </summary>
+        public const float AsteroidFireRate = 4f;
 
         /// <summary>
         /// Distance at which to delete asteroids
