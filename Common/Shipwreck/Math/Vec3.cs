@@ -65,6 +65,13 @@ namespace Shipwreck.Math
         }
 
         /// <summary>
+        /// Vector negation
+        /// </summary>
+        /// <param name="v">Vector</param>
+        /// <returns>Negated vector</returns>
+        public static Vec3 operator -(Vec3 v) => new Vec3(-v.X, -v.Y, -v.Z);
+
+        /// <summary>
         /// Add vectors
         /// </summary>
         /// <param name="a">Vector a</param>

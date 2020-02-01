@@ -29,5 +29,25 @@ namespace Shipwreck.World
         /// Finished summary time
         /// </summary>
         public const float FinishedTime = 10.0f;
+
+        /// <summary>
+        /// Minimum asteroid count (less than this and the AI will fire one)
+        /// </summary>
+        public const int MinAsteroidCount = 3;
+
+        /// <summary>
+        /// Distance at which to fire asteroids
+        /// </summary>
+        public const float AsteroidFireDistance = 100f;
+
+        /// <summary>
+        /// Distance at which to delete asteroids
+        /// </summary>
+        public const float AsteroidDeleteDistance = 120f;
+
+        /// <summary>
+        /// Asteroid delete distance squared
+        /// </summary>
+        public const float AsteroidDeleteDistanceSquared = AsteroidDeleteDistance * AsteroidDeleteDistance;
     }
 }
