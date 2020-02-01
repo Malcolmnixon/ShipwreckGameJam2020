@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
+using System;
 
 public class MenuManager : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class MenuManager : MonoBehaviour
     public Dropdown resolutionDropdown;
 
     public Dropdown qualityDropdown;
+
+    public Dropdown gameTypeDropdown;
     	
     public Toggle fullscreenToggle;
 	
@@ -98,6 +101,39 @@ public class MenuManager : MonoBehaviour
 		// Volume
 		musicSlider.value = PlayerPrefs.GetFloat("MusicVol", 0.75f);
 		sfxSlider.value = PlayerPrefs.GetFloat("SfxVol", 0.75f);
+	}
+
+	public void Update() {
+		if (worldBuilder.HasWorld() && worldBuilder.World.State.Mode == Shipwreck.WorldData.GameMode.Waiting)
+		{
+			countdownSlider.value = worldBuilder.World.State.RemainingTime;
+			countdownText.text = $"Loading in {worldBuilder.World.State.RemainingTime}s";
+		}
+	}
+
+	public void DiscoverGamesList() 
+	{
+		//gameTypeDropdown.AddOptions();
+	}
+
+	public void InitializeWorldBuilder() 
+	{
+		if (gameTypeDropdown.value == 0) // Private
+		{
+			worldBuilder.CreatePrivate();
+		}
+		else if (gameTypeDropdown.value == 1) // Create LAN
+		{
+			worldBuilder.CreateLAN(Guid.NewGuid());
+		}
+		else //  Join LAN
+		{
+			worldBuilder.JoinLAN(gameTypeDropdown.itemText);
+		}
+	}
+
+	public void NewPlayer() {
+		worldBuilder.NewPlayer(NameInput.text);
 	}
 
 	public void SetResolution(int index) {
