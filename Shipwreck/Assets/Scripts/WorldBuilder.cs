@@ -14,7 +14,7 @@ public class WorldBuilder : MonoBehaviour
 
     private bool _active = false;
 
-    public LanDiscovery discovery;
+    public readonly LanDiscovery discovery = new LanDiscovery();
 
     public IWorld World;
 
@@ -30,7 +30,6 @@ public class WorldBuilder : MonoBehaviour
 
         DontDestroyOnLoad(this.gameObject);
         
-        discovery = new LanDiscovery();
         discovery.Start();
     }
 
@@ -57,7 +56,6 @@ public class WorldBuilder : MonoBehaviour
     public void NewPlayer(string name) 
     {
         World.CreateLocalPlayer(name);
-
     }
     
     public void LeaveWorld() 
