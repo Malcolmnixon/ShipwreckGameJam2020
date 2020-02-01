@@ -4,6 +4,7 @@ using UnityEngine;
 using Shipwreck;
 using System;
 using UnityEngine.UI;
+using Shipwreck.World;
 
 public class WorldBuilder : MonoBehaviour
 {
@@ -29,22 +30,25 @@ public class WorldBuilder : MonoBehaviour
 
     public void CreatePrivate()
     {
-        throw new NotImplementedException();
+        World = new LocalWorld();
+        World.Start();
     }
 
     public void CreateLAN(Guid guid)
     {
-        throw new NotImplementedException();
+        //World = new LanServerWorld();
+        //World.Start();
     }
 
     public void JoinLAN(Text itemText)
     {
-        throw new NotImplementedException();
+        //World = new RemoteWorld();
+        //World.Start();
     }
 
     public void NewPlayer(string name) 
     {
-        throw new NotImplementedException();
+        World.CreateLocalPlayer(name);
 
     }
     
