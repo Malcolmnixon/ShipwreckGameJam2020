@@ -1,6 +1,8 @@
 ﻿using System.Threading;
+using Microsoft.VisualStudio.TestPlatform.Common.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shipwreck.World;
+using Shipwreck.WorldData;
 
 namespace Shipwreck.Test
 {
@@ -25,6 +27,8 @@ namespace Shipwreck.Test
             Assert.AreEqual(0, world.Players.Players.Count);
             Assert.AreEqual(0, world.State.Astronauts.Count);
             Assert.AreEqual(0, world.State.Asteroids.Count);
+            Assert.AreEqual(GameMode.Waiting, world.State.Mode);
+            Assert.AreEqual(GameConstants.PlayerWaitTime, world.State.RemainingTime, 1e-2f);
         }
 
         [TestMethod]
@@ -33,13 +37,14 @@ namespace Shipwreck.Test
             // Create a local world
             using var world = new LocalWorld();
 
+
             // Start the world
             world.Start();
 
             // Create the local player
             var localPlayer = world.CreateLocalPlayer("Test");
 
-            // Wait 1 second
+            // Wait 1 second (game should start counting down to start)
             Thread.Sleep(1000);
 
             // Verify state
@@ -48,6 +53,14 @@ namespace Shipwreck.Test
             Assert.AreEqual(1, world.Players.Players.Count);
             Assert.AreEqual(1, world.State.Astronauts.Count);
             Assert.AreEqual(0, world.State.Asteroids.Count);
+            Assert.AreEqual(GameMode.Waiting, world.State.Mode);
+            Assert.IsTrue(world.State.RemainingTime < GameConstants.PlayerWaitTime);
+            Assert.AreEqual(PlayerType.Astronaut, localPlayer.Type);
+
+            // Wait until game starts
+            Thread.Sleep((int)(GameConstants.PlayerWaitTime * 1000));
+            Assert.AreEqual(GameMode.Playing, world.State.Mode);
+            Assert.IsTrue(world.State.RemainingTime < GameConstants.PlayTime);
         }
     }
 }

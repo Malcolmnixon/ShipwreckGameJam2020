@@ -8,8 +8,14 @@ namespace Shipwreck.WorldData
     /// </summary>
     public enum PlayerType
     {
-        None,
+        /// <summary>
+        /// Player has confirmed being an astronaut
+        /// </summary>
         Astronaut,
+
+        /// <summary>
+        /// Player has proposed being an alien
+        /// </summary>
         Alien
     }
 

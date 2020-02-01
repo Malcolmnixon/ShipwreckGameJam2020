@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Shipwreck.WorldData;
 
 namespace Shipwreck.World
@@ -29,7 +30,7 @@ namespace Shipwreck.World
             base.Tick(deltaTime);
 
             // Handle moving players to astronauts
-            if (State.Astronauts.Count < 2)
+            if (State.Astronauts.Count < GameConstants.Astronauts)
             {
                 // TODO: Consider doing this randomly
 
@@ -42,6 +43,77 @@ namespace Shipwreck.World
 
                     // Add a new astronaut for the player
                     State.Astronauts.Add(new Astronaut {Guid = player.Guid});
+                }
+            }
+
+            // Handle game-mode transition
+            switch (State.Mode)
+            {
+                case GameMode.Waiting:
+                {
+                    // Update remaining time based on whether we have players
+                    if (Players.Players.Count == 0)
+                        State.RemainingTime = GameConstants.PlayerWaitTime;
+                    else
+                        State.RemainingTime -= deltaTime;
+
+                    // Handle start of game
+                    if (State.RemainingTime <= 0.0f)
+                    {
+                        // Reset the ship to full health
+                        State.Ship = new Ship
+                        {
+                            CenterTorsoHealth = 100f,
+                            LeftWingHealth = 100f,
+                            RightWingHealth = 100f
+                        };
+
+                        // Destroy all asteroids
+                        State.Asteroids = new List<Asteroid>();
+
+                        // Start the game
+                        State.RemainingTime = GameConstants.PlayTime;
+                        State.Mode = GameMode.Playing;
+                    }
+                    break;
+                }
+
+                case GameMode.Playing:
+                {
+                    // Handle abandoned game
+                    if (Players.Players.Count == 0)
+                    {
+                        // Transition to waiting
+                        State.RemainingTime = 0.0f;
+                        State.Mode = GameMode.Waiting;
+                        break;
+                    }
+
+                    // Track current game
+                    State.RemainingTime -= deltaTime;
+                    var totalHealth = 
+                            State.Ship.CenterTorsoHealth + 
+                            State.Ship.LeftWingHealth +
+                            State.Ship.RightWingHealth;
+                    if (State.RemainingTime <= 0.0f || totalHealth < 50.0f)
+                    {
+                        // Finish the game
+                        State.RemainingTime = GameConstants.FinishedTime;
+                        State.Mode = GameMode.Finished;
+                    }
+                    break;
+                }
+
+                case GameMode.Finished:
+                {
+                    State.RemainingTime -= deltaTime;
+                    if (State.RemainingTime <= 0.0f)
+                    {
+                        // Transition to waiting
+                        State.RemainingTime = 0.0f;
+                        State.Mode = GameMode.Waiting;
+                    }
+                    break;
                 }
             }
 

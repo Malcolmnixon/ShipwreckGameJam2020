@@ -65,6 +65,8 @@ namespace Shipwreck.World
         /// </summary>
         public GameState State { get; set; } = new GameState
         {
+            Mode = GameMode.Waiting,
+            RemainingTime = GameConstants.PlayerWaitTime,
             Ship = new Ship
             {
                 CenterTorsoHealth = 100,

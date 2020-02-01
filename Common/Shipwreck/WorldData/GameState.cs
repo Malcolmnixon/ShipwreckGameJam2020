@@ -4,10 +4,41 @@ using Newtonsoft.Json;
 namespace Shipwreck.WorldData
 {
     /// <summary>
+    /// Game mode
+    /// </summary>
+    public enum GameMode
+    {
+        /// <summary>
+        /// Game is waiting for players
+        /// </summary>
+        Waiting,
+
+        /// <summary>
+        /// Game is active
+        /// </summary>
+        Playing,
+
+        /// <summary>
+        /// Game has finished (will transition to lobby)
+        /// </summary>
+        Finished
+    };
+
+    /// <summary>
     /// Game state information
     /// </summary>
     public class GameState
     {
+        /// <summary>
+        /// Mode the game is in
+        /// </summary>
+        public GameMode Mode { get; set; }
+
+        /// <summary>
+        /// Game remaining time
+        /// </summary>
+        public float RemainingTime { get; set; }
+
         /// <summary>
         /// Gets or sets the ship
         /// </summary>
