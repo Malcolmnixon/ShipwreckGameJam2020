@@ -55,7 +55,10 @@ namespace Shipwreck.World
         /// <summary>
         /// Gets or sets the players
         /// </summary>
-        public GamePlayers Players { get; set; } = new GamePlayers();
+        public GamePlayers Players { get; set; } = new GamePlayers
+        {
+            Players = new List<Player>()
+        };
 
         /// <summary>
         /// Gets or sets the game state
@@ -102,7 +105,7 @@ namespace Shipwreck.World
                 {
                     Guid = Guid.NewGuid(),
                     Name = name,
-                    Type = PlayerType.None
+                    Type = PlayerType.Alien
                 });
             }
         }

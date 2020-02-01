@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Shipwreck.Math;
+﻿using System.Linq;
 using Shipwreck.WorldData;
 
 namespace Shipwreck.World
