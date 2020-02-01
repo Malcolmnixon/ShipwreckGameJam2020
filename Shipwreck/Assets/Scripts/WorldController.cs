@@ -99,11 +99,23 @@ public class WorldController : MonoBehaviour
 
     private void UpdateAlien(PlayerType type)
     {
-        if (_alienPlayerController == null && type == PlayerType.Alien) {
-            _alienPlayerController = Instantiate(PlayerAlienPrefab);
-            _alienPlayerController.transform.SetParent(WorldRoot);
-            Camera.main.transform.SetParent(_alienPlayerController.transform);
-            Camera.main.transform.position = new Vector3(0,0, distanceFromAlienPlayer);
+        if ( type == PlayerType.Alien) {
+            if (_alienPlayerController == null) 
+            {
+                _alienPlayerController = Instantiate(PlayerAlienPrefab);
+                _alienPlayerController.transform.SetParent(WorldRoot);
+
+                Camera.main.transform.SetParent(_alienPlayerController.transform);
+                Camera.main.transform.position = new Vector3(0, 0, distanceFromAlienPlayer);
+                Camera.main.transform.LookAt(Vector3.zero);
+            }
+            else if (Input.GetButtonUp("Fire1")) 
+            {
+                _world.FireAsteroid(
+                    _alienPlayerController.transform.position.ToVec3(), 
+                    _alienPlayerController.transform.TransformVector(Vector3.forward * 10).ToVec3()
+                    );
+            }
         } else if (_alienPlayerController != null && type != PlayerType.Alien) {
             Destroy(_alienPlayerController);
         }
@@ -157,7 +169,8 @@ public class WorldController : MonoBehaviour
                     localAstronaut = _astronautPlayerControl;
 
                     Camera.main.transform.SetParent(_astronautPlayerControl.transform);
-                    Camera.main.transform.position = new Vector3(0,0,distanceFromAstronautPlayer);
+                    Camera.main.transform.position = new Vector3(0, 0, distanceFromAstronautPlayer);
+                    Camera.main.transform.LookAt(Vector3.zero);
                 }
                 else
                 {
