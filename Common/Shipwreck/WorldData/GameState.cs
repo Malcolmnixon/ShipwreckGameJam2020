@@ -21,7 +21,7 @@ namespace Shipwreck.WorldData
         /// <summary>
         /// Gets or sets the list of asteroids
         /// </summary>
-        public List<Asteroid> Asteroid { get; set; }
+        public List<Asteroid> Asteroids { get; set; }
 
         /// <summary>
         /// Serialize to JSON

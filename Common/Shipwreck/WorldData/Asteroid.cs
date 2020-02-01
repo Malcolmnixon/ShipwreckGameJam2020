@@ -10,6 +10,16 @@ namespace Shipwreck.WorldData
     public class Asteroid
     {
         /// <summary>
+        /// Radius at which asteroids are fired from
+        /// </summary>
+        public const float FireRadius = 100f;
+
+        /// <summary>
+        /// Radius at which asteroids are killed
+        /// </summary>
+        public const float KillRadius = 120f;
+
+        /// <summary>
         /// Gets or sets the asteroid Guid
         /// </summary>
         public Guid Guid { get; set; }

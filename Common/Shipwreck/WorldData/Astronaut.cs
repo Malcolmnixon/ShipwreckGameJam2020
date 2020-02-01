@@ -10,6 +10,11 @@ namespace Shipwreck.WorldData
     public class Astronaut
     {
         /// <summary>
+        /// Astronaut radius from ship
+        /// </summary>
+        public const float Radius = 10f;
+
+        /// <summary>
         /// Gets or sets the player guid for this astronaut
         /// </summary>
         public Guid Guid { get; set; }
@@ -34,7 +39,7 @@ namespace Shipwreck.WorldData
             {
                 var sinX = (float)System.Math.Sin(Position.X);
                 var cosX = (float)System.Math.Cos(Position.X);
-                return new Vec3(sinX * 10, Position.Y, cosX * 10);
+                return new Vec3(sinX * Radius, Position.Y, cosX * Radius);
             }
         }
 

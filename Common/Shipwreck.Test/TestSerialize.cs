@@ -125,7 +125,7 @@ namespace Shipwreck.Test
                         Velocity = new Vec2(3, 4)
                     }
                 },
-                Asteroid = new List<Asteroid>
+                Asteroids = new List<Asteroid>
                 {
                     new Asteroid
                     {
