@@ -7,6 +7,10 @@ using UnityEngine.Audio;
 
 public class MenuManager : MonoBehaviour
 {
+
+	[Header("Main Screen")]
+	
+	public Animator mainAnimator;
     public Dropdown resolutionDropdown;
 
     public Dropdown qualityDropdown;
@@ -17,6 +21,24 @@ public class MenuManager : MonoBehaviour
 
 	public Slider musicSlider;
 	public Slider sfxSlider;
+
+	[Header("Join Screen")]
+	public Animator joinAnimator;
+	
+	public InputField NameInput;
+	
+
+	[Header("Wait Screen")]
+
+	public Animator waitAnimator;
+
+	public Text countdownText;
+
+	public Slider countdownSlider;
+
+	[Header("Other")]
+
+	public WorldBuilder worldBuilder;
 
     public GameObject[] hideOnMobile;
 
@@ -114,6 +136,24 @@ public class MenuManager : MonoBehaviour
 	{
 		masterMixer.SetFloat("SfxVol", Mathf.Log10(soundLevel) * 20);
         PlayerPrefs.SetFloat("SfxVol", soundLevel);
+	}
+
+	public void ShowMainMenu() {
+		mainAnimator.SetBool("Shown", true);
+		joinAnimator.SetBool("Shown", false);
+		waitAnimator.SetBool("Shown", false);
+	}
+
+	public void ShowJoinMenu() {
+		mainAnimator.SetBool("Shown", false);
+		joinAnimator.SetBool("Shown", true);
+		waitAnimator.SetBool("Shown", false);
+	}
+
+	public void ShowWaitMenu() {
+		mainAnimator.SetBool("Shown", false);
+		joinAnimator.SetBool("Shown", false);
+		waitAnimator.SetBool("Shown", true);
 	}
 
 	public void Quit() {

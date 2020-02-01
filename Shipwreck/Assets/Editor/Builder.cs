@@ -39,7 +39,6 @@ public class Builder
 		PrintReport(report);
     }
 
-
 	private static void PrintReport(BuildReport report) {
 		if (report.summary.result == BuildResult.Succeeded) {
 			Debug.Log($"Build Succeeded {report.summary.totalSize} bytes");
