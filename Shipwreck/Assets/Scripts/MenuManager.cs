@@ -123,7 +123,7 @@ public class MenuManager : MonoBehaviour
 	{
         var games = worldBuilder.GetGames();
 		
-		foreach (var option in gameTypeDropdown.options.Skip(2).ToList())
+		foreach (var option in gameTypeDropdown.options.Skip(3).ToList())
 		{
 			if (!games.ContainsKey(option.text)) 
 			{
@@ -150,6 +150,10 @@ public class MenuManager : MonoBehaviour
 		{
 			worldBuilder.CreateLAN(Guid.NewGuid());
 		}
+        else if (gameTypeDropdown.value == 2) // Create Web
+        {
+            worldBuilder.CreateWeb();
+        }
 		else //  Join LAN
 		{
 			var games = worldBuilder.GetGames();

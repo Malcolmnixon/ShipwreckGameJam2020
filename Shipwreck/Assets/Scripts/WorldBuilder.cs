@@ -6,6 +6,7 @@ using System;
 using UnityEngine.UI;
 using Shipwreck.World;
 using Shipwreck.WorldLan;
+using Shipwreck.WorldWeb;
 
 public class WorldBuilder : MonoBehaviour
 {
@@ -47,6 +48,12 @@ public class WorldBuilder : MonoBehaviour
     public void CreateLAN(Guid guid)
     {
         World = new LanServerWorld(guid.ToString());
+        World.Start();
+    }
+
+    public void CreateWeb()
+    {
+        World = new WebClientWorld();
         World.Start();
     }
 
