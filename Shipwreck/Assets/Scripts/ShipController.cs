@@ -9,15 +9,28 @@ public class ShipController : MonoBehaviour
     
     public ShipSectionProximity controlModule;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+
+    public ShipSectionProximity GetNear() {
+        if (controlModule.PlayerNear) {
+            return controlModule;
+        }
+        foreach (var wing in wings) {
+            if (wing.PlayerNear) {
+                return wing;
+            }
+        }
+        return null;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public bool isNearControlModule() => controlModule.PlayerNear;
+
+    // 0 = none
+    public int getNearWing() {
+        for (var i = 0; i < wings.Length; i++) {
+            if (wings[i].PlayerNear) {
+                return i + 1;
+            }
+        }
+        return 0;
     }
 }

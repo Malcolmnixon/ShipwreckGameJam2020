@@ -12,6 +12,8 @@ public class WorldController : MonoBehaviour
     [Header("Resources")]
 
     public Transform WorldRoot;
+
+    public ShipController ship;
     
     [Header("Prefabs")]
 
@@ -95,15 +97,75 @@ public class WorldController : MonoBehaviour
         UpdateAstronauts(_world.State.Astronauts);
 
         UpdateAlien(_world.LocalPlayer.Type);
+
+        UpdateLocalAstronautActions();
+    }
+
+    private void UpdateLocalAstronautActions()
+    {
+        if (_world.LocalAstronaut == null || _world.LocalPlayer.Type != PlayerType.Astronaut) {
+            return;
+        }
+
+        int wingNear = ship.getNearWing();
+        if (_world.State.Ship.Pilot == _world.LocalPlayer.Guid) 
+        {
+            if (Input.GetButtonDown("Fire2") || Input.GetButtonDown("Cancel") ) 
+            {
+                 LeavePilot();
+            }
+            else if (Input.GetButton("Fire1")) 
+            {
+                 ActivateSheilds();
+            }
+        }
+        else if (Input.GetButton("Fire1") && wingNear > 0) {
+            HealWing(wingNear);
+        }
+        else if (Input.GetButtonDown("Fire1") && ship.isNearControlModule()) {
+            EnterPilot();
+        }
+    }
+
+    private void EnterPilot()
+    {
+        Debug.LogWarning("Piloting Not Implemented.");
+    }
+
+    private void LeavePilot()
+    {
+        Debug.LogWarning("Piloting Not Implemented.");
+    }
+
+    private void ActivateSheilds()
+    {
+        Debug.LogWarning("Sheilds Not Implemented.");
+    }
+
+    private void HealWing(int wingNear)
+    {
+        Debug.LogWarning("Healing Not Implemented.");
     }
 
     private void UpdateAlien(PlayerType type)
     {
-        if (_alienPlayerController == null && type == PlayerType.Alien) {
-            _alienPlayerController = Instantiate(PlayerAlienPrefab);
-            _alienPlayerController.transform.SetParent(WorldRoot);
-            Camera.main.transform.SetParent(_alienPlayerController.transform);
-            Camera.main.transform.position = new Vector3(0,0, distanceFromAlienPlayer);
+        if ( type == PlayerType.Alien) {
+            if (_alienPlayerController == null) 
+            {
+                _alienPlayerController = Instantiate(PlayerAlienPrefab);
+                _alienPlayerController.transform.SetParent(WorldRoot);
+
+                Camera.main.transform.SetParent(_alienPlayerController.transform);
+                Camera.main.transform.position = new Vector3(0, 0, distanceFromAlienPlayer);
+                Camera.main.transform.LookAt(Vector3.zero);
+            }
+            else if (Input.GetButtonUp("Fire1")) 
+            {
+                _world.FireAsteroid(
+                    _alienPlayerController.transform.position.ToVec3(), 
+                    _alienPlayerController.transform.TransformVector(Vector3.forward * 10).ToVec3()
+                    );
+            }
         } else if (_alienPlayerController != null && type != PlayerType.Alien) {
             Destroy(_alienPlayerController);
         }
@@ -152,12 +214,15 @@ public class WorldController : MonoBehaviour
             {
                 if (_world.LocalAstronaut?.Guid == gameAstronaut.Guid)
                 {
-                    // Build a local player astronaut prefab
-                    _astronautPlayerControl = Instantiate(PlayerAstronautPrefab);
-                    localAstronaut = _astronautPlayerControl;
+                    if (_astronautPlayerControl == null) {
+                        // Build a local player astronaut prefab
+                        _astronautPlayerControl = Instantiate(PlayerAstronautPrefab);
+                        localAstronaut = _astronautPlayerControl;
 
-                    Camera.main.transform.SetParent(_astronautPlayerControl.transform);
-                    Camera.main.transform.position = new Vector3(0,0,distanceFromAstronautPlayer);
+                        Camera.main.transform.SetParent(_astronautPlayerControl.transform);
+                        Camera.main.transform.position = new Vector3(0, 0, distanceFromAstronautPlayer);
+                        Camera.main.transform.LookAt(Vector3.zero);
+                    }
                 }
                 else
                 {
