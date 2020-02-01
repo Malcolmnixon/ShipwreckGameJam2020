@@ -40,6 +40,7 @@ public class WorldController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        this._world = GameObject.FindObjectOfType<WorldBuilder>().World;
         CreateLocalWorld();
     }
 
