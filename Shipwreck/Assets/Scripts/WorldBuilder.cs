@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Shipwreck;
+using Shipwreck.World;
 
 public class WorldBuilder : MonoBehaviour
 {
@@ -23,6 +24,11 @@ public class WorldBuilder : MonoBehaviour
         _active = true;
 
         DontDestroyOnLoad(this.gameObject);
+
+        // Start a new local world with a bogus local player
+        World = new LocalWorld();
+        World.Start();
+        World.CreateLocalPlayer("Bob");
     }
 
     // Update is called once per frame
