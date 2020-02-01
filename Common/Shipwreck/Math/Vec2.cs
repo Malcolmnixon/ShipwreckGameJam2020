@@ -58,6 +58,13 @@ namespace Shipwreck.Math
         }
 
         /// <summary>
+        /// Vector negation
+        /// </summary>
+        /// <param name="v">Vector</param>
+        /// <returns>Negated vector</returns>
+        public static Vec2 operator -(Vec2 v) => new Vec2(-v.X, -v.Y);
+
+        /// <summary>
         /// Add vectors
         /// </summary>
         /// <param name="a">Vector a</param>

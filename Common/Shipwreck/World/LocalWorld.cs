@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Shipwreck.Math;
 using Shipwreck.WorldData;
 
 namespace Shipwreck.World
@@ -9,6 +11,11 @@ namespace Shipwreck.World
     /// </summary>
     public class LocalWorld : BaseWorld
     {
+        /// <summary>
+        /// Random source
+        /// </summary>
+        private readonly Random _random = new Random();
+
         public override Player CreateLocalPlayer(string name)
         {
             // Create the local player
@@ -115,6 +122,35 @@ namespace Shipwreck.World
                     }
                     break;
                 }
+            }
+
+            // Handle asteroids while playing
+            if (State.Mode == GameMode.Playing)
+            {
+                // Handle AI asteroids
+                if (State.Asteroids.Count < GameConstants.MinAsteroidCount)
+                    // Randomize ~1s for asteroid firing
+                    if (_random.NextDouble() < deltaTime)
+                    {
+                        var r = _random.NextDouble() * System.Math.PI * 2;
+                        var x = (float) System.Math.Sin(r) * GameConstants.AsteroidFireDistance;
+                        var z = (float) System.Math.Cos(r) * GameConstants.AsteroidFireDistance;
+                        var y = (float) (_random.NextDouble() - 0.5) * GameConstants.AsteroidFireDistance;
+                        var pos = new Vec3(x, y, z).Normalized * 100;
+                        var vel = (-pos).Normalized * (0.8f + (float) _random.NextDouble() * 0.4f);
+                        State.Asteroids.Add(
+                            new Asteroid
+                            {
+                                Guid = Guid.NewGuid(),
+                                Position = pos,
+                                Velocity = vel
+                            });
+                    }
+
+                // Handle deleting asteroids
+                State.Asteroids = State.Asteroids
+                    .Where(a => a.Position.LengthSquared < GameConstants.AsteroidDeleteDistanceSquared)
+                    .ToList();
             }
 
             // Ensure our LocalAstronaut stays up to date

@@ -2,11 +2,16 @@
 
 namespace ShipwreckServer
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main()
         {
-            Console.WriteLine("Hello World!");
+            // Create and start server
+            var world = new Shipwreck.WorldWeb.WebServerWorld();
+            world.Start();
+
+            Console.WriteLine("Server started. Press ENTER to terminate.");
+            Console.ReadLine();
         }
     }
 }
