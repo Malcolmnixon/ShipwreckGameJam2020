@@ -107,8 +107,22 @@ public class WorldController : MonoBehaviour
             // Get the local astronaut
             if (!_localAstronauts.TryGetValue(gameAstronaut.Guid, out var localAstronaut))
             {
-                // Create astronaut
-                localAstronaut = Instantiate(AstronautPrefab);
+                if (_world.LocalAstronaut?.Guid == gameAstronaut.Guid)
+                {
+                    // Build a local player astronaut prefab
+                    localAstronaut = Instantiate(PlayerAstronautPrefab);
+                    var controller = localAstronaut.GetComponent<AstronautPlayerController>();
+                    controller.Astronaut = _world.LocalAstronaut;
+
+                    Camera.main.transform.SetParent(controller.transform);
+                }
+                else
+                {
+                    // Create remotely controlled astronaut
+                    localAstronaut = Instantiate(AstronautPrefab);
+                }
+
+                // Add to dictionary
                 _localAstronauts[gameAstronaut.Guid] = localAstronaut;
             }
 
