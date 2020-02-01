@@ -13,15 +13,22 @@ namespace Shipwreck
         /// Initializes a new instance of the LogEventArgs class
         /// </summary>
         /// <param name="message">Log message</param>
-        public LogEventArgs(string message)
+        /// <param name="data">Associated data</param>
+        public LogEventArgs(string message, object data)
         {
             Message = message;
+            Data = data;
         }
 
         /// <summary>
         /// Gets the log message
         /// </summary>
         public string Message { get; }
+
+        /// <summary>
+        /// Gets the associated data
+        /// </summary>
+        public object Data { get; }
     }
 
     /// <summary>
@@ -35,9 +42,10 @@ namespace Shipwreck
         /// Log activity
         /// </summary>
         /// <param name="message">Log message</param>
-        public static void Log(string message)
+        /// <param name="data">Associated data</param>
+        public static void Log(string message, object data = null)
         {
-            OnLog?.Invoke(message, new LogEventArgs(message));
+            OnLog?.Invoke(message, new LogEventArgs(message, data));
         }
     }
 }

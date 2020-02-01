@@ -180,7 +180,7 @@ namespace Shipwreck.WorldNet
             }
             catch (Exception ex)
             {
-                Logger.Log($"NetClientWorld.OnServerNotification - failed with {ex}");
+                Logger.Log($"NetClientWorld.OnServerNotification - failed with {ex}", ex);
             }
         }
     }
