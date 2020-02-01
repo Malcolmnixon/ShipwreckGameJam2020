@@ -28,8 +28,10 @@ namespace Shipwreck.WorldNet
 
         public NetServerWorld()
         {
+            Logger.Log($"NetServerWorld.NetServerWorld - using UDP {NetConstants.UdpPort}");
             var provider = new NetComms.Udp.UdpProvider(NetConstants.UdpPort);
             _communicationsServer = provider.CreateServer();
+            _communicationsServer.NewConnection += OnClientNewConnection;
             _communicationsServer.ConnectionDropped += OnClientConnectionDropped;
             _communicationsServer.Notification += OnClientNotification;
         }
@@ -45,6 +47,8 @@ namespace Shipwreck.WorldNet
 
         public override void Start()
         {
+            Logger.Log("NetServerWorld.Start - initiating communications");
+
             // Start the world
             base.Start();
 
@@ -65,6 +69,7 @@ namespace Shipwreck.WorldNet
                 playersBytes.AddRange(Encoding.ASCII.GetBytes(Players.ToJson()));
 
                 // Send game-players packet and clear time
+                Logger.Log($"NetServerWorld.Tick - sent players");
                 _communicationsServer.SendNotification(playersBytes.ToArray());
                 _playersAge = 0f;
             }
@@ -78,13 +83,21 @@ namespace Shipwreck.WorldNet
                 stateBytes.AddRange(Encoding.ASCII.GetBytes(State.ToJson()));
 
                 // Send game-state packet and clear time
+                Logger.Log($"NetServerWorld.Tick - sent state");
                 _communicationsServer.SendNotification(stateBytes.ToArray());
                 _stateAge = 0f;
             }
         }
 
+        private void OnClientNewConnection(object sender, NetComms.ConnectionEventArgs e)
+        {
+            Logger.Log($"NetServerWorld.OnClientNewConnection - new client");
+        }
+
+
         private void OnClientNotification(object sender, NetComms.NotificationEventArgs e)
         {
+            Logger.Log("NetServerWorld.OnClientNotification");
             try
             {
                 // Skip if no type
@@ -104,6 +117,7 @@ namespace Shipwreck.WorldNet
                         case NetConstants.PlayerPacket:
                         {
                             var player = Player.FromJson(payloadJson);
+                            Logger.Log($"NetServerWorld.OnClientNotification - got player {player.Guid}");
                             Players.Players.RemoveAll(p => p.Guid == player.Guid);
                             Players.Players.Add(player);
 
@@ -115,6 +129,7 @@ namespace Shipwreck.WorldNet
                         case NetConstants.AstronautPacket:
                         {
                             var astronaut = Astronaut.FromJson(payloadJson);
+                            Logger.Log($"NetServerWorld.OnClientNotification - got astronaut update {astronaut.Guid}");
                             State.Astronauts.RemoveAll(a => a.Guid == astronaut.Guid);
                             State.Astronauts.Add(astronaut);
                             break;
@@ -123,6 +138,7 @@ namespace Shipwreck.WorldNet
                         case NetConstants.AsteroidPacket:
                         {
                             var asteroid = Asteroid.FromJson(payloadJson);
+                            Logger.Log($"NetServerWorld.OnClientNotification - got fired asteroid {asteroid.Guid}");
                             State.Asteroids.RemoveAll(a => a.Guid == asteroid.Guid);
                             State.Asteroids.Add(asteroid);
                             break;
@@ -130,9 +146,9 @@ namespace Shipwreck.WorldNet
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // Ignore all errors as we don't want the server to fail when given junk
+                Logger.Log($"NetServerWorld.OnClientNotification - failed with {ex}");
             }
         }
 
@@ -140,6 +156,7 @@ namespace Shipwreck.WorldNet
         {
             // Get the player GUID
             var playerGuid = (Guid?)e.Connection.AssociatedData ?? Guid.Empty;
+            Logger.Log($"NetServerWorld.OnClientConnectionDropped - lost {playerGuid}");
 
             // Lock while updating game state
             lock (WorldLock)

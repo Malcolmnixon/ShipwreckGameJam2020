@@ -132,6 +132,9 @@ namespace Shipwreck.World
                 // Add to our game state
                 State.Asteroids.Add(asteroid);
 
+                // Asteroid fired
+                Logger.Log($"BaseWorld.FireAsteroid - fired");
+
                 // Return the new asteroid
                 return asteroid;
             }
@@ -142,6 +145,8 @@ namespace Shipwreck.World
         /// </summary>
         protected virtual void Tick(float deltaTime)
         {
+            Logger.Log($"BaseWorld.Tick - updating world");
+
             // Advance asteroids
             foreach (var asteroid in State.Asteroids)
                 asteroid.Position += asteroid.Velocity * deltaTime;
