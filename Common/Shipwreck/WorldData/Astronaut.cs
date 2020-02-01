@@ -4,6 +4,9 @@ using Shipwreck.Math;
 
 namespace Shipwreck.WorldData
 {
+    /// <summary>
+    /// Astronaut information
+    /// </summary>
     public class Astronaut
     {
         /// <summary>
@@ -34,5 +37,18 @@ namespace Shipwreck.WorldData
                 return new Vec3(sinX * 10, Position.Y, cosX * 10);
             }
         }
+
+        /// <summary>
+        /// Serialize to JSON
+        /// </summary>
+        /// <returns>JSON text</returns>
+        public string ToJson() => JsonConvert.SerializeObject(this);
+
+        /// <summary>
+        /// Deserialize from JSON
+        /// </summary>
+        /// <param name="json">JSON text</param>
+        /// <returns>Deserialized instance</returns>
+        public static Astronaut FromJson(string json) => JsonConvert.DeserializeObject<Astronaut>(json);
     }
 }

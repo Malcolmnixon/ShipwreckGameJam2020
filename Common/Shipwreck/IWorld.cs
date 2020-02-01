@@ -33,6 +33,6 @@ namespace Shipwreck
         /// Create a local player
         /// </summary>
         /// <returns>Local player</returns>
-        Player CreateLocalPlayer();
+        Player CreateLocalPlayer(string name);
     }
 }

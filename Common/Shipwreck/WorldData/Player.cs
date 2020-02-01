@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace Shipwreck.WorldData
 {
@@ -31,5 +32,18 @@ namespace Shipwreck.WorldData
         /// Gets or sets the player type
         /// </summary>
         public PlayerType Type { get; set; }
+
+        /// <summary>
+        /// Serialize to JSON
+        /// </summary>
+        /// <returns>JSON text</returns>
+        public string ToJson() => JsonConvert.SerializeObject(this);
+
+        /// <summary>
+        /// Deserialize from JSON
+        /// </summary>
+        /// <param name="json">JSON text</param>
+        /// <returns>Deserialized instance</returns>
+        public static Player FromJson(string json) => JsonConvert.DeserializeObject<Player>(json);
     }
 }

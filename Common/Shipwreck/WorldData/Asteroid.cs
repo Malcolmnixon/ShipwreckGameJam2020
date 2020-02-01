@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using Shipwreck.Math;
 
 namespace Shipwreck.WorldData
@@ -27,5 +28,18 @@ namespace Shipwreck.WorldData
         /// Gets or sets the asteroid velocity
         /// </summary>
         public Vec3 Velocity { get; set; }
+
+        /// <summary>
+        /// Serialize to JSON
+        /// </summary>
+        /// <returns>JSON text</returns>
+        public string ToJson() => JsonConvert.SerializeObject(this);
+
+        /// <summary>
+        /// Deserialize from JSON
+        /// </summary>
+        /// <param name="json">JSON text</param>
+        /// <returns>Deserialized instance</returns>
+        public static Asteroid FromJson(string json) => JsonConvert.DeserializeObject<Asteroid>(json);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Shipwreck.WorldData
 {
@@ -21,5 +22,18 @@ namespace Shipwreck.WorldData
         /// Gets or sets the list of asteroids
         /// </summary>
         public List<Asteroid> Asteroid { get; set; }
+
+        /// <summary>
+        /// Serialize to JSON
+        /// </summary>
+        /// <returns>JSON text</returns>
+        public string ToJson() => JsonConvert.SerializeObject(this);
+
+        /// <summary>
+        /// Deserialize from JSON
+        /// </summary>
+        /// <param name="json">JSON text</param>
+        /// <returns>Deserialized instance</returns>
+        public static GameState FromJson(string json) => JsonConvert.DeserializeObject<GameState>(json);
     }
 }

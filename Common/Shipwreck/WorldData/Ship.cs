@@ -8,7 +8,7 @@ namespace Shipwreck.WorldData
     public class Ship
     {
         /// <summary>
-        /// GUID for ship pilot
+        /// GUID for ship pilot (or Guid.None if no pilot)
         /// </summary>
         public Guid Pilot { get; set; }
 
