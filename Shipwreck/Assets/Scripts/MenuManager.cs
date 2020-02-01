@@ -15,12 +15,22 @@ public class MenuManager : MonoBehaviour
 	
     public AudioMixer masterMixer;
 
+    public GameObject[] hideOnMobile;
+
 	private Resolution[] resolutions;
 
 	private int currentResolution;
 
 
     void Start() {
+
+        #if !UNITY_STANDALONE
+
+        foreach (GameObject item in hideOnMobile) {
+            item.SetActive(false);
+        }
+
+        #endif
 		
         // Resolution
 		resolutionDropdown.ClearOptions ();
