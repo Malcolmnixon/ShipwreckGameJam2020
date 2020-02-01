@@ -10,6 +10,12 @@ public class ShipSectionProximity : MonoBehaviour
 
     public bool PlayerNear { get; private set; }
 
+    private void Start()
+    {
+        PlayerNear = false;
+        outline.enabled = false;
+    }
+
     private void OnTriggerEnter(Collider other) {
         if (other.tag == "Player") {
             Debug.Log("Ship Section: Entered");
