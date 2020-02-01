@@ -39,7 +39,7 @@ namespace Shipwreck.WorldData
             {
                 var sinX = (float)System.Math.Sin(Position.X);
                 var cosX = (float)System.Math.Cos(Position.X);
-                return new Vec3(sinX * Radius, Position.Y, cosX * Radius);
+                return new Vec3(sinX * Radius, Position.Y, -cosX * Radius);
             }
         }
 
