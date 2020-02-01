@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 using System;
+using System.Linq;
 
 public class MenuManager : MonoBehaviour
 {
@@ -109,11 +110,29 @@ public class MenuManager : MonoBehaviour
 			countdownSlider.value = worldBuilder.World.State.RemainingTime;
 			countdownText.text = $"Loading in {worldBuilder.World.State.RemainingTime}s";
 		}
+
+		DiscoverGamesList();
 	}
 
 	public void DiscoverGamesList() 
 	{
-		//gameTypeDropdown.AddOptions();
+        var games = worldBuilder.GetGames();
+		
+		foreach (var option in gameTypeDropdown.options)
+		{
+			if (!games.ContainsKey(option.text)) 
+			{
+				gameTypeDropdown.options.Remove(option);
+			}
+		}
+
+		foreach (var name in games.Keys) 
+		{			
+			if (gameTypeDropdown.options.All(option => option.text != name)) 
+			{
+				gameTypeDropdown.options.Add(new Dropdown.OptionData(name));
+			}
+		}
 	}
 
 	public void InitializeWorldBuilder() 
@@ -128,11 +147,20 @@ public class MenuManager : MonoBehaviour
 		}
 		else //  Join LAN
 		{
-			worldBuilder.JoinLAN(gameTypeDropdown.itemText);
+			var games = worldBuilder.GetGames();
+			var name = gameTypeDropdown.options[gameTypeDropdown.value].text;
+			if ( gameTypeDropdown.options.Any(option => option.text == name) )
+			{
+				worldBuilder.JoinLAN(games[name]);
+			}
 		}
 	}
 
 	public void NewPlayer() {
+		if (NameInput.text == string.Empty)
+		{
+			NameInput.text = "Unnamed";
+		}
 		worldBuilder.NewPlayer(NameInput.text);
 	}
 

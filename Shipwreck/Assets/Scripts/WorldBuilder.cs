@@ -5,6 +5,7 @@ using Shipwreck;
 using System;
 using UnityEngine.UI;
 using Shipwreck.World;
+using Shipwreck.WorldLan;
 
 public class WorldBuilder : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class WorldBuilder : MonoBehaviour
     public bool active { get { return _active; } }
 
     private bool _active = false;
+
+    public LanDiscovery discovery;
 
     public IWorld World;
 
@@ -26,7 +29,11 @@ public class WorldBuilder : MonoBehaviour
         _active = true;
 
         DontDestroyOnLoad(this.gameObject);
+        
+        discovery = new LanDiscovery();
     }
+
+    public Dictionary<string, System.Net.IPAddress> GetGames() => discovery.GameServers;
 
     public void CreatePrivate()
     {
@@ -36,14 +43,14 @@ public class WorldBuilder : MonoBehaviour
 
     public void CreateLAN(Guid guid)
     {
-        //World = new LanServerWorld();
-        //World.Start();
+        World = new LanServerWorld(guid.ToString());
+        World.Start();
     }
 
-    public void JoinLAN(Text itemText)
+    public void JoinLAN(System.Net.IPAddress server)
     {
-        //World = new RemoteWorld();
-        //World.Start();
+        World = new LanClientWorld(server);
+        World.Start();
     }
 
     public void NewPlayer(string name) 
@@ -54,19 +61,13 @@ public class WorldBuilder : MonoBehaviour
     
     public void LeaveWorld() 
     {
-        throw new NotImplementedException();
-
+        World.Dispose();
+        World = null;
     }
 
     public bool HasWorld()
     {
         return World != null;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
 }
