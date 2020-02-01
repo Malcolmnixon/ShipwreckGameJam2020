@@ -30,17 +30,15 @@ namespace Shipwreck.WorldData
         public Vec2 Velocity { get; set; }
 
         /// <summary>
-        /// Gets the astronaut position in 3D space
+        /// Perform the 2D to 3D position transform
         /// </summary>
-        [JsonIgnore]
-        public Vec3 Position3D
+        /// <param name="position"></param>
+        /// <returns></returns>
+        public static Vec3 To3DPosition(Vec2 position)
         {
-            get
-            {
-                var sinX = (float)System.Math.Sin(Position.X);
-                var cosX = (float)System.Math.Cos(Position.X);
-                return new Vec3(sinX * Radius, Position.Y * Radius, -cosX * Radius);
-            }
+            var sinX = (float)System.Math.Sin(position.X);
+            var cosX = (float)System.Math.Cos(position.X);
+            return new Vec3(sinX * Radius, position.Y * Radius, -cosX * Radius);
         }
 
         /// <summary>

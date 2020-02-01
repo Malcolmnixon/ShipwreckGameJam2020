@@ -32,7 +32,7 @@ public class WorldBuilder : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
 
         Shipwreck.Logger.OnLog += (sender, args) => Debug.Log(args.Message);
-        NetComms.Logger.OnLog += (sender, args) => Debug.Log(args.Message);
+        //NetComms.Logger.OnLog += (sender, args) => Debug.Log(args.Message);
 
         discovery.Start();
     }
