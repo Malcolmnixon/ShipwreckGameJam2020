@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Shipwreck;
+using System;
+using UnityEngine.UI;
 using Shipwreck.World;
 
 public class WorldBuilder : MonoBehaviour
@@ -24,11 +26,41 @@ public class WorldBuilder : MonoBehaviour
         _active = true;
 
         DontDestroyOnLoad(this.gameObject);
+    }
 
-        // Start a new local world with a bogus local player
+    public void CreatePrivate()
+    {
         World = new LocalWorld();
         World.Start();
-        World.CreateLocalPlayer("Bob");
+    }
+
+    public void CreateLAN(Guid guid)
+    {
+        //World = new LanServerWorld();
+        //World.Start();
+    }
+
+    public void JoinLAN(Text itemText)
+    {
+        //World = new RemoteWorld();
+        //World.Start();
+    }
+
+    public void NewPlayer(string name) 
+    {
+        World.CreateLocalPlayer(name);
+
+    }
+    
+    public void LeaveWorld() 
+    {
+        throw new NotImplementedException();
+
+    }
+
+    public bool HasWorld()
+    {
+        return World != null;
     }
 
     // Update is called once per frame
@@ -36,4 +68,5 @@ public class WorldBuilder : MonoBehaviour
     {
         
     }
+
 }
