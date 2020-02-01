@@ -148,7 +148,7 @@ namespace Shipwreck.World
 
             // Advance all astronauts not played by the local player
             foreach (var astronaut in State.Astronauts)
-                if (astronaut.Guid != LocalPlayer.Guid)
+                if (astronaut.Guid != (LocalPlayer?.Guid ?? Guid.Empty))
                     astronaut.Position += astronaut.Velocity * deltaTime;
         }
 
