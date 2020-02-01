@@ -40,6 +40,7 @@ public class WorldController : MonoBehaviour
 
     private GameObject _player;
 
+    private GameObject AlienPlayerController;
     private readonly Dictionary<Guid, GameObject> _localAstronauts = new Dictionary<Guid, GameObject>();
 
     private readonly Dictionary<Guid, GameObject> _localAsteroids = new Dictionary<Guid, GameObject>();
@@ -56,9 +57,13 @@ public class WorldController : MonoBehaviour
         // Hack for debugging
         if (_world == null)
         {
+            Debug.Log("Creating local World now...");
             _world = new LocalWorld();
             _world.Start();
+            _world.Players.Players.Add(new Player { Guid = Guid.NewGuid() });
+            _world.Players.Players.Add(new Player { Guid = Guid.NewGuid() });
             _world.CreateLocalPlayer("Test Player");
+            _world.LocalPlayer.Type = PlayerType.Alien;
         }
     }
 
@@ -77,6 +82,18 @@ public class WorldController : MonoBehaviour
 
         // Update the astronauts
         UpdateAstronauts(_world.State.Astronauts);
+
+        UpdateAlien(_world.LocalPlayer.Type);
+    }
+
+    private void UpdateAlien(PlayerType type)
+    {
+        if (AlienPlayerController == null && type == PlayerType.Alien) {
+            AlienPlayerController = Instantiate(PlayerAlienPrefab);
+            AlienPlayerController.transform.SetParent(WorldRoot);
+        } else if (AlienPlayerController != null && type != PlayerType.Alien) {
+            Destroy(AlienPlayerController);
+        }
     }
 
     private void UpdateAsteroids(List<Asteroid> gameAsteroids)
