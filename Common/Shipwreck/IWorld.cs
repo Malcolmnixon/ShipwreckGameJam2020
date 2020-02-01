@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Shipwreck.Math;
 using Shipwreck.WorldData;
 
@@ -7,22 +8,32 @@ namespace Shipwreck
     public interface IWorld : IDisposable
     {
         /// <summary>
-        /// Gets the local player (or null if none created)
+        /// Gets the local GUID (for player and astronaut)
+        /// </summary>
+        Guid LocalGuid { get; }
+
+        /// <summary>
+        /// Gets the local player
         /// </summary>
         Player LocalPlayer { get; }
 
         /// <summary>
-        /// Gets the local astronaut (if provided by server)
+        /// Gets the local astronaut
         /// </summary>
         Astronaut LocalAstronaut { get; }
 
         /// <summary>
-        /// Gets the game players
+        /// Gets the other astronauts (volatile)
+        /// </summary>
+        List<Astronaut> OtherAstronauts { get; }
+
+        /// <summary>
+        /// Gets the game players (volatile)
         /// </summary>
         GamePlayers Players { get; }
 
         /// <summary>
-        /// Gets the game state
+        /// Gets the game state (volatile)
         /// </summary>
         GameState State { get; }
 

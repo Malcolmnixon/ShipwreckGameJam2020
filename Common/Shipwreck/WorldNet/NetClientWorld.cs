@@ -88,8 +88,8 @@ namespace Shipwreck.WorldNet
         {
             base.Tick(deltaTime);
 
-            // Skip if we have no local astronaut to send
-            if (LocalAstronaut == null)
+            // Skip if we aren't an astronaut
+            if (LocalPlayer.Type != PlayerType.Astronaut)
                 return;
 
             // Don't send player state if we sent less than 0.1 seconds ago
@@ -134,14 +134,14 @@ namespace Shipwreck.WorldNet
                     {
                         case NetConstants.PlayersPacket:
                             {
-                                var players = GamePlayers.FromJson(payloadJson);
+                                var newPlayers = GamePlayers.FromJson(payloadJson);
                                 Logger.Log($"NetClientWorld.OnServerNotification - got players");
 
                                 // If we have a local player then synchronize with new data
                                 if (LocalPlayer != null)
                                 {
                                     // Find if the server has any new information
-                                    var serverPlayer = players.Players.FirstOrDefault(p => p.Guid == LocalPlayer.Guid);
+                                    var serverPlayer = newPlayers.Players.FirstOrDefault(p => p.Guid == LocalPlayer.Guid);
                                     if (serverPlayer != null)
                                     {
                                         LocalPlayer.Type = serverPlayer.Type;
@@ -149,30 +149,17 @@ namespace Shipwreck.WorldNet
                                 }
 
                                 // Write the new players
-                                Players = players;
+                                UpdatePlayers(newPlayers);
                                 break;
                             }
 
                         case NetConstants.StatePacket:
                             {
-                                var state = GameState.FromJson(payloadJson);
+                                var newState = GameState.FromJson(payloadJson);
                                 Logger.Log($"NetClientWorld.OnServerNotification - got state");
 
-                                // If we have a local astronaut then preserve our driven information
-                                if (LocalAstronaut != null)
-                                {
-                                    var serverAstronaut =
-                                        state.Astronauts.FirstOrDefault(a => a.Guid == LocalAstronaut.Guid);
-                                    if (serverAstronaut != null)
-                                    {
-                                        serverAstronaut.Position = LocalAstronaut.Position;
-                                        serverAstronaut.Velocity = LocalAstronaut.Velocity;
-                                        LocalAstronaut = serverAstronaut;
-                                    }
-                                }
-
                                 // Write the new game state
-                                State = state;
+                                UpdateState(newState);
                                 break;
                             }
                     }

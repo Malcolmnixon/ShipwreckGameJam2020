@@ -9,14 +9,29 @@ namespace Shipwreck.WorldData
     public enum PlayerType
     {
         /// <summary>
-        /// Player has confirmed being an astronaut
+        /// Player is not in the game yet
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Player is a pilot
+        /// </summary>
+        Pilot,
+
+        /// <summary>
+        /// Player is an astronaut
         /// </summary>
         Astronaut,
 
         /// <summary>
-        /// Player has proposed being an alien
+        /// Player is an alien
         /// </summary>
-        Alien
+        Alien,
+
+        /// <summary>
+        /// Player is just an observer (alien without gun)
+        /// </summary>
+        Observer
     }
 
     /// <summary>

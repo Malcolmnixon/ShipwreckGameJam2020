@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using Shipwreck.Math;
 using Shipwreck.WorldData;
@@ -34,6 +35,23 @@ namespace Shipwreck.World
         /// </summary>
         public BaseWorld()
         {
+            // Build a local guid for the player in the world
+            LocalGuid = Guid.NewGuid();
+
+            // Construct local player, but player is None
+            LocalPlayer = new Player
+            {
+                Guid = LocalGuid,
+                Name = string.Empty,
+                Type = PlayerType.None
+            };
+
+            // Construct local astronaut, but only valid when player is Astronaut
+            LocalAstronaut = new Astronaut
+            {
+                Guid = LocalGuid,
+            };
+
             _thread = new Thread(ThreadProc);
         }
 
@@ -43,27 +61,42 @@ namespace Shipwreck.World
         protected object WorldLock { get; } = new object();
 
         /// <summary>
+        /// Local Guid
+        /// </summary>
+        public Guid LocalGuid { get; }
+
+        /// <summary>
         /// Gets or sets the local player
         /// </summary>
-        public Player LocalPlayer { get; private set; }
+        public Player LocalPlayer { get; }
 
         /// <summary>
         /// Gets or sets the local astronaut
         /// </summary>
-        public Astronaut LocalAstronaut { get; protected set; }
+        public Astronaut LocalAstronaut { get; }
+
+        /// <summary>
+        /// Get all other astronauts
+        /// </summary>
+        public List<Astronaut> OtherAstronauts => State.Astronauts.Where(a => a.Guid != LocalGuid).ToList();
 
         /// <summary>
         /// Gets or sets the players
         /// </summary>
-        public GamePlayers Players { get; set; } = new GamePlayers
+        public GamePlayers Players { get; private set; } = new GamePlayers
         {
             Players = new List<Player>()
         };
 
         /// <summary>
+        /// Gets or sets whether the players are updated
+        /// </summary>
+        protected bool PlayersUpdated { get; set; }
+
+        /// <summary>
         /// Gets or sets the game state
         /// </summary>
-        public GameState State { get; set; } = new GameState
+        public GameState State { get; private set; } = new GameState
         {
             Mode = GameMode.Waiting,
             RemainingTime = GameConstants.PlayerWaitTime,
@@ -103,12 +136,11 @@ namespace Shipwreck.World
         {
             lock (WorldLock)
             {
-                return LocalPlayer ?? (LocalPlayer = new Player
-                {
-                    Guid = Guid.NewGuid(),
-                    Name = name,
-                    Type = PlayerType.Alien
-                });
+                // Set name and request player be an alien
+                LocalPlayer.Name = name;
+                LocalPlayer.Type = PlayerType.None;
+                PlayersUpdated = true;
+                return LocalPlayer;
             }
         }
 
@@ -116,15 +148,11 @@ namespace Shipwreck.World
         {
             lock (WorldLock)
             {
-                // Ensure we have a local player
-                if (LocalPlayer == null)
-                    throw new Exception("Cannot fire asteroid without a local player");
-
                 // Create asteroid
                 var asteroid = new Asteroid
                 {
                     Guid = Guid.NewGuid(),
-                    Owner = LocalPlayer.Guid,
+                    Owner = LocalGuid,
                     Position = position,
                     Velocity = velocity
                 };
@@ -152,9 +180,43 @@ namespace Shipwreck.World
                 asteroid.Position += asteroid.Velocity * deltaTime;
 
             // Advance all astronauts not played by the local player
-            foreach (var astronaut in State.Astronauts)
-                if (astronaut.Guid != (LocalPlayer?.Guid ?? Guid.Empty))
-                    astronaut.Position += astronaut.Velocity * deltaTime;
+            foreach (var astronaut in OtherAstronauts)
+                astronaut.Position += astronaut.Velocity * deltaTime;
+        }
+
+        protected void UpdatePlayers(GamePlayers newPlayers)
+        {
+            lock (WorldLock)
+            {
+                // Save the new players
+                Players = newPlayers;
+
+                // Find if the game thinks we have a player
+                var gameLocalPlayer = Players.Players.FirstOrDefault(p => p.Guid == LocalGuid);
+                if (gameLocalPlayer != null)
+                {
+                    // Use the server-provided player type
+                    LocalPlayer.Type = gameLocalPlayer.Type;
+                }
+                else
+                {
+                    // Server has nothing, set us to none
+                    LocalPlayer.Type = PlayerType.None;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Update the game state merging in all information possible
+        /// </summary>
+        /// <param name="newState"></param>
+        protected void UpdateState(GameState newState)
+        {
+            lock (WorldLock)
+            {
+                // Save the new state
+                State = newState;
+            }
         }
 
         /// <summary>

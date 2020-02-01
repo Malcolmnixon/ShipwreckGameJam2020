@@ -62,8 +62,12 @@ namespace Shipwreck.WorldNet
 
             // Send game-players when the period expires
             _playersAge += deltaTime;
-            if (_playersAge >= NetConstants.PlayersPeriod)
+            if (PlayersUpdated || _playersAge >= NetConstants.PlayersPeriod)
             {
+                // Clear update flags
+                PlayersUpdated = false;
+                _playersAge = 0f;
+
                 // Construct players packet
                 var playersBytes = new List<byte> {NetConstants.PlayersPacket};
                 playersBytes.AddRange(Encoding.ASCII.GetBytes(Players.ToJson()));
@@ -71,13 +75,15 @@ namespace Shipwreck.WorldNet
                 // Send game-players packet and clear time
                 Logger.Log($"NetServerWorld.Tick - sent players");
                 _communicationsServer.SendNotification(playersBytes.ToArray());
-                _playersAge = 0f;
             }
 
             // Send game-state when the period expires
             _stateAge += deltaTime;
             if (_stateAge >= NetConstants.StatePeriod)
             {
+                // Clear update flags
+                _stateAge = 0f;
+
                 // Construct state packet
                 var stateBytes = new List<byte> {NetConstants.StatePacket};
                 stateBytes.AddRange(Encoding.ASCII.GetBytes(State.ToJson()));
@@ -85,7 +91,6 @@ namespace Shipwreck.WorldNet
                 // Send game-state packet and clear time
                 Logger.Log($"NetServerWorld.Tick - sent state");
                 _communicationsServer.SendNotification(stateBytes.ToArray());
-                _stateAge = 0f;
             }
         }
 

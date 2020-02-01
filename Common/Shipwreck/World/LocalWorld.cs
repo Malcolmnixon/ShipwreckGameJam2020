@@ -36,20 +36,47 @@ namespace Shipwreck.World
             // Perform base tick
             base.Tick(deltaTime);
 
-            // Handle moving players to astronauts
-            if (State.Astronauts.Count < GameConstants.Astronauts)
+            // Process all players
+            foreach (var player in Players.Players)
             {
-                // TODO: Consider doing this randomly
-
-                // Pick the first alien player
-                var player = Players.Players.FirstOrDefault(p => p.Type == PlayerType.Alien);
-                if (player != null)
+                switch (player.Type)
                 {
-                    // Promote player to astronaut
-                    player.Type = PlayerType.Astronaut;
+                    case PlayerType.Pilot:
+                    case PlayerType.Astronaut:
+                        // Pilots or astronauts stay
+                        break;
 
-                    // Add a new astronaut for the player
-                    State.Astronauts.Add(new Astronaut {Guid = player.Guid});
+                    case PlayerType.Alien:
+                        // See if we need more astronauts
+                        if (State.Astronauts.Count < GameConstants.Astronauts)
+                        {
+                            // Promote alien to astronaut
+                            player.Type = PlayerType.Astronaut;
+                            State.Astronauts.Add(new Astronaut { Guid = player.Guid });
+                            PlayersUpdated = true;
+                        }
+                        break;
+
+                    case PlayerType.None:
+                        // See if we need more astronauts
+                        if (State.Astronauts.Count < GameConstants.Astronauts)
+                        {
+                            // Promote none to astronaut
+                            player.Type = PlayerType.Astronaut;
+                            State.Astronauts.Add(new Astronaut { Guid = player.Guid });
+                            PlayersUpdated = true;
+                        }
+                        else
+                        {
+                            // Promote none to alien
+                            player.Type = PlayerType.Alien;
+                            PlayersUpdated = true;
+                        }
+                        break;
+
+                    case PlayerType.Observer:
+                        // We cannot recruit observers
+                        break;
                 }
             }
 
@@ -152,10 +179,6 @@ namespace Shipwreck.World
                     .Where(a => a.Position.LengthSquared < GameConstants.AsteroidDeleteDistanceSquared)
                     .ToList();
             }
-
-            // Ensure our LocalAstronaut stays up to date
-            if (LocalPlayer != null)
-                LocalAstronaut = State.Astronauts.FirstOrDefault(a => a.Guid == LocalPlayer.Guid);
         }
     }
 }

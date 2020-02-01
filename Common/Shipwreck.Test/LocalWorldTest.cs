@@ -21,8 +21,7 @@ namespace Shipwreck.Test
             Thread.Sleep(1000);
 
             // Verify state
-            Assert.IsNull(world.LocalPlayer);
-            Assert.IsNull(world.LocalAstronaut);
+            Assert.AreEqual(PlayerType.None, world.LocalPlayer.Type);
             Assert.AreEqual(0, world.Players.Players.Count);
             Assert.AreEqual(0, world.State.Astronauts.Count);
             Assert.AreEqual(0, world.State.Asteroids.Count);
@@ -47,14 +46,12 @@ namespace Shipwreck.Test
             Thread.Sleep(1000);
 
             // Verify state
-            Assert.IsNotNull(world.LocalPlayer);
-            Assert.IsNotNull(world.LocalAstronaut);
+            Assert.AreEqual(PlayerType.Astronaut, world.LocalPlayer.Type);
             Assert.AreEqual(1, world.Players.Players.Count);
             Assert.AreEqual(1, world.State.Astronauts.Count);
             Assert.AreEqual(0, world.State.Asteroids.Count);
             Assert.AreEqual(GameMode.Waiting, world.State.Mode);
             Assert.IsTrue(world.State.RemainingTime < GameConstants.PlayerWaitTime);
-            Assert.AreEqual(PlayerType.Astronaut, localPlayer.Type);
 
             // Wait until game starts
             Thread.Sleep((int)(GameConstants.PlayerWaitTime * 1000));
