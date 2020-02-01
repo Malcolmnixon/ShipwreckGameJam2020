@@ -114,6 +114,7 @@ public class WorldController : MonoBehaviour
         // Delete alien player controller if no-longer needed
         if (_alienPlayerController != null && (playerType != PlayerType.Alien || playerType != PlayerType.Observer))
         {
+            Camera.main.transform.SetParent(WorldRoot);
             Destroy(_alienPlayerController);
             _alienPlayerController = null;
         }
@@ -121,6 +122,7 @@ public class WorldController : MonoBehaviour
         // Delete astronaut player controller if no-longer needed
         if (_astronautPlayerControl != null && playerType != PlayerType.Astronaut)
         {
+            Camera.main.transform.SetParent(WorldRoot);
             Destroy(_astronautPlayerControl);
             _astronautPlayerControl = null;
         }
@@ -162,6 +164,10 @@ public class WorldController : MonoBehaviour
         // Handle astronaut actions
         if (_astronautPlayerControl != null)
         {
+            // Update 3D position from 2D position
+            _astronautPlayerControl.transform.position = Astronaut.To3DPosition(_world.LocalAstronaut.Position).ToVector3();
+            _astronautPlayerControl.transform.LookAt(Vector3.zero);
+
             int wingNear = ship.getNearWing();
             if (_world.State.Ship.Pilot == _world.LocalPlayer.Guid)
             {
