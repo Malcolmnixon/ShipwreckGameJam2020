@@ -102,6 +102,8 @@ public class WorldController : MonoBehaviour
         if (_alienPlayerController == null && type == PlayerType.Alien) {
             _alienPlayerController = Instantiate(PlayerAlienPrefab);
             _alienPlayerController.transform.SetParent(WorldRoot);
+            Camera.main.transform.SetParent(_alienPlayerController.transform);
+            Camera.main.transform.position = new Vector3(0,0, distanceFromAlienPlayer);
         } else if (_alienPlayerController != null && type != PlayerType.Alien) {
             Destroy(_alienPlayerController);
         }
