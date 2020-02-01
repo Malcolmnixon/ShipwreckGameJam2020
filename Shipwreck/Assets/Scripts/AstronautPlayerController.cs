@@ -1,9 +1,12 @@
-﻿using Shipwreck.WorldData;
+﻿using Shipwreck.Math;
+using Shipwreck.WorldData;
 using UnityEngine;
 
 public class AstronautPlayerController : MonoBehaviour
 {
-    public Astronaut Astronaut;
+    public Vec2 Position;
+
+    public Vec2 Velocity;
 
     // Start is called before the first frame update
     void Start()
@@ -14,29 +17,20 @@ public class AstronautPlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Astronaut == null)
-            return;
-
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
 
-        // Get position
-        var pos = Astronaut.Position;
-
         // Update position
-        pos.X += horizontal * 0.6f * Time.deltaTime;
-        pos.Y += vertical * 0.6f * Time.deltaTime;
+        Position.X += horizontal * 0.6f * Time.deltaTime;
+        Position.Y += vertical * 0.6f * Time.deltaTime;
 
         // Clamp position
-        while (pos.X < -Mathf.PI) pos.X += Mathf.PI * 2;
-        while (pos.X > Mathf.PI) pos.X -= Mathf.PI * 2;
-        pos.Y = Mathf.Clamp(pos.Y, -1f, 1f);
-
-        // Write position
-        Astronaut.Position = pos;
+        while (Position.X < -Mathf.PI) Position.X += Mathf.PI * 2;
+        while (Position.X > Mathf.PI) Position.X -= Mathf.PI * 2;
+        Position.Y = Mathf.Clamp(Position.Y, -1f, 1f);
 
         // Update transform
-        transform.position = Astronaut.Position3D.ToVector3();
+        transform.position = Astronaut.To3DPosition(Position).ToVector3();
         transform.LookAt(Vector3.zero);
     }
 }

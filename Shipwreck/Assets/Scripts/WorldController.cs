@@ -40,7 +40,10 @@ public class WorldController : MonoBehaviour
 
     private GameObject _player;
 
-    private GameObject AlienPlayerController;
+    private GameObject _astronautPlayerControl;
+
+    private GameObject _alienPlayerController;
+
     private readonly Dictionary<Guid, GameObject> _localAstronauts = new Dictionary<Guid, GameObject>();
 
     private readonly Dictionary<Guid, GameObject> _localAsteroids = new Dictionary<Guid, GameObject>();
@@ -72,6 +75,14 @@ public class WorldController : MonoBehaviour
     {
         if (_world == null) {
             UnityEngine.SceneManagement.SceneManager.LoadScene(0); // return to main
+            return;
+        }
+
+        // Grab location from controller and put into world
+        if (_world.LocalAstronaut != null && _astronautPlayerControl != null)
+        {
+            var controller = _astronautPlayerControl.GetComponent<AstronautPlayerController>();
+            _world.LocalAstronaut.Position = controller.Position;
         }
 
         // Request a state-update before drawing
@@ -88,13 +99,13 @@ public class WorldController : MonoBehaviour
 
     private void UpdateAlien(PlayerType type)
     {
-        if (AlienPlayerController == null && type == PlayerType.Alien) {
-            AlienPlayerController = Instantiate(PlayerAlienPrefab);
-            AlienPlayerController.transform.SetParent(WorldRoot);
-            Camera.main.transform.SetParent(AlienPlayerController.transform);
-            Camera.main.transform.position = new Vector3(0,0,distanceFromAlienPlayer);
-        } else if (AlienPlayerController != null && type != PlayerType.Alien) {
-            Destroy(AlienPlayerController);
+        if (_alienPlayerController == null && type == PlayerType.Alien) {
+            _alienPlayerController = Instantiate(PlayerAlienPrefab);
+            _alienPlayerController.transform.SetParent(WorldRoot);
+            Camera.main.transform.SetParent(_alienPlayerController.transform);
+            Camera.main.transform.position = new Vector3(0,0, distanceFromAlienPlayer);
+        } else if (_alienPlayerController != null && type != PlayerType.Alien) {
+            Destroy(_alienPlayerController);
         }
     }
 
@@ -142,11 +153,10 @@ public class WorldController : MonoBehaviour
                 if (_world.LocalAstronaut?.Guid == gameAstronaut.Guid)
                 {
                     // Build a local player astronaut prefab
-                    localAstronaut = Instantiate(PlayerAstronautPrefab);
-                    var controller = localAstronaut.GetComponent<AstronautPlayerController>();
-                    controller.Astronaut = _world.LocalAstronaut;
+                    _astronautPlayerControl = Instantiate(PlayerAstronautPrefab);
+                    localAstronaut = _astronautPlayerControl;
 
-                    Camera.main.transform.SetParent(controller.transform);
+                    Camera.main.transform.SetParent(_astronautPlayerControl.transform);
                     Camera.main.transform.position = new Vector3(0,0,distanceFromAstronautPlayer);
                 }
                 else
@@ -160,7 +170,7 @@ public class WorldController : MonoBehaviour
             }
 
             // Update astronaut
-            localAstronaut.transform.position = gameAstronaut.Position3D.ToVector3();
+            localAstronaut.transform.position = Astronaut.To3DPosition(gameAstronaut.Position).ToVector3();
         }
 
         // Remove deleted astronauts
