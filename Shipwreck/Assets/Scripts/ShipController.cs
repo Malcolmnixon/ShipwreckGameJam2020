@@ -28,7 +28,7 @@ public class ShipController : MonoBehaviour
     public int getNearWing() {
         for (var i = 0; i < wings.Length; i++) {
             if (wings[i].PlayerNear) {
-                return i;
+                return i + 1;
             }
         }
         return 0;
