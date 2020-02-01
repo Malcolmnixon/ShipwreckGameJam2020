@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5053708454328677969}
   - component: {fileID: 8535388074822502755}
   m_Layer: 0
-  m_Name: Lgiht
+  m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -103,6 +103,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2702610988498844814}
+  - component: {fileID: 5525697370481185295}
+  - component: {fileID: 3704257723774907603}
   m_Layer: 0
   m_Name: ShipWing
   m_TagString: Untagged
@@ -127,6 +129,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5525697370481185295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4389887817510218875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0b5fd1b8f62e2021a87cc9c93e049b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outline: {fileID: 499352036552962877}
+--- !u!135 &3704257723774907603
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4389887817510218875}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2
+  m_Center: {x: -2, y: 0, z: 0}
 --- !u!1 &6825047190698117820
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,7 +261,7 @@ GameObject:
   - component: {fileID: 3798331597065482928}
   - component: {fileID: 1827982471118347769}
   - component: {fileID: 4576739286255289505}
-  - component: {fileID: 4192586062720855918}
+  - component: {fileID: 499352036552962877}
   m_Layer: 0
   m_Name: Nacelle
   m_TagString: Untagged
@@ -315,16 +343,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &4192586062720855918
-BoxCollider:
+--- !u!114 &499352036552962877
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9200883202317944095}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 17.999416, y: 1, z: 3.2585335}
-  m_Center: {x: -8.499706, y: 0, z: 0.1909393}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbf3575480402db40813e763382412fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  color: 0
+  eraseRenderer: 0

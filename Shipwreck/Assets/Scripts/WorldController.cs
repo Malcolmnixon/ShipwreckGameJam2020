@@ -56,6 +56,10 @@ public class WorldController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_world == null) {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0); // return to main
+        }
+
         // Request a state-update before drawing
         _world.Update();
 
