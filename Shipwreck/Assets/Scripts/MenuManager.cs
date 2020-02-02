@@ -53,7 +53,7 @@ public class MenuManager : MonoBehaviour
 
     void Start() {
 
-        #if !UNITY_STANDALONE
+        #if !UNITY_STANDALONE && !UNITY_EDITOR
 
         foreach (GameObject item in hideOnMobile) {
             item.SetActive(false);

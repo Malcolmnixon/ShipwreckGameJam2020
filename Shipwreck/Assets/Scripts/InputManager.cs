@@ -19,7 +19,7 @@ public class InputManager : MonoBehaviour
 
     public Transform ObserverMode;
 
-#if !UNITY_STANDALONE
+#if !UNITY_STANDALONE && !UNITY_EDITOR
     private Shipwreck.IWorld _world;
 #endif
 
@@ -34,12 +34,12 @@ public class InputManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-#if UNITY_STANDALONE
+#if UNITY_STANDALONE || UNITY_EDITOR
         // Hide canvas if on PC
         TouchCanvas.SetActive(false);
         _useMouse = true;
 #else
-        _world = GameObject.FindObjectOfType<WorldBuilder>().World;
+            _world = GameObject.FindObjectOfType<WorldBuilder>().World;
         _useMouse = false;
 #endif
     }
@@ -47,7 +47,7 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-#if !UNITY_STANDALONE
+#if !UNITY_STANDALONE && !UNITY_EDITOR
         TouchCanvas.SetActive(_world.LocalPlayer.Type == Shipwreck.WorldData.PlayerType.Astronaut
                             || _world.LocalPlayer.Type == Shipwreck.WorldData.PlayerType.Alien);
 #endif

@@ -19,7 +19,7 @@ public class MobileQuit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		#if !UNITY_STANDALONE
+		#if !UNITY_STANDALONE && !UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Escape)) // Android Back
         {
             Application.Quit();
