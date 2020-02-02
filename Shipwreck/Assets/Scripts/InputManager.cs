@@ -35,7 +35,8 @@ public class InputManager : MonoBehaviour
         TouchCanvas.SetActive(false);
         _useMouse = true;
 #else
-        TouchCanvas.SetActive(Camera.main.transform.parent != ObserverMode);
+        var world = GameObject.FindObjectOfType<WorldBuilder>().World;
+        TouchCanvas.SetActive(world.LocalPlayer.Type != Shipwreck.WorldData.PlayerType.Observer);
         _useMouse = false;
 #endif
     }
