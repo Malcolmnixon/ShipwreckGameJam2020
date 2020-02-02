@@ -475,7 +475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2e79776e732dd639acea98027c9c11f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldInfo: {fileID: 0}
+  worldInfo: {fileID: 494657349}
   resultText: {fileID: 1855079003}
   countdownText: {fileID: 606325749}
 --- !u!1 &494657347
