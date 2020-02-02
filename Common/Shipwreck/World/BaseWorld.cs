@@ -102,9 +102,9 @@ namespace Shipwreck.World
             RemainingTime = GameConstants.PlayerWaitTime,
             Ship = new Ship
             {
-                Wing1Health = 100,
-                Wing2Health = 100,
-                Wing3Health = 100,
+                Wing1Health = 50,
+                Wing2Health = 50,
+                Wing3Health = 50,
                 Shielded = false
             },
             Astronauts = new List<Astronaut>(),

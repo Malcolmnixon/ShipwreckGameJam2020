@@ -146,17 +146,21 @@ namespace Shipwreck.World
                 }
             }
 
-            // Handle healing
-            var healingAstronauts = State.Astronauts.Where(a => a.Mode == AstronautMode.AstronautHealing).ToList();
-            var heal1Count = healingAstronauts.Count(a => (a.Position3D - GameConstants.Wing1Position).LengthSquared < GameConstants.WingRadiusSquared);
-            State.Ship.Wing1Health = System.Math.Min(1000f, State.Ship.Wing1Health + heal1Count * deltaTime);
-            var heal2Count = healingAstronauts.Count(a => (a.Position3D - GameConstants.Wing2Position).LengthSquared < GameConstants.WingRadiusSquared);
-            State.Ship.Wing2Health = System.Math.Min(1000f, State.Ship.Wing2Health + heal2Count * deltaTime);
-            var heal3Count = healingAstronauts.Count(a => (a.Position3D - GameConstants.Wing3Position).LengthSquared < GameConstants.WingRadiusSquared);
-            State.Ship.Wing3Health = System.Math.Min(1000f, State.Ship.Wing3Health + heal3Count * deltaTime);
-
             // Handle shielding
             State.Ship.Shielded = State.Astronauts.Count(a => a.Mode == AstronautMode.PilotShielding) > 0;
+
+            // Handle healing (if not shielded
+            if (!State.Ship.Shielded)
+            {
+                var healingAstronauts = State.Astronauts.Where(a => a.Mode == AstronautMode.AstronautHealing).ToList();
+                var heal1Count = healingAstronauts.Count(a => (a.Position3D - GameConstants.Wing1Position).LengthSquared < GameConstants.WingRadiusSquared);
+                State.Ship.Wing1Health = System.Math.Min(100f, State.Ship.Wing1Health + heal1Count * GameConstants.HealRate * deltaTime);
+                var heal2Count = healingAstronauts.Count(a => (a.Position3D - GameConstants.Wing2Position).LengthSquared < GameConstants.WingRadiusSquared);
+                State.Ship.Wing2Health = System.Math.Min(100f, State.Ship.Wing2Health + heal2Count * GameConstants.HealRate * deltaTime);
+                var heal3Count = healingAstronauts.Count(a => (a.Position3D - GameConstants.Wing3Position).LengthSquared < GameConstants.WingRadiusSquared);
+                State.Ship.Wing3Health = System.Math.Min(100f, State.Ship.Wing3Health + heal3Count * GameConstants.HealRate * deltaTime);
+            }
+
 
             // Handle asteroids while playing
             if (State.Mode == GameMode.Playing)
