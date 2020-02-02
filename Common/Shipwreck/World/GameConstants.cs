@@ -73,6 +73,11 @@ namespace Shipwreck.World
         public const float ShieldRadius = 10f;
 
         /// <summary>
+        /// Astronaut radius
+        /// </summary>
+        public const float AstronautRadius = 10f;
+
+        /// <summary>
         /// Shield radius squared
         /// </summary>
         public const float ShieldRadiusSquared = ShieldRadius * ShieldRadius;

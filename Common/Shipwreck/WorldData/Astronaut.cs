@@ -72,9 +72,9 @@ namespace Shipwreck.WorldData
             var sinX = (float)System.Math.Sin(position.X);
             var cosX = (float)System.Math.Cos(position.X);
             return new Vec3(
-                sinX * GameConstants.ShieldRadius,
-                position.Y * GameConstants.ShieldRadius,
-                -cosX * GameConstants.ShieldRadius);
+                sinX * GameConstants.AstronautRadius,
+                position.Y * GameConstants.AstronautRadius,
+                -cosX * GameConstants.AstronautRadius);
         }
 
         /// <summary>
