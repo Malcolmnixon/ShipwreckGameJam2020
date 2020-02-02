@@ -10,34 +10,33 @@ using Shipwreck.WorldWeb;
 
 public class WorldBuilder : MonoBehaviour
 {
-    
-    public bool active { get { return _active; } }
-
-    private bool _active = false;
-
     public readonly LanDiscovery discovery = new LanDiscovery();
+
+    public Dictionary<string, System.Net.IPAddress> GetGames() => discovery.GameServers;
 
     public IWorld World;
 
     // Start is called before the first frame update
     void Awake()
     {
+        // Find if a world builder has already been built
         var gameDataManagers = GameObject.FindObjectsOfType<WorldBuilder>();
         if (gameDataManagers.Length > 1) {
-            Destroy(this.gameObject);
+            // Kill this duplicate
+            Destroy(gameObject);
+            return;
         }
 
-        _active = true;
+        // Make this WorldBuilder immortal between scene switches
+        DontDestroyOnLoad(gameObject);
 
-        DontDestroyOnLoad(this.gameObject);
-
+        // Attach logging
         Shipwreck.Logger.OnLog += (sender, args) => Debug.Log(args.Message);
         //NetComms.Logger.OnLog += (sender, args) => Debug.Log(args.Message);
 
+        // Start discovery
         discovery.Start();
     }
-
-    public Dictionary<string, System.Net.IPAddress> GetGames() => discovery.GameServers;
 
     public void CreatePrivate()
     {

@@ -29,7 +29,11 @@ namespace Shipwreck.WorldNet
         public NetServerWorld()
         {
             Logger.Log($"NetServerWorld.NetServerWorld - using UDP {NetConstants.UdpPort}");
-            var provider = new NetComms.Udp.UdpProvider(NetConstants.UdpPort);
+            var provider = new NetComms.Udp.UdpProvider(NetConstants.UdpPort)
+            {
+                KeepAliveInterval = 1000,
+                KeepAliveProbes = 4
+            };
             _communicationsServer = provider.CreateServer();
             _communicationsServer.NewConnection += OnClientNewConnection;
             _communicationsServer.ConnectionDropped += OnClientConnectionDropped;

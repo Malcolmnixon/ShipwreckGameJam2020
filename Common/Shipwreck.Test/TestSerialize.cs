@@ -110,7 +110,6 @@ namespace Shipwreck.Test
             {
                 Ship = new Ship
                 {
-                    Pilot = Guid.NewGuid(),
                     Wing1Health = 54,
                     Wing2Health = 32,
                     Wing3Health = 10,

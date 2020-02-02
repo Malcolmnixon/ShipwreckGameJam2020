@@ -27,7 +27,11 @@ namespace Shipwreck.WorldNet
         public NetClientWorld(IPAddress server)
         {
             Logger.Log($"NetClientWorld.NetClientWorld({server}) - using UDP {NetConstants.UdpPort}");
-            var provider = new NetComms.Udp.UdpProvider(NetConstants.UdpPort);
+            var provider = new NetComms.Udp.UdpProvider(NetConstants.UdpPort)
+            {
+                KeepAliveInterval = 1000,
+                KeepAliveProbes = 4,
+            };
             _communicationsConnection = provider.CreateClient(server);
             _communicationsConnection.Notification += OnServerNotification;
             _communicationsConnection.ConnectionDropped += OnServerConnectionDropped;

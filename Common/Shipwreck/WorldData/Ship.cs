@@ -10,11 +10,6 @@ namespace Shipwreck.WorldData
     public class Ship
     {
         /// <summary>
-        /// GUID for ship pilot (or Guid.None if no pilot)
-        /// </summary>
-        public Guid Pilot { get; set; }
-
-        /// <summary>
         /// Wing 1 health (0..100)
         /// </summary>
         public float Wing1Health { get; set; }
