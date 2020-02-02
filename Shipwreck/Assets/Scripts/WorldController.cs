@@ -277,6 +277,10 @@ public class WorldController : MonoBehaviour
             // Update astronaut
             localAstronaut.transform.position = Astronaut.To3DPosition(gameAstronaut.Position).ToVector3();
             localAstronaut.transform.LookAt(Vector3.zero);
+
+            var controller = localAstronaut.GetComponent<AstronautController>();
+            controller.Piloting = gameAstronaut.Mode == AstronautMode.Pilot
+                                || gameAstronaut.Mode == AstronautMode.PilotShielding;
         }
 
         // Remove deleted astronauts
