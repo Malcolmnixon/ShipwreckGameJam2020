@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,15 @@ public class ShipSectionProximity : MonoBehaviour
     [SerializeField]
     private cakeslice.Outline outline;
 
+
+    [SerializeField]
+    public Renderer healthColored;
+
+    public UnityEngine.UI.Text healthText;
+
     public bool PlayerNear { get; private set; }
+
+    public float health { get; private set; }
 
     private void Start()
     {
@@ -30,5 +39,11 @@ public class ShipSectionProximity : MonoBehaviour
             PlayerNear = false;
             outline.enabled = false;
         }
+    }
+
+    public void SetHealth(float amount)
+    {
+        health = amount;
+        healthText.text = $"{amount:#}%";
     }
 }

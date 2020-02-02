@@ -95,8 +95,22 @@ public class WorldController : MonoBehaviour
         // Update the other astronauts
         UpdateOtherAstronauts();
 
+        // Update the Ship Health / Sheild
+        UpdateShip();
+
         // Update the local player
         UpdatePlayer();
+    }
+
+    private void UpdateShip()
+    {     
+        ship.UpdateHealth(
+            _world.State.Ship.CenterTorsoHealth,
+            _world.State.Ship.LeftWingHealth,
+            _world.State.Ship.RightWingHealth
+        );
+        ship.SetSheilded(_world.State.Ship.Shielded);
+
     }
 
     private void UpdatePlayer()
