@@ -62,11 +62,19 @@ namespace Shipwreck.World
         /// </summary>
         public const float AsteroidDeleteDistanceSquared = AsteroidDeleteDistance * AsteroidDeleteDistance;
 
+        /// <summary>
+        /// Location of wing 1 collision sphere
+        /// </summary>
+        public static readonly Vec3 Wing1Position = new Vec3(-8.74f, 0, 0);
 
-        public static readonly Vec3 Wing1Position = new Vec3(0, 0, 0);
+        /// <summary>
+        /// Location of wing 2 collision sphere
+        /// </summary>
+        public static readonly Vec3 Wing2Position = new Vec3(4.37f, 0, 7.57f);
 
-        public static readonly Vec3 Wing2Position = new Vec3(0, 0, 0);
-
-        public static readonly Vec3 Wing3Position = new Vec3(0, 0, 0);
+        /// <summary>
+        /// Location of wing 3 collision sphere
+        /// </summary>
+        public static readonly Vec3 Wing3Position = new Vec3(4.37f, 0, -7.57f);
     }
 }

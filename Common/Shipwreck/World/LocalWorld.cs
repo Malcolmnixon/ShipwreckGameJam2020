@@ -97,9 +97,9 @@ namespace Shipwreck.World
                         // Reset the ship to full health
                         State.Ship = new Ship
                         {
-                            CenterTorsoHealth = 100f,
-                            LeftWingHealth = 100f,
-                            RightWingHealth = 100f
+                            Wing1Health = 100f,
+                            Wing2Health = 100f,
+                            Wing3Health = 100f
                         };
 
                         // Destroy all asteroids
@@ -173,9 +173,9 @@ namespace Shipwreck.World
                 // Get the list of asteroids that collide with the station
                 var colliding = State.Asteroids.Where(a => a.Position.LengthSquared < 64).ToList();
                 var damage = State.Ship.Shielded ? 0f : colliding.Count * 0.4f;
-                State.Ship.LeftWingHealth -= damage;
-                State.Ship.RightWingHealth -= damage;
-                State.Ship.CenterTorsoHealth -= damage;
+                State.Ship.Wing2Health -= damage;
+                State.Ship.Wing3Health -= damage;
+                State.Ship.Wing1Health -= damage;
 
                 // Handle deleting asteroids
                 State.Asteroids = State.Asteroids

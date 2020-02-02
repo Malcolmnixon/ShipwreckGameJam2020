@@ -108,9 +108,9 @@ public class WorldController : MonoBehaviour
     private void UpdateShip()
     {     
         ship.UpdateHealth(
-            _world.State.Ship.CenterTorsoHealth,
-            _world.State.Ship.LeftWingHealth,
-            _world.State.Ship.RightWingHealth
+            _world.State.Ship.Wing1Health,
+            _world.State.Ship.Wing2Health,
+            _world.State.Ship.Wing3Health
         );
         ship.SetSheilded(_world.State.Ship.Shielded);
 
