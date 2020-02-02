@@ -11,36 +11,9 @@ public class AstronautPlayerController : AstronautController
     // Update is called once per frame
     void Update()
     {
-        var horizontal = Input.GetAxis("Horizontal");
-        var vertical = Input.GetAxis("Vertical");
-
-        // Handle screen touches.
-        if (Input.touchCount == 1)
-        {
-            Touch touch = Input.GetTouch(0);
-
-            Vector2 touchPos = touch.position;
-            if (touchPos.x < (Screen.width * 0.45))
-            {
-                horizontal = -1;
-            }
-            else if (touchPos.x > (Screen.width * 0.55))
-            {
-                horizontal = 1;
-            }
-            if (touchPos.y < (Screen.height * 0.45))
-            {
-                horizontal = -1;
-            }
-            else if (touchPos.y > (Screen.height * 0.55))
-            {
-                horizontal = 1;
-            }
-        }
-
         // Update position
-        Position.X += horizontal * 0.6f * Time.deltaTime;
-        Position.Y += vertical * 0.6f * Time.deltaTime;
+        Position.X += InputManagerData.Mouse.x * 0.6f * Time.deltaTime;
+        Position.Y += InputManagerData.Mouse.y * 0.6f * Time.deltaTime;
 
         // Clamp position
         while (Position.X < -Mathf.PI) Position.X += Mathf.PI * 2;

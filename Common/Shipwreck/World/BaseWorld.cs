@@ -173,7 +173,7 @@ namespace Shipwreck.World
         /// </summary>
         protected virtual void Tick(float deltaTime)
         {
-            Logger.Log($"BaseWorld.Tick - updating world");
+            //Logger.Log($"BaseWorld.Tick - updating world");
 
             // Advance asteroids
             foreach (var asteroid in State.Asteroids)

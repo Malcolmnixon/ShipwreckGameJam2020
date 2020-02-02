@@ -3,10 +3,8 @@ using UnityEngine;
 using Shipwreck;
 using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Shipwreck.World;
 using Shipwreck.WorldData;
-using UnityEngine.EventSystems;
 
 public class WorldController : MonoBehaviour
 {
@@ -17,12 +15,14 @@ public class WorldController : MonoBehaviour
 
     public ShipController ship;
 
-    public GameObject TouchCanvas;
-    
+    public UnityEngine.UI.Text PrimaryButtonText;
+
+    public UnityEngine.UI.Text SecondaryButtonText;
+
     [Header("Prefabs")]
 
     [SerializeField]
-    public GameObject  PlayerAlienPrefab;
+    public GameObject PlayerAlienPrefab;
     
     [SerializeField]
     public GameObject PlayerAstronautPrefab;
@@ -76,10 +76,6 @@ public class WorldController : MonoBehaviour
 
     private IWorld _world;
 
-    private bool _primaryButtonDown;
-    private bool _primaryButtonClicked;
-    private bool _secondaryButtonDown;
-    private bool _secondaryButtonClicked;
 
     /// <summary>
     /// Type the player was last
@@ -102,10 +98,8 @@ public class WorldController : MonoBehaviour
             _world.CreateLocalPlayer("Test Player");
         }
 
-#if UNITY_STANDALONE
-        // Hide canvas if on PC
-        //TouchCanvas.SetActive(false);
-#endif
+        PrimaryButtonText.text = "A";
+        SecondaryButtonText.text = "B";
     }
 
     // Update is called once per frame
@@ -168,20 +162,6 @@ public class WorldController : MonoBehaviour
         ship.SetSheildText(100 * _sheildSeconds / SheildSecondsTotal, _sheildSeconds < SheildSecondsTotal);
     }
 
-    public void MovePanelDrag(BaseEventData evt)
-    {
-        var pointerEvt = evt as PointerEventData;
-        if (pointerEvt == null) return;
-    }
-
-    public void PrimaryButtonDown() => _primaryButtonDown = _primaryButtonClicked = true;
-
-    public void PrimaryButtonUp() => _primaryButtonDown = false;
-
-    public void SecondaryButtonDown() => _secondaryButtonDown = _secondaryButtonClicked = true;
-
-    public void SecondaryButtonUp() => _secondaryButtonDown = false;
-
     private void UpdatePlayer()
     {
         // Get the current player type
@@ -209,6 +189,7 @@ public class WorldController : MonoBehaviour
             _alienPlayerController = Instantiate(PlayerAlienPrefab);
             _alienPlayerController.transform.SetParent(WorldRoot);
 
+
             Camera.main.transform.SetParent(_alienPlayerController.transform);
             Camera.main.transform.position = new Vector3(0, 0, distanceFromAlienPlayer);
             Camera.main.transform.LookAt(Vector3.zero);
@@ -225,14 +206,12 @@ public class WorldController : MonoBehaviour
             Camera.main.transform.LookAt(Vector3.zero);
         }
 
-        Debug.Log($"Press {_primaryButtonDown},{_primaryButtonClicked} {_secondaryButtonDown},{_secondaryButtonClicked}");
-
         // Handle alien actions
         if (_alienPlayerController != null && playerType == PlayerType.Alien)
         {
             _asteroidFireWait -= Time.deltaTime;
 
-            if (Input.GetButtonUp("Fire1") && _asteroidFireWait <= 0f)
+            if ((InputManagerData.PrimaryButtonClicked || InputManagerData.SecondaryButtonClicked) && _asteroidFireWait <= 0f)
             {
                 _world.FireAsteroid(
                     _alienPlayerController.transform.position.ToVec3(),
@@ -260,28 +239,40 @@ public class WorldController : MonoBehaviour
             switch (_world.LocalAstronaut.Mode)
             {
                 case AstronautMode.Astronaut:
-                    if (Input.GetButton("Fire1") && ship.isNearControlModule())
+                    // Check controls
+                    if (InputManagerData.PrimaryButtonDown && ship.isNearControlModule())
+                    {
                         _world.LocalAstronaut.Mode = AstronautMode.Pilot;
-                    else if (Input.GetButton("Fire1") && wingNear > 0)
+                    }
+                    else if (InputManagerData.PrimaryButtonDown && wingNear > 0)
+                    {
                         _world.LocalAstronaut.Mode = AstronautMode.AstronautHealing;
+                    }
                     break;
 
                 case AstronautMode.Pilot:
-                    if (Input.GetButtonDown("Fire2") || Input.GetButtonDown("Cancel") || Input.touchCount > 1)
+                    // Check controls
+                    if (InputManagerData.SecondaryButtonDown || Input.GetButtonDown("Cancel") || Input.touchCount > 1)
+                    {
                         _world.LocalAstronaut.Mode = AstronautMode.Astronaut;
-                    else if (Input.GetButton("Fire1") && _sheildDelay < 0f)
+                    }
+                    else if (InputManagerData.PrimaryButtonDown && _sheildDelay < 0f)
                     {
                         _world.LocalAstronaut.Mode = AstronautMode.PilotShielding;
                     }
                     break;
 
                 case AstronautMode.AstronautHealing:
-                    if (!Input.GetButton("Fire1"))
+                    // Check controls
+                    if (InputManagerData.PrimaryButtonDown)
+                    {
                         _world.LocalAstronaut.Mode = AstronautMode.Astronaut;
+                    }
                     break;
 
                 case AstronautMode.PilotShielding:
-                    if (!Input.GetButton("Fire1") || _sheildSeconds < 0)
+                    // Check controls
+                    if (!InputManagerData.PrimaryButtonDown || _sheildSeconds < 0)
                     {
                         _world.LocalAstronaut.Mode = AstronautMode.Pilot;
                         _sheildDelay = SheildDelayTotal;
@@ -295,10 +286,6 @@ public class WorldController : MonoBehaviour
             controller.Name = _world.LocalPlayer.Name;
             // TODO camera
         }
-
-        // Clear clicked events after consuming
-        _primaryButtonClicked = false;
-        _secondaryButtonClicked = false;
     }
 
     private void UpdateAsteroids()
