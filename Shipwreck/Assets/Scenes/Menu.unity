@@ -507,15 +507,15 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 32
     m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
+    m_BestFit: 1
+    m_MinSize: 2
     m_MaxSize: 40
-    m_Alignment: 3
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Option A
@@ -744,7 +744,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 150, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &102383422
 MonoBehaviour:
@@ -1595,7 +1595,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 28}
+  m_SizeDelta: {x: 0, y: 80}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &226318896
 GameObject:
@@ -11130,7 +11130,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 250, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1313778971
 MonoBehaviour:
@@ -11180,11 +11180,11 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Create Private
+    - m_Text: Web
       m_Image: {fileID: 0}
-    - m_Text: Create LAN
+    - m_Text: Private
       m_Image: {fileID: 0}
-    - m_Text: Create Web
+    - m_Text: LAN
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11285,7 +11285,7 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 1
+  m_ChildControlWidth: 0
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
@@ -12841,7 +12841,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 20}
+  m_SizeDelta: {x: 0, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1800327391
 MonoBehaviour:
@@ -13487,18 +13487,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 32
     m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
+    m_BestFit: 1
+    m_MinSize: 3
     m_MaxSize: 40
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Create Private
+  m_Text: Web
 --- !u!222 &2011819622
 CanvasRenderer:
   m_ObjectHideFlags: 0

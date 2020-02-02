@@ -143,18 +143,18 @@ public class MenuManager : MonoBehaviour
 
 	public void InitializeWorldBuilder() 
 	{
-		if (gameTypeDropdown.value == 0) // Private
-		{
-			worldBuilder.CreatePrivate();
-		}
-		else if (gameTypeDropdown.value == 1) // Create LAN
-		{
-			worldBuilder.CreateLAN(Guid.NewGuid());
-		}
-        else if (gameTypeDropdown.value == 2) // Create Web
+		if (gameTypeDropdown.value == 0) // Web
         {
             worldBuilder.CreateWeb();
         }
+		else if (gameTypeDropdown.value == 1) // Private
+		{
+			worldBuilder.CreatePrivate();
+		}
+		else if (gameTypeDropdown.value == 2) // LAN
+		{
+			worldBuilder.CreateLAN(Guid.NewGuid());
+		}
 		else //  Join LAN
 		{
 			var games = worldBuilder.GetGames();
