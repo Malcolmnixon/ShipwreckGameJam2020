@@ -128,6 +128,8 @@ public class MenuManager : MonoBehaviour
 			} 
 			else if ( waitAnimator.GetBool("Shown") && worldBuilder.World.State.Mode == Shipwreck.WorldData.GameMode.Playing) 
 			{
+				var menuMusic = GameObject.FindObjectOfType<MenuMusicSingleton>();
+				Destroy(menuMusic.gameObject);
 				SceneManager.LoadScene(2); // Load Game
 			}
 		}
