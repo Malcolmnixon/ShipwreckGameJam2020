@@ -125,11 +125,7 @@ namespace Shipwreck.World
 
                     // Track current game
                     State.RemainingTime -= deltaTime;
-                    var totalHealth = 
-                            State.Ship.CenterTorsoHealth + 
-                            State.Ship.LeftWingHealth +
-                            State.Ship.RightWingHealth;
-                    if (State.RemainingTime <= 0.0f || totalHealth < 50.0f)
+                    if (State.RemainingTime <= 0.0f || State.Ship.TotalHealth < 50.0f)
                     {
                         // Finish the game
                         State.RemainingTime = GameConstants.FinishedTime;
