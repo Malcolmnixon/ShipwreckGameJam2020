@@ -14,7 +14,6 @@ public class AstronautPlayerController : AstronautController
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
 
-
         // Handle screen touches.
         if (Input.touchCount == 1)
         {
