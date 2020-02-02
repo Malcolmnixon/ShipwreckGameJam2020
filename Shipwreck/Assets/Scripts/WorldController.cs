@@ -84,6 +84,9 @@ public class WorldController : MonoBehaviour
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene(0); // return to main
             return;
+        } else if (_world.State.Mode == Shipwreck.WorldData.GameMode.Finished) 
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(2); // go to results
         }
 
         // Request a state-update before drawing
