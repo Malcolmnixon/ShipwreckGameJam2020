@@ -188,47 +188,29 @@ public class WorldController : MonoBehaviour
             controller.Piloting = _world.LocalPlayer.Type == PlayerType.Pilot;
             // TODO camera
 
+            
             int wingNear = ship.getNearWing();
+            _world.LocalAstronaut.Mode = AstronautMode.None;
             if (_world.State.Ship.Pilot == _world.LocalPlayer.Guid)
             {
                 if (Input.GetButtonDown("Fire2") || Input.GetButtonDown("Cancel"))
                 {
-                    LeavePilot();
+                    _world.LocalPlayer.Type = PlayerType.Astronaut;
                 }
                 else if (Input.GetButton("Fire1"))
                 {
-                    ActivateSheilds();
+                    _world.LocalAstronaut.Mode = AstronautMode.Shielding;
                 }
             }
             else if (Input.GetButton("Fire1") && wingNear > 0)
             {
-                HealWing(wingNear);
+                _world.LocalAstronaut.Mode = AstronautMode.Healing;
             }
             else if (Input.GetButtonDown("Fire1") && ship.isNearControlModule())
             {
-                EnterPilot();
+                _world.LocalPlayer.Type = PlayerType.Pilot;
             }
         }
-    }
-
-    private void EnterPilot()
-    {
-        Debug.LogWarning("Piloting Not Implemented.");
-    }
-
-    private void LeavePilot()
-    {
-        Debug.LogWarning("Piloting Not Implemented.");
-    }
-
-    private void ActivateSheilds()
-    {
-        Debug.LogWarning("Sheilds Not Implemented.");
-    }
-
-    private void HealWing(int wingNear)
-    {
-        Debug.LogWarning("Healing Not Implemented.");
     }
 
     private void UpdateAsteroids()
