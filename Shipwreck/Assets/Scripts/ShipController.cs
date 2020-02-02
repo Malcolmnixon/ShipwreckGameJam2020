@@ -15,6 +15,8 @@ public class ShipController : MonoBehaviour
     public GameObject nameCanvas;
     
     public UnityEngine.UI.Text nameLabel; 
+    
+    public UnityEngine.UI.Text sheildCharge; 
 
 
     public ShipSectionProximity GetNear() {
@@ -53,5 +55,10 @@ public class ShipController : MonoBehaviour
         shield.SetActive(shielded);
         nameCanvas.transform.LookAt(Camera.main.transform);
         nameLabel.text = name;
+    }
+
+    public void SetSheildText(float percentage, bool show)
+    {
+        sheildCharge.text = show ? $"{percentage:#}%" : String.Empty;
     }
 }
