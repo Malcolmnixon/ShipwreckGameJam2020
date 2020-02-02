@@ -38,7 +38,7 @@ public class ShipController : MonoBehaviour
     public void UpdateHealth(float h1, float h2, float h3)
     {
         wings[0].SetHealth(h1);
-        wings[1].SetHealth(h3);
+        wings[1].SetHealth(h2);
         wings[2].SetHealth(h3);
     }
 

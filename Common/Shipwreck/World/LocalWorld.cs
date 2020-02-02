@@ -147,6 +147,18 @@ namespace Shipwreck.World
                 }
             }
 
+            // Handle healing
+            var healingAstronauts = State.Astronauts.Where(a => a.Mode == AstronautMode.Healing).ToList();
+            var heal1Count = healingAstronauts.Count(a => (a.Position3D - GameConstants.Wing1Position).LengthSquared < GameConstants.WingRadiusSquared);
+            State.Ship.Wing1Health = System.Math.Min(1000f, State.Ship.Wing1Health + heal1Count * deltaTime);
+            var heal2Count = healingAstronauts.Count(a => (a.Position3D - GameConstants.Wing2Position).LengthSquared < GameConstants.WingRadiusSquared);
+            State.Ship.Wing2Health = System.Math.Min(1000f, State.Ship.Wing2Health + heal2Count * deltaTime);
+            var heal3Count = healingAstronauts.Count(a => (a.Position3D - GameConstants.Wing3Position).LengthSquared < GameConstants.WingRadiusSquared);
+            State.Ship.Wing3Health = System.Math.Min(1000f, State.Ship.Wing3Health + heal3Count * deltaTime);
+
+            // Handle shielding
+            State.Ship.Shielded = State.Astronauts.Count(a => a.Mode == AstronautMode.Shielding) > 0;
+
             // Handle asteroids while playing
             if (State.Mode == GameMode.Playing)
             {
@@ -172,7 +184,7 @@ namespace Shipwreck.World
 
                 // Get the list of asteroids that collide with the station
                 var colliding = State.Asteroids.Where(a => a.Position.LengthSquared < 64).ToList();
-                var damage = State.Ship.Shielded ? 0f : colliding.Count * 0.4f;
+                var damage = State.Ship.Shielded ? 0f : colliding.Count * 2f;
                 State.Ship.Wing2Health -= damage;
                 State.Ship.Wing3Health -= damage;
                 State.Ship.Wing1Health -= damage;

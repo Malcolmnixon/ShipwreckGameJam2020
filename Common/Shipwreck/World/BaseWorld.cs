@@ -182,6 +182,18 @@ namespace Shipwreck.World
             // Advance all astronauts not played by the local player
             foreach (var astronaut in OtherAstronauts)
                 astronaut.Position += astronaut.Velocity * deltaTime;
+
+            // Update the game astronaut matching our local
+            if (LocalPlayer.Type == PlayerType.Astronaut)
+            {
+                var gameLocalAstronaut = State.Astronauts.FirstOrDefault(a => a.Guid == LocalGuid);
+                if (gameLocalAstronaut != null)
+                {
+                    gameLocalAstronaut.Position = LocalAstronaut.Position;
+                    gameLocalAstronaut.Velocity = LocalAstronaut.Velocity;
+                    gameLocalAstronaut.Mode = LocalAstronaut.Mode;
+                }
+            }
         }
 
         protected void UpdatePlayers(GamePlayers newPlayers)

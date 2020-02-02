@@ -5,6 +5,27 @@ using Shipwreck.Math;
 namespace Shipwreck.WorldData
 {
     /// <summary>
+    /// Astronaut mode
+    /// </summary>
+    public enum AstronautMode
+    {
+        /// <summary>
+        /// Doing nothing
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Healing
+        /// </summary>
+        Healing,
+
+        /// <summary>
+        /// Pilot-shielding
+        /// </summary>
+        Shielding
+    };
+
+    /// <summary>
     /// Astronaut information
     /// </summary>
     public class Astronaut
@@ -28,6 +49,17 @@ namespace Shipwreck.WorldData
         /// Gets or sets the velocity
         /// </summary>
         public Vec2 Velocity { get; set; }
+
+        /// <summary>
+        /// Astronaut mode
+        /// </summary>
+        public AstronautMode Mode { get; set; }
+
+        /// <summary>
+        /// Gets the astronaut 3D position
+        /// </summary>
+        [JsonIgnore]
+        public Vec3 Position3D => To3DPosition(Position);
 
         /// <summary>
         /// Perform the 2D to 3D position transform
