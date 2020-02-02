@@ -73,16 +73,20 @@ public class WorldController : MonoBehaviour
             Debug.Log("Creating local World now...");
             _world = new LocalWorld();
             _world.Start();
-            _world.Players.Players.Add(new Player { Guid = Guid.NewGuid() });
-            _world.Players.Players.Add(new Player { Guid = Guid.NewGuid() });
             _world.CreateLocalPlayer("Test Player");
-            _world.LocalPlayer.Type = PlayerType.Alien;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        #if !UNITY_STANDALONE
+            if (Input.GetKeyDown(KeyCode.Escape)) // Android Back
+            {
+                Application.Quit();
+            }
+        #endif
+        
         if (_world == null)
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene(0); // return to main
@@ -91,6 +95,7 @@ public class WorldController : MonoBehaviour
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene(2); // go to results
         }
+
 
         // Request a state-update before drawing
         _world.Update();

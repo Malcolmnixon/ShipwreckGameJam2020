@@ -23,7 +23,7 @@ public class AstronautPlayerController : AstronautController
             // Move the cube if the screen has the finger moving.
             if (touch.phase == TouchPhase.Moved)
             {
-                Vector2 touchPos = touch.position;
+                Vector2 touchPos = touch.rawPosition;
                 if (touchPos.x < (Screen.width * 0.45))
                 {
                     horizontal = -1;
