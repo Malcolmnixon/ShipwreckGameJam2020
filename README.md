@@ -2,7 +2,7 @@
 Shipwreck game for the Game Jam 2020 competition
 
 ## Links
-[Global Game Cam Entry](https://globalgamejam.org/2020/games/shipwreck-9)
+[Global Game Jam Entry](https://globalgamejam.org/2020/games/shipwreck-9)
 
 [Game Website](https://samsarette.itch.io/shipwreck)
 
