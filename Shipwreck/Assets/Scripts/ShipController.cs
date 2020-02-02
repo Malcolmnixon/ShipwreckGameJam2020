@@ -11,6 +11,10 @@ public class ShipController : MonoBehaviour
     public ShipSectionProximity controlModule;
 
     public GameObject shield;
+    
+    public GameObject nameCanvas;
+    
+    public UnityEngine.UI.Text nameLabel; 
 
 
     public ShipSectionProximity GetNear() {
@@ -44,8 +48,10 @@ public class ShipController : MonoBehaviour
         wings[2].SetHealth(h3);
     }
 
-    public void SetSheilded(bool shielded)
+    public void SetSheilded(bool shielded, string name)
     {
         shield.SetActive(shielded);
+        nameCanvas.transform.LookAt(Camera.main.transform);
+        nameLabel.text = name;
     }
 }

@@ -12451,7 +12451,6 @@ MonoBehaviour:
   waitAnimator: {fileID: 474923403}
   countdownText: {fileID: 606325749}
   countdownSlider: {fileID: 1095335691}
-  worldBuilder: {fileID: 494657349}
   hideOnMobile:
   - {fileID: 185471236}
   - {fileID: 1349763405}

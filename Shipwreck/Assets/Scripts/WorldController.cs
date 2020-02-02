@@ -120,8 +120,10 @@ public class WorldController : MonoBehaviour
             _world.State.Ship.Wing2Health,
             _world.State.Ship.Wing3Health
         );
-        ship.SetSheilded(_world.State.Ship.Shielded);
 
+        var pilotAstronaut = _world.State.Astronauts.FirstOrDefault(a => a.Mode  == AstronautMode.Pilot || a.Mode  == AstronautMode.PilotShielding);
+        var pilotPlayer = _world.Players.Players.FirstOrDefault(p => p.Guid == ( pilotAstronaut?.Guid ?? Guid.Empty ));
+        ship.SetSheilded(_world.State.Ship.Shielded, pilotPlayer?.Name ?? String.Empty);
     }
 
     private void UpdatePlayer()
@@ -224,6 +226,7 @@ public class WorldController : MonoBehaviour
             controller.Piloting = _world.LocalAstronaut.Mode == AstronautMode.Pilot ||
                                   _world.LocalAstronaut.Mode == AstronautMode.PilotShielding;
             controller.Healing = _world.LocalAstronaut.Mode == AstronautMode.AstronautHealing;
+            controller.Name = _world.LocalPlayer.Name;
             // TODO camera
         }
     }
@@ -290,6 +293,7 @@ public class WorldController : MonoBehaviour
             controller.Piloting = gameAstronaut.Mode == AstronautMode.Pilot
                                 || gameAstronaut.Mode == AstronautMode.PilotShielding;
             controller.Healing = gameAstronaut.Mode == AstronautMode.AstronautHealing;
+            controller.Name = _world.Players.Players.Where(p => p.Guid == gameAstronaut.Guid).ToList()?[0].Name;
         }
 
         // Remove deleted astronauts
