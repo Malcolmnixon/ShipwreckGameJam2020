@@ -128,7 +128,7 @@ public class MenuManager : MonoBehaviour
 			} 
 			else if ( waitAnimator.GetBool("Shown") && worldBuilder.World.State.Mode == Shipwreck.WorldData.GameMode.Playing) 
 			{
-				LoadByIndex(1);
+				SceneManager.LoadScene(2); // Load Game
 			}
 		}
 
@@ -212,10 +212,6 @@ public class MenuManager : MonoBehaviour
 
 	public void SetQualityLevel(int level) {
 		QualitySettings.SetQualityLevel (level);
-	}
-
-    public void LoadByIndex(int sceneIndex) {
-		SceneManager.LoadScene (sceneIndex);
 	}
 
 	public void SetVolumeMaster(float soundLevel)

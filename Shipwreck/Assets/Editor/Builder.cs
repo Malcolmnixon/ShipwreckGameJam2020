@@ -6,6 +6,7 @@ public class Builder
 {
     static readonly string name = "Shipwreck";
     static readonly string[] levels = new[] {
+        "Assets/Scenes/Intro.unity",
         "Assets/Scenes/Menu.unity",
         "Assets/Scenes/Game.unity",
         "Assets/Scenes/ResultsScreen.unity"

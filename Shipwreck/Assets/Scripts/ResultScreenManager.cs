@@ -30,7 +30,7 @@ public class ResultScreenManager : MonoBehaviour
 
         if (_world.State.Mode != Shipwreck.WorldData.GameMode.Finished) 
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0); // return to main
+            UnityEngine.SceneManagement.SceneManager.LoadScene(1); // return to main
             return;
         }
     }
