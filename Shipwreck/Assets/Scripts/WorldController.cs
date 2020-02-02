@@ -197,7 +197,9 @@ public class WorldController : MonoBehaviour
         {
             _asteroidFireWait -= Time.deltaTime;
 
-            if ((InputManagerData.PrimaryButtonClicked || InputManagerData.SecondaryButtonClicked) && _asteroidFireWait <= 0f)
+            if ((InputManagerData.PrimaryButtonClicked || InputManagerData.SecondaryButtonClicked) && 
+                _asteroidFireWait <= 0f &&
+                _world.State.Asteroids.Count < GameConstants.MaxAsteroidCount)
             {
                 _world.FireAsteroid(
                     _alienPlayerController.transform.position.ToVec3(),

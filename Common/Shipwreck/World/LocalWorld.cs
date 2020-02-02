@@ -157,15 +157,17 @@ namespace Shipwreck.World
             State.Ship.Shielded = State.Astronauts.Count(a => a.Mode == AstronautMode.PilotShielding) > 0;
 
             // Handle healing (if not shielded
-            if (!State.Ship.Shielded)
+            if (!State.Ship.Shielded && State.Astronauts.Count != 0)
             {
+                // Calculate healing scale. The healing is divided by the number of astronauts so single players aren't penalized
+                var healingScale = GameConstants.HealRate / State.Astronauts.Count * deltaTime;
                 var healingAstronauts = State.Astronauts.Where(a => a.Mode == AstronautMode.AstronautHealing).ToList();
                 var heal1Count = healingAstronauts.Count(a => (a.Position3D - GameConstants.Wing1Position).LengthSquared < GameConstants.WingRadiusSquared);
-                State.Ship.Wing1Health = System.Math.Min(100f, State.Ship.Wing1Health + heal1Count * GameConstants.HealRate * deltaTime);
+                State.Ship.Wing1Health = System.Math.Min(100f, State.Ship.Wing1Health + heal1Count * healingScale);
                 var heal2Count = healingAstronauts.Count(a => (a.Position3D - GameConstants.Wing2Position).LengthSquared < GameConstants.WingRadiusSquared);
-                State.Ship.Wing2Health = System.Math.Min(100f, State.Ship.Wing2Health + heal2Count * GameConstants.HealRate * deltaTime);
+                State.Ship.Wing2Health = System.Math.Min(100f, State.Ship.Wing2Health + heal2Count * healingScale);
                 var heal3Count = healingAstronauts.Count(a => (a.Position3D - GameConstants.Wing3Position).LengthSquared < GameConstants.WingRadiusSquared);
-                State.Ship.Wing3Health = System.Math.Min(100f, State.Ship.Wing3Health + heal3Count * GameConstants.HealRate * deltaTime);
+                State.Ship.Wing3Health = System.Math.Min(100f, State.Ship.Wing3Health + heal3Count * healingScale);
             }
 
 
