@@ -10,6 +10,8 @@ public class ShipController : MonoBehaviour
     
     public ShipSectionProximity controlModule;
 
+    public GameObject shield;
+
 
     public ShipSectionProximity GetNear() {
         if (controlModule.PlayerNear) {
@@ -44,6 +46,6 @@ public class ShipController : MonoBehaviour
 
     public void SetSheilded(bool shielded)
     {
-        Debug.LogWarning("Shielding Not Implemented");
+        shield.SetActive(shielded);
     }
 }
