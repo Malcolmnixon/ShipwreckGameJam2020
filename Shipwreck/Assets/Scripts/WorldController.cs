@@ -238,7 +238,7 @@ public class WorldController : MonoBehaviour
 
                 case AstronautMode.Pilot:
                     // Check controls
-                    if (InputManagerData.SecondaryButtonDown || Input.GetButtonDown("Cancel") || Input.touchCount > 1)
+                    if (InputManagerData.SecondaryButtonDown || Input.GetButtonDown("Cancel"))
                     {
                         _world.LocalAstronaut.Mode = AstronautMode.Astronaut;
                     }
