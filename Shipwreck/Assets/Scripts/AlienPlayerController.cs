@@ -26,27 +26,22 @@ public class AlienPlayerController : MonoBehaviour
         {
             Touch touch = Input.GetTouch(0);
 
-            // Move the cube if the screen has the finger moving.
-            if (touch.phase == TouchPhase.Moved)
+            Vector2 touchPos = touch.position;
+            if (touchPos.x < (Screen.width * 0.3)) 
             {
-                Vector2 touchPos = touch.rawPosition;
-                if (touchPos.x < (Screen.width * 0.3)) 
-                {
-                    horizontal = -1;
-                }
-                else if (touchPos.x > (Screen.width * 0.7)) 
-                {
-                    horizontal = 1;
-                }
-                if (touchPos.y < (Screen.height * 0.3)) 
-                {
-                    horizontal = -1;
-                }
-                else if (touchPos.y > (Screen.height * 0.7)) 
-                {
-                    horizontal = 1;
-                }
-
+                horizontal = -1;
+            }
+            else if (touchPos.x > (Screen.width * 0.7)) 
+            {
+                horizontal = 1;
+            }
+            if (touchPos.y < (Screen.height * 0.3)) 
+            {
+                horizontal = -1;
+            }
+            else if (touchPos.y > (Screen.height * 0.7)) 
+            {
+                horizontal = 1;
             }
         }
 
