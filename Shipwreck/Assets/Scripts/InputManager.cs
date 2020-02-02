@@ -17,6 +17,8 @@ public class InputManager : MonoBehaviour
 
     public GameObject MovePanel;
 
+    public Transform ObserverMode;
+
     private bool _useMouse;
 
     private Vector2 _movePanelPos;
@@ -32,6 +34,9 @@ public class InputManager : MonoBehaviour
         // Hide canvas if on PC
         TouchCanvas.SetActive(false);
         _useMouse = true;
+#else
+        TouchCanvas.SetActive(Camera.main.transform.parent != ObserverMode);
+        _useMouse = false;
 #endif
     }
 
