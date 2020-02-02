@@ -26,7 +26,7 @@ public class ResultScreenManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        countdownText.text = $"Loading in {_world.State.RemainingTime:#}s";
+        countdownText.text = $"Loading in {_world.State.RemainingTime:0}s";
 
         if (_world.State.Mode != Shipwreck.WorldData.GameMode.Finished) 
         {
