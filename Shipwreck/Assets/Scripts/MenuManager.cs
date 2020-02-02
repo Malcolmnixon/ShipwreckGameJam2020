@@ -100,10 +100,14 @@ public class MenuManager : MonoBehaviour
 
         // Fullscreen
 		fullscreenToggle.isOn = Screen.fullScreen;
+		SetFullScreen(PlayerPrefs.HasKey("Fullscreen"));
 
 		// Volume
 		musicSlider.value = PlayerPrefs.GetFloat("MusicVol", 0.75f);
+		SetVolumeMusic(musicSlider.value);
+
 		sfxSlider.value = PlayerPrefs.GetFloat("SfxVol", 0.75f);
+		SetVolumeSfx(sfxSlider.value);
 	}
 
 	public void Update() {
@@ -196,6 +200,14 @@ public class MenuManager : MonoBehaviour
 	
     public void SetFullScreen(bool fullscreen) {
 		Screen.fullScreen = fullscreen;
+		if (fullscreen) 
+		{
+ 			PlayerPrefs.SetString("Fullscreen", "true");
+		} 
+		else
+		{
+			PlayerPrefs.DeleteKey("Fullscreen");
+		}
 	}
 
 	public void SetQualityLevel(int level) {
