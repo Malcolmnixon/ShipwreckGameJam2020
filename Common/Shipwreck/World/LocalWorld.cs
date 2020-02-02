@@ -85,7 +85,7 @@ namespace Shipwreck.World
                 case GameMode.Waiting:
                 {
                     // Update remaining time based on whether we have players
-                    if (Players.Players.Count == 0)
+                    if (Players.Players.Count(p => p.Type != PlayerType.Observer) == 0)
                         State.RemainingTime = GameConstants.PlayerWaitTime;
                     else
                         State.RemainingTime -= deltaTime;
@@ -114,10 +114,10 @@ namespace Shipwreck.World
                 case GameMode.Playing:
                 {
                     // Handle abandoned game
-                    if (Players.Players.Count == 0)
+                    if (Players.Players.Count(p => p.Type != PlayerType.Observer) == 0)
                     {
                         // Transition to waiting
-                        State.RemainingTime = 0.0f;
+                        State.RemainingTime = GameConstants.PlayerWaitTime;
                         State.Mode = GameMode.Waiting;
                         break;
                     }
@@ -146,7 +146,7 @@ namespace Shipwreck.World
                     if (State.RemainingTime <= 0.0f)
                     {
                         // Transition to waiting
-                        State.RemainingTime = 0.0f;
+                        State.RemainingTime = GameConstants.PlayerWaitTime;
                         State.Mode = GameMode.Waiting;
                     }
                     break;
