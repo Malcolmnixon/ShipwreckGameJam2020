@@ -183,6 +183,14 @@ namespace Shipwreck.World
             foreach (var astronaut in OtherAstronauts)
                 astronaut.Position += astronaut.Velocity * deltaTime;
 
+            // Remove all astronauts that don't have players in the astronaut mode
+            foreach (var astronaut in OtherAstronauts.ToList())
+            {
+                var player = Players.Players.FirstOrDefault(p => p.Guid == astronaut.Guid);
+                if (player == null || player.Type != PlayerType.Astronaut)
+                    State.Astronauts.Remove(astronaut);
+            }
+
             // Update the game astronaut matching our local
             if (LocalPlayer.Type == PlayerType.Astronaut)
             {
