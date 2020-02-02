@@ -174,8 +174,16 @@ namespace Shipwreck.World
                             });
                     }
 
+                // Get the list of asteroids that collide with the station
+                var colliding = State.Asteroids.Where(a => a.Position.LengthSquared < 64).ToList();
+                var damage = State.Ship.Shielded ? 0f : colliding.Count * 0.4f;
+                State.Ship.LeftWingHealth -= damage;
+                State.Ship.RightWingHealth -= damage;
+                State.Ship.CenterTorsoHealth -= damage;
+
                 // Handle deleting asteroids
                 State.Asteroids = State.Asteroids
+                    .Except(colliding)
                     .Where(a => a.Position.LengthSquared < GameConstants.AsteroidDeleteDistanceSquared)
                     .ToList();
             }
