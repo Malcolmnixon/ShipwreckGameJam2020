@@ -1,6 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Shipwreck.Math;
+using Shipwreck.World;
 
 namespace Shipwreck.WorldData
 {
@@ -38,6 +39,36 @@ namespace Shipwreck.WorldData
         /// Gets or sets the asteroid velocity
         /// </summary>
         public Vec3 Velocity { get; set; }
+
+        /// <summary>
+        /// Gets whether the asteroid hits the shield
+        /// </summary>
+        [JsonIgnore]
+        public bool HitShield => Position.LengthSquared < GameConstants.ShieldRadiusSquared;
+
+        /// <summary>
+        /// Gets whether the asteroid hits the ship
+        /// </summary>
+        [JsonIgnore]
+        public bool HitShip => Position.LengthSquared < GameConstants.ShipRadiusSquared;
+
+        /// <summary>
+        /// Gets whether the asteroid hits wing 1
+        /// </summary>
+        [JsonIgnore]
+        public bool HitWing1 => (Position - GameConstants.Wing1Position).LengthSquared < GameConstants.WingRadiusSquared;
+
+        /// <summary>
+        /// Gets whether the asteroid hits wing 2
+        /// </summary>
+        [JsonIgnore]
+        public bool HitWing2 => (Position - GameConstants.Wing2Position).LengthSquared < GameConstants.WingRadiusSquared;
+
+        /// <summary>
+        /// Gets whether the asteroid hits wing 3
+        /// </summary>
+        [JsonIgnore]
+        public bool HitWing3 => (Position - GameConstants.Wing3Position).LengthSquared < GameConstants.WingRadiusSquared;
 
         /// <summary>
         /// Serialize to JSON

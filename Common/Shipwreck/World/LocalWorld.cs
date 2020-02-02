@@ -182,16 +182,28 @@ namespace Shipwreck.World
                             });
                     }
 
+                // Remove asteroids striking shields
+                if (State.Ship.Shielded)
+                {
+                    var absorbed = State.Asteroids.Where(a => a.HitShield).ToList();
+                    State.Asteroids = State.Asteroids.Except(absorbed).ToList();
+                }
+
                 // Get the list of asteroids that collide with the station
-                var colliding = State.Asteroids.Where(a => a.Position.LengthSquared < 64).ToList();
-                var damage = State.Ship.Shielded ? 0f : colliding.Count * 2f;
-                State.Ship.Wing2Health -= damage;
-                State.Ship.Wing3Health -= damage;
-                State.Ship.Wing1Health -= damage;
+                var colliding = State.Asteroids.Where(a => a.HitShip).ToList();
+                foreach (var asteroid in colliding)
+                {
+                    var hit1 = asteroid.HitWing1;
+                    var hit2 = asteroid.HitWing2;
+                    var hit3 = asteroid.HitWing3;
+                    if (hit1 || !hit2 && !hit3) State.Ship.Wing1Health = System.Math.Max(0f, State.Ship.Wing1Health - GameConstants.AsteroidDamage);
+                    if (hit2 || !hit1 && !hit3) State.Ship.Wing2Health = System.Math.Max(0f, State.Ship.Wing2Health - GameConstants.AsteroidDamage);
+                    if (hit3 || !hit1 && !hit2) State.Ship.Wing3Health = System.Math.Max(0f, State.Ship.Wing3Health - GameConstants.AsteroidDamage);
+                    State.Asteroids.Remove(asteroid);
+                }
 
                 // Handle deleting asteroids
                 State.Asteroids = State.Asteroids
-                    .Except(colliding)
                     .Where(a => a.Position.LengthSquared < GameConstants.AsteroidDeleteDistanceSquared)
                     .ToList();
             }

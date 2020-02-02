@@ -8,16 +8,6 @@ namespace Shipwreck.World
     public static class GameConstants
     {
         /// <summary>
-        /// Radius of the wing
-        /// </summary>
-        public const float WingRadius = 4.6f;
-
-        /// <summary>
-        /// Radius of the wing squared
-        /// </summary>
-        public const float WingRadiusSquared = WingRadius * WingRadius;
-
-        /// <summary>
         /// Count of astronauts
         /// </summary>
         public const int Astronauts = 2;
@@ -53,6 +43,11 @@ namespace Shipwreck.World
         public const float AsteroidFireRate = 4f;
 
         /// <summary>
+        /// Damage taken by asteroid hit
+        /// </summary>
+        public const float AsteroidDamage = 2f;
+
+        /// <summary>
         /// Distance at which to delete asteroids
         /// </summary>
         public const float AsteroidDeleteDistance = 120f;
@@ -61,6 +56,36 @@ namespace Shipwreck.World
         /// Asteroid delete distance squared
         /// </summary>
         public const float AsteroidDeleteDistanceSquared = AsteroidDeleteDistance * AsteroidDeleteDistance;
+
+        /// <summary>
+        /// Ship radius
+        /// </summary>
+        public const float ShipRadius = 6f;
+
+        /// <summary>
+        /// Ship radius squared
+        /// </summary>
+        public const float ShipRadiusSquared = ShipRadius * ShipRadius;
+
+        /// <summary>
+        /// Shield radius (also used for astronauts)
+        /// </summary>
+        public const float ShieldRadius = 10f;
+
+        /// <summary>
+        /// Shield radius squared
+        /// </summary>
+        public const float ShieldRadiusSquared = ShieldRadius * ShieldRadius;
+
+        /// <summary>
+        /// Radius of the wing
+        /// </summary>
+        public const float WingRadius = 4.6f;
+
+        /// <summary>
+        /// Radius of the wing squared
+        /// </summary>
+        public const float WingRadiusSquared = WingRadius * WingRadius;
 
         /// <summary>
         /// Location of wing 1 collision sphere

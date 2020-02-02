@@ -1,6 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Shipwreck.Math;
+using Shipwreck.World;
 
 namespace Shipwreck.WorldData
 {
@@ -30,11 +31,6 @@ namespace Shipwreck.WorldData
     /// </summary>
     public class Astronaut
     {
-        /// <summary>
-        /// Astronaut radius from ship
-        /// </summary>
-        public const float Radius = 10f;
-
         /// <summary>
         /// Gets or sets the player guid for this astronaut
         /// </summary>
@@ -70,7 +66,10 @@ namespace Shipwreck.WorldData
         {
             var sinX = (float)System.Math.Sin(position.X);
             var cosX = (float)System.Math.Cos(position.X);
-            return new Vec3(sinX * Radius, position.Y * Radius, -cosX * Radius);
+            return new Vec3(
+                sinX * GameConstants.ShieldRadius,
+                position.Y * GameConstants.ShieldRadius,
+                -cosX * GameConstants.ShieldRadius);
         }
 
         /// <summary>
