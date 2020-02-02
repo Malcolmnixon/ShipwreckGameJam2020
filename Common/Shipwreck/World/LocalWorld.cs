@@ -96,9 +96,9 @@ namespace Shipwreck.World
                         // Reset the ship to full health
                         State.Ship = new Ship
                         {
-                            Wing1Health = 50f,
-                            Wing2Health = 50f,
-                            Wing3Health = 50f
+                            Wing1Health = 70f,
+                            Wing2Health = 70f,
+                            Wing3Health = 70f
                         };
 
                         // Destroy all asteroids
