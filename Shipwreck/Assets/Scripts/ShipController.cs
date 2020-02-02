@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,5 +33,17 @@ public class ShipController : MonoBehaviour
             }
         }
         return 0;
+    }
+
+    public void UpdateHealth(float h1, float h2, float h3)
+    {
+        wings[0].SetHealth(h1);
+        wings[1].SetHealth(h3);
+        wings[2].SetHealth(h3);
+    }
+
+    public void SetSheilded(bool shielded)
+    {
+        Debug.LogWarning("Shielding Not Implemented");
     }
 }
