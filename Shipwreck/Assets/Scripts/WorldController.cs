@@ -35,6 +35,9 @@ public class WorldController : MonoBehaviour
 
     [Range(-30f, 0f)]
     public float distanceFromAstronautPlayer = -15.0f;
+
+    [Range(-50f, 0f)]
+    public float distanceFromPilotPlayer = -25.0f;
     
 
     [Range(-30f, 0f)]
@@ -181,6 +184,9 @@ public class WorldController : MonoBehaviour
             // Update 3D position from 2D position
             _astronautPlayerControl.transform.position = Astronaut.To3DPosition(_world.LocalAstronaut.Position).ToVector3();
             _astronautPlayerControl.transform.LookAt(Vector3.zero);
+
+            controller.Piloting = _world.LocalPlayer.Type == PlayerType.Pilot;
+            // TODO camera
 
             int wingNear = ship.getNearWing();
             if (_world.State.Ship.Pilot == _world.LocalPlayer.Guid)

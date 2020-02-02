@@ -67,7 +67,7 @@ MonoBehaviour:
   - {fileID: 297635675045922904}
   - {fileID: 4842155885488541273}
   controlModule: {fileID: 225364230282364006}
-  shield: {fileID: 0}
+  shield: {fileID: 4644699398425703320}
 --- !u!1 &2888974003131212162
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,6 +8,10 @@ public class AstronautPlayerController : MonoBehaviour
 
     public Vec2 Velocity;
 
+    public GameObject visibleAstronaut;
+    
+    public bool Piloting { get => visibleAstronaut.activeInHierarchy; set => visibleAstronaut.SetActive(!value); }
+
     // Start is called before the first frame update
     void Start()
     {

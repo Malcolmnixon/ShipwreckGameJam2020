@@ -108,7 +108,7 @@ public class MenuManager : MonoBehaviour
 		if (worldBuilder.HasWorld())
 		{
 			if (worldBuilder.World.State.Mode == Shipwreck.WorldData.GameMode.Waiting) {
-				countdownSlider.value = worldBuilder.World.State.RemainingTime;
+				countdownSlider.value = 1 - (worldBuilder.World.State.RemainingTime / Shipwreck.World.GameConstants.PlayerWaitTime);
 				countdownText.text = $"Loading in {worldBuilder.World.State.RemainingTime:#}s";
 			} 
 			else if ( waitAnimator.GetBool("Shown") && worldBuilder.World.State.Mode == Shipwreck.WorldData.GameMode.Playing) 
