@@ -129,6 +129,13 @@ namespace Shipwreck.World
                         // Finish the game
                         State.RemainingTime = GameConstants.FinishedTime;
                         State.Mode = GameMode.Finished;
+
+                        // Bounce every player back to a None
+                        foreach (var player in Players.Players)
+                            player.Type = PlayerType.None;
+
+                        // Discard all astronauts
+                        State.Astronauts = new List<Astronaut>();
                     }
                     break;
                 }

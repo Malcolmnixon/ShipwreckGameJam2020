@@ -127,6 +127,15 @@ namespace Shipwreck.WorldNet
                         {
                             var player = Player.FromJson(payloadJson);
                             Logger.Log($"NetServerWorld.OnClientNotification - got player {player.Guid}");
+
+                            // While not playing we only accept None or Observer players, everyone else is bounced back to None
+                            if (State.Mode == GameMode.Playing &&
+                                player.Type != PlayerType.None && 
+                                player.Type != PlayerType.Observer)
+                            {
+                                player.Type = PlayerType.None;
+                            }
+
                             Players.Players.RemoveAll(p => p.Guid == player.Guid);
                             Players.Players.Add(player);
 
@@ -139,8 +148,13 @@ namespace Shipwreck.WorldNet
                         {
                             var astronaut = Astronaut.FromJson(payloadJson);
                             Logger.Log($"NetServerWorld.OnClientNotification - got astronaut update {astronaut.Guid}");
-                            State.Astronauts.RemoveAll(a => a.Guid == astronaut.Guid);
-                            State.Astronauts.Add(astronaut);
+
+                            // Only accept astronauts when playing
+                            if (State.Mode == GameMode.Playing)
+                            {
+                                State.Astronauts.RemoveAll(a => a.Guid == astronaut.Guid);
+                                State.Astronauts.Add(astronaut);
+                            }
                             break;
                         }
 
