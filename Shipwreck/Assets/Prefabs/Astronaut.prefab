@@ -781,6 +781,7 @@ MonoBehaviour:
   visibleAstronaut: {fileID: 8773191200264841794}
   nameLabel: {fileID: 293829634535223393}
   sfx: {fileID: 6005095598751273225}
+  JetPack: {fileID: 5931911553915547039}
 --- !u!1 &5931911553915547039
 GameObject:
   m_ObjectHideFlags: 0

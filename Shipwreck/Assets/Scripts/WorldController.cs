@@ -250,7 +250,7 @@ public class WorldController : MonoBehaviour
 
                 case AstronautMode.AstronautHealing:
                     // Check controls
-                    if (InputManagerData.PrimaryButtonDown)
+                    if (!InputManagerData.PrimaryButtonDown)
                     {
                         _world.LocalAstronaut.Mode = AstronautMode.Astronaut;
                     }
