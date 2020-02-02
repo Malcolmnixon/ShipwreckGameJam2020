@@ -42,7 +42,7 @@ public class MenuManager : MonoBehaviour
 
 	[Header("Other")]
 
-	public WorldBuilder worldBuilder;
+	private WorldBuilder worldBuilder;
 
     public GameObject[] hideOnMobile;
 
@@ -61,6 +61,8 @@ public class MenuManager : MonoBehaviour
 
         #endif
 		
+		worldBuilder = GameObject.FindObjectOfType<WorldBuilder>();
+
         // Resolution
 		resolutionDropdown.ClearOptions ();
 		var resOptions = new List<Dropdown.OptionData> ();
@@ -107,7 +109,12 @@ public class MenuManager : MonoBehaviour
 	public void Update() {
 		if (worldBuilder == null) 
 		{
-			Quit();
+			worldBuilder = GameObject.FindObjectOfType<WorldBuilder>(); // try to find it
+            if (worldBuilder == null)
+            {
+				Quit();
+                return;
+            }
 		}
 		else if (worldBuilder.HasWorld())
 		{
