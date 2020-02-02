@@ -98,15 +98,21 @@ public class WorldController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_world == null)
+        // If waiting then go back to waiting screen
+        if (_world.State.Mode == GameMode.Waiting)
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(1); // return to main
+            _world.LocalPlayer.Type = PlayerType.None;
+            UnityEngine.SceneManagement.SceneManager.LoadScene(1);
             return;
-        } else if (_world.State.Mode == Shipwreck.WorldData.GameMode.Finished)
-        {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(3); // go to results
-        }
+        } 
 
+        // If game finishes then go to results screen
+        if (_world.State.Mode == GameMode.Finished)
+        {
+            _world.LocalPlayer.Type = PlayerType.None;
+            UnityEngine.SceneManagement.SceneManager.LoadScene(3);
+            return;
+        }
 
         // Request a state-update before drawing
         _world.Update();
