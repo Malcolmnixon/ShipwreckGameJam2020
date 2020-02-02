@@ -19,12 +19,12 @@ public class WorldController : MonoBehaviour
 
     [SerializeField]
     public GameObject PlayerAlienPrefab;
-    
+
     [SerializeField]
     public GameObject PlayerAstronautPrefab;
 
     [Space]
-    
+
     [SerializeField]
     public GameObject AstronautPrefab;
 
@@ -38,24 +38,24 @@ public class WorldController : MonoBehaviour
 
     [Range(-50f, 0f)]
     public float distanceFromPilotPlayer = -25.0f;
-    
+
 
     [Range(-30f, 0f)]
     public float distanceFromAlienPlayer = -1.0f;
-    
+
 
     [Range(0.001f, 10f)]
     public float AsteroidFireWaitTotal = 1.0f;
-    
+
     [Range(1f, 10f)]
     public float SheildSecondsTotal = 4.0f;
-    
+
     [Range(0.001f, 10f)]
     public float SheildDelayTotal = 1.0f;
-    
+
 
     public float _sheildSeconds = 4.0f;
-    
+
     public float _sheildDelay = 0.0f;
 
     public float _asteroidFireWait = 1.0f;
@@ -98,18 +98,11 @@ public class WorldController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-#if !UNITY_STANDALONE
-        if (Input.GetKeyDown(KeyCode.Escape)) // Android Back
-        {
-            Application.Quit();
-        }
-#endif
-        
         if (_world == null)
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene(1); // return to main
             return;
-        } else if (_world.State.Mode == Shipwreck.WorldData.GameMode.Finished) 
+        } else if (_world.State.Mode == Shipwreck.WorldData.GameMode.Finished)
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene(3); // go to results
         }
@@ -132,7 +125,7 @@ public class WorldController : MonoBehaviour
     }
 
     private void UpdateShip()
-    {     
+    {
         ship.UpdateHealth(
             _world.State.Ship.Wing1Health,
             _world.State.Ship.Wing2Health,
@@ -143,7 +136,7 @@ public class WorldController : MonoBehaviour
         var pilotPlayer = _world.Players.Players.FirstOrDefault(p => p.Guid == ( pilotAstronaut?.Guid ?? Guid.Empty ));
         ship.SetSheilded(_world.State.Ship.Shielded, pilotPlayer?.Name ?? String.Empty);
 
-        if (_world.State.Ship.Shielded && _sheildSeconds > 0) 
+        if (_world.State.Ship.Shielded && _sheildSeconds > 0)
         {
             _sheildSeconds -= Time.deltaTime;
         }
