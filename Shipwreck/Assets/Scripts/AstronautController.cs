@@ -18,8 +18,7 @@ public class AstronautController : MonoBehaviour
             if (value) {
                 sfx.UnPause();
              } else {
-                //sfx.Pause();
-                sfx.UnPause();
+                sfx.Pause();
              }
         }
     }
