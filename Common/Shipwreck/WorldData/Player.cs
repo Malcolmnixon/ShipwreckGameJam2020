@@ -14,11 +14,6 @@ namespace Shipwreck.WorldData
         None,
 
         /// <summary>
-        /// Player is a pilot
-        /// </summary>
-        Pilot,
-
-        /// <summary>
         /// Player is an astronaut
         /// </summary>
         Astronaut,

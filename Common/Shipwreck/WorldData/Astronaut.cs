@@ -11,19 +11,24 @@ namespace Shipwreck.WorldData
     public enum AstronautMode
     {
         /// <summary>
-        /// Doing nothing
+        /// Astronaut
         /// </summary>
-        None,
+        Astronaut,
 
         /// <summary>
-        /// Healing
+        /// Pilot
         /// </summary>
-        Healing,
+        Pilot,
+
+        /// <summary>
+        /// Astronaut-healing
+        /// </summary>
+        AstronautHealing,
 
         /// <summary>
         /// Pilot-shielding
         /// </summary>
-        Shielding
+        PilotShielding
     };
 
     /// <summary>
