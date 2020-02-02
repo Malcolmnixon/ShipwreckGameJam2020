@@ -15,10 +15,6 @@ public class WorldController : MonoBehaviour
 
     public ShipController ship;
 
-    public UnityEngine.UI.Text PrimaryButtonText;
-
-    public UnityEngine.UI.Text SecondaryButtonText;
-
     [Header("Prefabs")]
 
     [SerializeField]
@@ -97,9 +93,6 @@ public class WorldController : MonoBehaviour
             _world.Start();
             _world.CreateLocalPlayer("Test Player");
         }
-
-        PrimaryButtonText.text = "A";
-        SecondaryButtonText.text = "B";
     }
 
     // Update is called once per frame
