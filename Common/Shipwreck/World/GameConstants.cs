@@ -30,7 +30,7 @@ namespace Shipwreck.World
         /// <summary>
         /// Minimum asteroid count (less than this and the AI will fire one)
         /// </summary>
-        public const int MinAsteroidCount = 20;
+        public const int MinAsteroidCount = 6;
 
         /// <summary>
         /// Distance at which to fire asteroids
@@ -45,7 +45,7 @@ namespace Shipwreck.World
         /// <summary>
         /// Damage taken by asteroid hit
         /// </summary>
-        public const float AsteroidDamage = 2f;
+        public const float AsteroidDamage = 10f;
 
         /// <summary>
         /// Distance at which to delete asteroids
@@ -73,9 +73,19 @@ namespace Shipwreck.World
         public const float ShieldRadius = 10f;
 
         /// <summary>
+        /// Astronaut radius
+        /// </summary>
+        public const float AstronautRadius = 10f;
+
+        /// <summary>
         /// Shield radius squared
         /// </summary>
         public const float ShieldRadiusSquared = ShieldRadius * ShieldRadius;
+
+        /// <summary>
+        /// Heal rate (per second)
+        /// </summary>
+        public const float HealRate = 3f;
 
         /// <summary>
         /// Radius of the wing
