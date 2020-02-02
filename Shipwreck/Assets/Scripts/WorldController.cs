@@ -221,6 +221,7 @@ public class WorldController : MonoBehaviour
 
             controller.Piloting = _world.LocalAstronaut.Mode == AstronautMode.Pilot ||
                                   _world.LocalAstronaut.Mode == AstronautMode.PilotShielding;
+            controller.Healing = _world.LocalAstronaut.Mode == AstronautMode.AstronautHealing;
             // TODO camera
         }
     }
@@ -286,6 +287,7 @@ public class WorldController : MonoBehaviour
             var controller = localAstronaut.GetComponent<AstronautController>();
             controller.Piloting = gameAstronaut.Mode == AstronautMode.Pilot
                                 || gameAstronaut.Mode == AstronautMode.PilotShielding;
+            controller.Healing = gameAstronaut.Mode == AstronautMode.AstronautHealing;
         }
 
         // Remove deleted astronauts

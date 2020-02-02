@@ -29,6 +29,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visibleAstronaut: {fileID: 4080540059548443290}
+  sfx: {fileID: 1312304356504656337}
 --- !u!1001 &4710870190160382168
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -107,6 +108,12 @@ PrefabInstance:
 --- !u!1 &8753335418379412074 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4042622046438763186, guid: 4332fe886c02484f680b05b0d5c346b8,
+    type: 3}
+  m_PrefabInstance: {fileID: 4710870190160382168}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1312304356504656337 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 6005095598751273225, guid: 4332fe886c02484f680b05b0d5c346b8,
     type: 3}
   m_PrefabInstance: {fileID: 4710870190160382168}
   m_PrefabAsset: {fileID: 0}

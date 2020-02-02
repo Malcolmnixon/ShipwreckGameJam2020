@@ -40,7 +40,7 @@ namespace Shipwreck.World
         /// <summary>
         /// Rate of auto-fire
         /// </summary>
-        public const float AsteroidFireRate = 4f;
+        public const float AsteroidFireRate = 40f;
 
         /// <summary>
         /// Damage taken by asteroid hit

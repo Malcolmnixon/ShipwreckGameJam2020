@@ -105,7 +105,11 @@ public class MenuManager : MonoBehaviour
 	}
 
 	public void Update() {
-		if (worldBuilder.HasWorld())
+		if (worldBuilder == null) 
+		{
+			Quit();
+		}
+		else if (worldBuilder.HasWorld())
 		{
 			if (worldBuilder.World.State.Mode == Shipwreck.WorldData.GameMode.Waiting) {
 				countdownSlider.value = 1 - (worldBuilder.World.State.RemainingTime / Shipwreck.World.GameConstants.PlayerWaitTime);
