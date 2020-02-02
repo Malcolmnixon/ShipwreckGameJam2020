@@ -111,9 +111,9 @@ namespace Shipwreck.Test
                 Ship = new Ship
                 {
                     Pilot = Guid.NewGuid(),
-                    CenterTorsoHealth = 54,
-                    LeftWingHealth = 32,
-                    RightWingHealth = 10,
+                    Wing1Health = 54,
+                    Wing2Health = 32,
+                    Wing3Health = 10,
                     Shielded = true
                 },
                 Astronauts = new List<Astronaut>

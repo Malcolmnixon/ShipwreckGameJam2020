@@ -15,19 +15,19 @@ namespace Shipwreck.WorldData
         public Guid Pilot { get; set; }
 
         /// <summary>
-        /// Center torso health (0..100)
+        /// Wing 1 health (0..100)
         /// </summary>
-        public float CenterTorsoHealth { get; set; }
+        public float Wing1Health { get; set; }
 
         /// <summary>
-        /// Left wing health (0..100)
+        /// Wing 2 health (0..100)
         /// </summary>
-        public float LeftWingHealth { get; set; }
+        public float Wing2Health { get; set; }
 
         /// <summary>
-        /// Right wing health (0..100)
+        /// Wing 3 health (0..100)
         /// </summary>
-        public float RightWingHealth { get; set; }
+        public float Wing3Health { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether the ship is shielded
@@ -38,6 +38,6 @@ namespace Shipwreck.WorldData
         /// Total health of ship
         /// </summary>
         [JsonIgnore]
-        public float TotalHealth => CenterTorsoHealth + LeftWingHealth + RightWingHealth;
+        public float TotalHealth => Wing1Health + Wing2Health + Wing3Health;
     }
 }
