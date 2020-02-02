@@ -185,31 +185,38 @@ public class WorldController : MonoBehaviour
             _astronautPlayerControl.transform.position = Astronaut.To3DPosition(_world.LocalAstronaut.Position).ToVector3();
             _astronautPlayerControl.transform.LookAt(Vector3.zero);
 
-            controller.Piloting = _world.LocalPlayer.Type == PlayerType.Pilot;
-            // TODO camera
-
-            
             int wingNear = ship.getNearWing();
-            _world.LocalAstronaut.Mode = AstronautMode.None;
-            if (_world.State.Ship.Pilot == _world.LocalPlayer.Guid)
+
+            switch (_world.LocalAstronaut.Mode)
             {
-                if (Input.GetButtonDown("Fire2") || Input.GetButtonDown("Cancel"))
-                {
-                    _world.LocalPlayer.Type = PlayerType.Astronaut;
-                }
-                else if (Input.GetButton("Fire1"))
-                {
-                    _world.LocalAstronaut.Mode = AstronautMode.Shielding;
-                }
+                case AstronautMode.Astronaut:
+                    if (Input.GetButton("Fire1") && ship.isNearControlModule())
+                        _world.LocalAstronaut.Mode = AstronautMode.Pilot;
+                    else if (Input.GetButton("Fire1") && wingNear > 0)
+                        _world.LocalAstronaut.Mode = AstronautMode.AstronautHealing;
+                    break;
+
+                case AstronautMode.Pilot:
+                    if (Input.GetButtonDown("Fire2") || Input.GetButtonDown("Cancel"))
+                        _world.LocalAstronaut.Mode = AstronautMode.Astronaut;
+                    else if (Input.GetButton("Fire1"))
+                        _world.LocalAstronaut.Mode = AstronautMode.PilotShielding;
+                    break;
+
+                case AstronautMode.AstronautHealing:
+                    if (!Input.GetButton("Fire1"))
+                        _world.LocalAstronaut.Mode = AstronautMode.Astronaut;
+                    break;
+
+                case AstronautMode.PilotShielding:
+                    if (!Input.GetButton("Fire1"))
+                        _world.LocalAstronaut.Mode = AstronautMode.Pilot;
+                    break;
             }
-            else if (Input.GetButton("Fire1") && wingNear > 0)
-            {
-                _world.LocalAstronaut.Mode = AstronautMode.Healing;
-            }
-            else if (Input.GetButtonDown("Fire1") && ship.isNearControlModule())
-            {
-                _world.LocalPlayer.Type = PlayerType.Pilot;
-            }
+
+            controller.Piloting = _world.LocalAstronaut.Mode == AstronautMode.Pilot ||
+                                  _world.LocalAstronaut.Mode == AstronautMode.PilotShielding;
+            // TODO camera
         }
     }
 
