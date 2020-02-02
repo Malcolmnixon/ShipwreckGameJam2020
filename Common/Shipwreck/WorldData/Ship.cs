@@ -1,4 +1,6 @@
 ﻿using System;
+using Newtonsoft.Json;
+using Shipwreck.Math;
 
 namespace Shipwreck.WorldData
 {
@@ -31,5 +33,11 @@ namespace Shipwreck.WorldData
         /// Gets a value indicating whether the ship is shielded
         /// </summary>
         public bool Shielded { get; set; }
+
+        /// <summary>
+        /// Total health of ship
+        /// </summary>
+        [JsonIgnore]
+        public float TotalHealth => CenterTorsoHealth + LeftWingHealth + RightWingHealth;
     }
 }

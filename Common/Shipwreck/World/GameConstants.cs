@@ -1,10 +1,22 @@
-﻿namespace Shipwreck.World
+﻿using Shipwreck.Math;
+
+namespace Shipwreck.World
 {
     /// <summary>
     /// Game constants
     /// </summary>
     public static class GameConstants
     {
+        /// <summary>
+        /// Radius of the wing
+        /// </summary>
+        public const float WingRadius = 4.6f;
+
+        /// <summary>
+        /// Radius of the wing squared
+        /// </summary>
+        public const float WingRadiusSquared = WingRadius * WingRadius;
+
         /// <summary>
         /// Count of astronauts
         /// </summary>
@@ -49,5 +61,12 @@
         /// Asteroid delete distance squared
         /// </summary>
         public const float AsteroidDeleteDistanceSquared = AsteroidDeleteDistance * AsteroidDeleteDistance;
+
+
+        public static readonly Vec3 Wing1Position = new Vec3(0, 0, 0);
+
+        public static readonly Vec3 Wing2Position = new Vec3(0, 0, 0);
+
+        public static readonly Vec3 Wing3Position = new Vec3(0, 0, 0);
     }
 }

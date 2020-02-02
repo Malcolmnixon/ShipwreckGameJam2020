@@ -142,10 +142,14 @@ namespace Shipwreck.WorldNet
 
                         case NetConstants.AsteroidPacket:
                         {
-                            var asteroid = Asteroid.FromJson(payloadJson);
-                            Logger.Log($"NetServerWorld.OnClientNotification - got fired asteroid {asteroid.Guid}");
-                            State.Asteroids.RemoveAll(a => a.Guid == asteroid.Guid);
-                            State.Asteroids.Add(asteroid);
+                            // Only accept asteroids when playing
+                            if (State.Mode == GameMode.Playing)
+                            {
+                                var asteroid = Asteroid.FromJson(payloadJson);
+                                Logger.Log($"NetServerWorld.OnClientNotification - got fired asteroid {asteroid.Guid}");
+                                State.Asteroids.RemoveAll(a => a.Guid == asteroid.Guid);
+                                State.Asteroids.Add(asteroid);
+                            }
                             break;
                         }
                     }
