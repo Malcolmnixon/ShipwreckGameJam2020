@@ -176,6 +176,8 @@ public class WorldController : MonoBehaviour
                     _alienPlayerController.transform.position.ToVec3(),
                     _alienPlayerController.transform.TransformVector(Vector3.forward * 10).ToVec3()
                 );
+                var controller = _alienPlayerController.GetComponent<AlienPlayerController>();
+                controller.fireSfx.Play();
             }
         }
 

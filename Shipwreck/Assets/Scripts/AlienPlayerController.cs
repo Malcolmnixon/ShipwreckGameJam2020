@@ -2,6 +2,9 @@
 
 public class AlienPlayerController : MonoBehaviour
 {
+
+    public AudioSource fireSfx;
+
     /// <summary>
     /// Alien radius from ship
     /// </summary>
