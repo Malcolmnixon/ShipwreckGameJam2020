@@ -46,6 +46,23 @@ public class WorldController : MonoBehaviour
 
     [Range(-30f, 0f)]
     public float distanceFromAlienPlayer = -1.0f;
+    
+
+    [Range(0.001f, 10f)]
+    public float AsteroidFireWaitTotal = 1.0f;
+    
+    [Range(1f, 10f)]
+    public float SheildSecondsTotal = 4.0f;
+    
+    [Range(0.001f, 10f)]
+    public float SheildDelayTotal = 1.0f;
+    
+
+    public float _sheildSeconds = 4.0f;
+    
+    public float _sheildDelay = 0.0f;
+
+    public float _asteroidFireWait = 1.0f;
 
     private GameObject _player;
 
@@ -138,6 +155,17 @@ public class WorldController : MonoBehaviour
         var pilotAstronaut = _world.State.Astronauts.FirstOrDefault(a => a.Mode  == AstronautMode.Pilot || a.Mode  == AstronautMode.PilotShielding);
         var pilotPlayer = _world.Players.Players.FirstOrDefault(p => p.Guid == ( pilotAstronaut?.Guid ?? Guid.Empty ));
         ship.SetSheilded(_world.State.Ship.Shielded, pilotPlayer?.Name ?? String.Empty);
+
+        if (_world.State.Ship.Shielded && _sheildSeconds > 0) 
+        {
+            _sheildSeconds -= Time.deltaTime;
+        }
+        else if (_sheildSeconds < SheildSecondsTotal)
+        {
+            _sheildSeconds += Time.deltaTime;
+        }
+        _sheildDelay -= Time.deltaTime;
+        ship.SetSheildText(100 * _sheildSeconds / SheildSecondsTotal, _sheildSeconds < SheildSecondsTotal);
     }
 
     public void MovePanelDrag(BaseEventData evt)
@@ -202,7 +230,9 @@ public class WorldController : MonoBehaviour
         // Handle alien actions
         if (_alienPlayerController != null && playerType == PlayerType.Alien)
         {
-            if (Input.GetButtonUp("Fire1"))
+            _asteroidFireWait -= Time.deltaTime;
+
+            if (Input.GetButtonUp("Fire1") && _asteroidFireWait <= 0f)
             {
                 _world.FireAsteroid(
                     _alienPlayerController.transform.position.ToVec3(),
@@ -210,6 +240,7 @@ public class WorldController : MonoBehaviour
                 );
                 var controller = _alienPlayerController.GetComponent<AlienPlayerController>();
                 controller.fireSfx.Play();
+                _asteroidFireWait = AsteroidFireWaitTotal;
             }
         }
 
@@ -238,8 +269,10 @@ public class WorldController : MonoBehaviour
                 case AstronautMode.Pilot:
                     if (Input.GetButtonDown("Fire2") || Input.GetButtonDown("Cancel") || Input.touchCount > 1)
                         _world.LocalAstronaut.Mode = AstronautMode.Astronaut;
-                    else if (Input.GetButton("Fire1"))
+                    else if (Input.GetButton("Fire1") && _sheildDelay < 0f)
+                    {
                         _world.LocalAstronaut.Mode = AstronautMode.PilotShielding;
+                    }
                     break;
 
                 case AstronautMode.AstronautHealing:
@@ -248,8 +281,11 @@ public class WorldController : MonoBehaviour
                     break;
 
                 case AstronautMode.PilotShielding:
-                    if (!Input.GetButton("Fire1"))
+                    if (!Input.GetButton("Fire1") || _sheildSeconds < 0)
+                    {
                         _world.LocalAstronaut.Mode = AstronautMode.Pilot;
+                        _sheildDelay = SheildDelayTotal;
+                    }
                     break;
             }
 
