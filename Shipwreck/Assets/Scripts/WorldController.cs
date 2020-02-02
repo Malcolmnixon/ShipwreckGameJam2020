@@ -329,7 +329,7 @@ public class WorldController : MonoBehaviour
             controller.Piloting = gameAstronaut.Mode == AstronautMode.Pilot
                                 || gameAstronaut.Mode == AstronautMode.PilotShielding;
             controller.Healing = gameAstronaut.Mode == AstronautMode.AstronautHealing;
-            controller.Name = _world.Players.Players.Where(p => p.Guid == gameAstronaut.Guid).ToList()?[0].Name;
+            controller.Name = _world.Players.Players.FirstOrDefault(p => p.Guid == gameAstronaut.Guid)?.Name ?? string.Empty;
         }
 
         // Remove deleted astronauts
