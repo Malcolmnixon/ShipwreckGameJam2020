@@ -1,20 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Shipwreck;
 using System;
-using UnityEngine.UI;
 using Shipwreck.World;
 using Shipwreck.WorldLan;
 using Shipwreck.WorldWeb;
 
 public class WorldBuilder : MonoBehaviour
 {
-    public readonly LanDiscovery discovery = new LanDiscovery();
+    public Dictionary<string, System.Net.IPAddress> GetGames() => _discovery.GameServers;
 
-    public Dictionary<string, System.Net.IPAddress> GetGames() => discovery.GameServers;
+    public IWorld World { get; private set; }
 
-    public IWorld World;
+    private readonly LanDiscovery _discovery = new LanDiscovery();
 
     // Start is called before the first frame update
     void Awake()
@@ -35,40 +33,49 @@ public class WorldBuilder : MonoBehaviour
         //NetComms.Logger.OnLog += (sender, args) => Debug.Log(args.Message);
 
         // Start discovery
-        discovery.Start();
+        _discovery.Start();
     }
 
     public void CreatePrivate()
     {
+        LeaveWorld();
         World = new LocalWorld();
         World.Start();
     }
 
     public void CreateLAN(Guid guid)
     {
+        LeaveWorld();
         World = new LanServerWorld(guid.ToString());
         World.Start();
     }
 
     public void CreateWeb()
     {
+        LeaveWorld();
         World = new WebClientWorld();
         World.Start();
     }
 
     public void JoinLAN(System.Net.IPAddress server)
     {
+        LeaveWorld();
         World = new LanClientWorld(server);
         World.Start();
     }
 
-    public void NewPlayer(string name) 
+    public void NewPlayer(string playerName)
     {
-        World.CreateLocalPlayer(name);
+        World?.CreateLocalPlayer(playerName);
     }
     
     public void LeaveWorld() 
     {
+        // Skip if no world
+        if (World == null)
+            return;
+
+        // Dispose of existing world
         World.Dispose();
         World = null;
     }
