@@ -38,9 +38,9 @@ namespace Shipwreck.World
         public const float AsteroidFireDistance = 100f;
 
         /// <summary>
-        /// Rate of auto-fire
+        /// Rate of auto-fire (seconds between asteroids)
         /// </summary>
-        public const float AsteroidFireRate = 40f;
+        public const float AsteroidFireRate = 3f;
 
         /// <summary>
         /// Damage taken by asteroid hit

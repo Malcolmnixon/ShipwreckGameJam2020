@@ -64,7 +64,7 @@ namespace Shipwreck.WorldNet
             playerBytes.AddRange(Encoding.ASCII.GetBytes(player.ToJson()));
 
             // Send player packet to server
-            Logger.Log($"NetClientWorld.CreateLocalPlayer - sent player to server");
+            Logger.Log("NetClientWorld.CreateLocalPlayer - sent player to server");
             _communicationsConnection.SendNotification(playerBytes.ToArray());
 
             // Return player
@@ -81,7 +81,7 @@ namespace Shipwreck.WorldNet
             asteroidBytes.AddRange(Encoding.ASCII.GetBytes(asteroid.ToJson()));
 
             // Send asteroid packet to server
-            Logger.Log($"NetClientWorld.CreateLocalPlayer - sent asteroid to server");
+            Logger.Log("NetClientWorld.CreateLocalPlayer - sent asteroid to server");
             _communicationsConnection.SendNotification(asteroidBytes.ToArray());
 
             // Return asteroid
@@ -106,7 +106,7 @@ namespace Shipwreck.WorldNet
             astronautBytes.AddRange(Encoding.ASCII.GetBytes(LocalAstronaut.ToJson()));
 
             // Send asteroid packet to server
-            Logger.Log($"NetClientWorld.CreateLocalPlayer - sent local astronaut to server");
+            Logger.Log("NetClientWorld.CreateLocalPlayer - sent local astronaut to server");
             _communicationsConnection.SendNotification(astronautBytes.ToArray());
             _astronautAge = 0f;
         }
@@ -139,7 +139,7 @@ namespace Shipwreck.WorldNet
                         case NetConstants.PlayersPacket:
                             {
                                 var newPlayers = GamePlayers.FromJson(payloadJson);
-                                Logger.Log($"NetClientWorld.OnServerNotification - got players");
+                                Logger.Log("NetClientWorld.OnServerNotification - got players");
 
                                 // If we have a local player then synchronize with new data
                                 if (LocalPlayer != null)
@@ -160,7 +160,7 @@ namespace Shipwreck.WorldNet
                         case NetConstants.StatePacket:
                             {
                                 var newState = GameState.FromJson(payloadJson);
-                                Logger.Log($"NetClientWorld.OnServerNotification - got state");
+                                Logger.Log("NetClientWorld.OnServerNotification - got state");
 
                                 // Write the new game state
                                 UpdateState(newState);

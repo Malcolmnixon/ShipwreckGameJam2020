@@ -161,7 +161,7 @@ namespace Shipwreck.World
                 State.Asteroids.Add(asteroid);
 
                 // Asteroid fired
-                Logger.Log($"BaseWorld.FireAsteroid - fired");
+                Logger.Log("BaseWorld.FireAsteroid - fired");
 
                 // Return the new asteroid
                 return asteroid;

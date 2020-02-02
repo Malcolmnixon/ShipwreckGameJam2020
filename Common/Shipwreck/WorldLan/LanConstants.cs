@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Shipwreck.WorldLan
+﻿namespace Shipwreck.WorldLan
 {
     public static class LanConstants
     {

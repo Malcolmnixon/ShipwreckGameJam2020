@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Shipwreck.World
+﻿namespace Shipwreck.World
 {
     public class RemoteWorld : BaseWorld
     {

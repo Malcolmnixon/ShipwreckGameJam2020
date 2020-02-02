@@ -77,7 +77,7 @@ namespace Shipwreck.WorldNet
                 playersBytes.AddRange(Encoding.ASCII.GetBytes(Players.ToJson()));
 
                 // Send game-players packet and clear time
-                Logger.Log($"NetServerWorld.Tick - sent players");
+                Logger.Log("NetServerWorld.Tick - sent players");
                 _communicationsServer.SendNotification(playersBytes.ToArray());
             }
 
@@ -93,14 +93,14 @@ namespace Shipwreck.WorldNet
                 stateBytes.AddRange(Encoding.ASCII.GetBytes(State.ToJson()));
 
                 // Send game-state packet and clear time
-                Logger.Log($"NetServerWorld.Tick - sent state");
+                Logger.Log("NetServerWorld.Tick - sent state");
                 _communicationsServer.SendNotification(stateBytes.ToArray());
             }
         }
 
         private void OnClientNewConnection(object sender, NetComms.ConnectionEventArgs e)
         {
-            Logger.Log($"NetServerWorld.OnClientNewConnection - new client");
+            Logger.Log("NetServerWorld.OnClientNewConnection - new client");
         }
 
 

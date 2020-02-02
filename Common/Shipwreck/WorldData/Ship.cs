@@ -1,6 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
-using Shipwreck.Math;
+﻿using Newtonsoft.Json;
 
 namespace Shipwreck.WorldData
 {
