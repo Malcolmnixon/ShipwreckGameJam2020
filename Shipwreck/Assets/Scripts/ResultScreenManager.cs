@@ -15,10 +15,7 @@ public class ResultScreenManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var totalHealth = worldInfo.World.State.Ship.CenterTorsoHealth 
-            + worldInfo.World.State.Ship.LeftWingHealth 
-            + worldInfo.World.State.Ship.RightWingHealth;
-        var result = totalHealth > 50.0f ? "survived" : "been destroyed";
+        var result = worldInfo.World.State.Ship.TotalHealth > 50.0f ? "survived" : "been destroyed";
         resultText.text = $"Result:\nThe Station has {result}";
     }
 
