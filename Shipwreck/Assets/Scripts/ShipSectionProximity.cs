@@ -15,6 +15,8 @@ public class ShipSectionProximity : MonoBehaviour
 
     public UnityEngine.UI.Text healthText;
 
+    public GameObject smoking;
+
     public bool PlayerNear { get; private set; }
 
     public float health { get; private set; }
@@ -45,5 +47,6 @@ public class ShipSectionProximity : MonoBehaviour
     {
         health = amount;
         healthText.text = $"{amount:#}%";
+        smoking.SetActive(health < 45f);
     }
 }

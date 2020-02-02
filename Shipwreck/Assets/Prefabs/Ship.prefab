@@ -363,6 +363,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outline: {fileID: 1799705035700912449}
+  healthColored: {fileID: 0}
+  healthText: {fileID: 0}
+  smoking: {fileID: 0}
 --- !u!135 &2059834631101926700
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -456,6 +459,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShipWing (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213431319191297357, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213431319191297357, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213431319191297357, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213431319191297357, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213431319191297357, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213431319191297357, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3, type: 3}
@@ -699,6 +732,36 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShipWing (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8213431319191297357, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213431319191297357, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213431319191297357, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213431319191297357, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213431319191297357, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213431319191297357, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3, type: 3}
 --- !u!114 &8396629975741486953 stripped
@@ -860,6 +923,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ShipWing (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213431319191297357, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213431319191297357, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213431319191297357, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213431319191297357, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213431319191297357, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8213431319191297357, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71d8e6223bc22d0bdbc1db4429fbd9a3, type: 3}
